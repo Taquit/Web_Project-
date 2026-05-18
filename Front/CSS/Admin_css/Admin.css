@@ -1,0 +1,79 @@
+/* ── Brand color ── */
+:root {
+  --ipn-red: #7b1535;
+  --ipn-red-dark: #5e1028;
+}
+
+/* ── Navbar logos ── */
+.nav-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 4px;
+}
+
+/* ── Navbar ── */
+.ipn-navbar {
+  background-color: var(--ipn-red) !important;
+}
+
+/* Active nav pill */
+.active-pill {
+  background: #fff !important;
+  color: var(--ipn-red) !important;
+  font-weight: 600;
+}
+
+/* User badge */
+.nav-user {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+/* ── Shield icon circle ── */
+.shield-wrap {
+  background-color: var(--ipn-red);
+  width: 72px;
+  height: 72px;
+}
+
+/* ── Submit button ── */
+.btn-ipn {
+  background-color: var(--ipn-red);
+  color: #fff;
+  border: none;
+}
+
+.btn-ipn:hover  { background-color: var(--ipn-red-dark); color: #fff; }
+.btn-ipn:active { background-color: #4a0c1f;             color: #fff; }
+.btn-ipn:focus  {
+  background-color: var(--ipn-red-dark);
+  color: #fff;
+  box-shadow: 0 0 0 0.25rem rgba(123, 21, 53, 0.35);
+}
+
+/* ── Input focus ring ── */
+.form-control:focus,
+.input-group-text:has(+ .form-control:focus) {
+  border-color: var(--ipn-red);
+  box-shadow: 0 0 0 0.2rem rgba(123, 21, 53, 0.15);
+}
+
+/* Keep left addon border in sync on focus */
+.input-group:focus-within .input-group-text {
+  border-color: var(--ipn-red);
+}
+
+/* ── Footer link ── */
+.ipn-link {
+  color: var(--ipn-red);
+  text-decoration: none;
+}
+
+.ipn-link:hover { text-decoration: underline; color: var(--ipn-red-dark); }
