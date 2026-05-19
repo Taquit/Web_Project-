@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/escom.webp" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
+    <title>Inicio</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <script>
+      $(document).ready(() => {
+
+        $("#menu").click(() => {
+          $("#pantalla").toggleClass("pantalla-moderna");
+          $("ul").addClass("activo");
+        });
+        
+        $("#cerrar").click(() => {
+          $("#pantalla").removeClass("pantalla-moderna");
+          $("ul").removeClass("activo");
+        });
+
+        $("#pantalla").click(() => {
+          $("#pantalla").removeClass("pantalla-moderna");
+          $("ul").removeClass("activo");
+        });
+      });
+    </script>
+  </head>
+  <body class="p-0 m-0 border-0 bd-example m-0 border-0">
+    <header class="position-sticky">
+      <div class="izq">
+        <div class="header-imgs">
+            <img class="ipn" src="img/ipn.webp" alt="IPN" title="Instituto Politécnico Nacional">
+            <img class="escom" src="img/escom.webp" alt="ESCOM" title="ESCOM">
+            <!-- !IMPORANTE - AQUI ESTA EL LOGO DE LA FAMILIA PLUCHE, cambienlo el logo del equipo, yo no voy a cambiar nada (no me gusta el logo, me rehuso a tener ese logo descargado en mi laptop) -->
+            <img class="fp" src="img/familiapev2.webp" alt="Logo del equipo 2" title="Logo del equipo 2 ESTRENO DOMINGO 22 / 12:00pm">
+        </div>
+        <div class="titulo">
+            <h4>IPN - ESCOM</h4>
+            <p>Sistema de Registro de Estudiantes</p>
+        </div>
+      </div>
+        <button id="menu" type="button">☰</button>
+        <div id="pantalla" class=""></div>
+        <ul class="">
+          <li class="asd"><button id="cerrar" type="button">✖</button></li>
+          <li class="inicio"><a href="#">Inicio</a></li>
+          <li><a href="#">Registro</a></li>
+          <li><a href="#">Admin</a></li>
+          <li><a href="#">Cuenta</a></li>
+        </ul>
+    </header>
+
+    <!-- Slider de bootstrap -->
+    <div id="carouselExampleCaptions" class="carousel slide">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="img/bannerDenuncia.webp" class="d-block w-100" alt="Denuncia Segura" title="Denuncia Segura" style="height: 400px; object-fit: cover;">
+      <!-- <div class="carousel-caption d-none d-md-block">
+        <h5>First slide label</h5>
+        <p>Some representative placeholder content for the first slide.</p>
+      </div> -->
+    </div>
+    <div class="carousel-item">
+      <img src="img/banner_resultados_becas_2026.webp" class="d-block w-100" alt="Resultados Becas" title="Resultados Becas" style="height: 400px; object-fit: cover;">
+      <!-- <div class="carousel-caption d-none d-md-block">
+        <h5>First slide label</h5>
+        <p>Some representative placeholder content for the first slide.</p>
+      </div> -->
+    </div>
+    <div class="carousel-item">
+      <img src="img/banner_donativos_2026_2.webp" class="d-block w-100" alt="Donativos" title="Donativos" style="height: 400px; object-fit: cover;">
+      <!-- <div class="carousel-caption d-none d-md-block">
+        <h5>First slide label</h5>
+        <p>Some representative placeholder content for the first slide.</p>
+      </div> -->    
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+    <main>
+        <section>
+            <h1>Bienvenido al Sistema de Registro</h1>
+            <p>Este sistema te permitirá completar tu registro como estudiante de nuevo ingreso en la Escuela Superior de Cómputo del Instituto Politécnico Nacional</p>
+        </section>
+        <section class="cartas">
+            <h2>Actividades Importantes</h1>
+            <div>
+                <article>
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-calendar" viewBox="0 0 16 16">
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                        </svg>
+                    </figure>
+                    <h3>Registro de Materias</h3>
+                    <p>Inscríbete a tus materias este semestre</p>
+                    <p class="sub">15-20 Mayo 2026</p>
+                </article>
+                <article>
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-people" viewBox="0 0 16 16">
+                        <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                        </svg>
+                    </figure>
+                    <h3>Registro de Materias</h3>
+                    <p>Inscríbete a tus materias este semestre</p>
+                    <p class="sub">22-24 Mayo 2026</p>
+                </article>
+                <article>
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-mortarboard" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
+                        </svg>
+                    </figure>
+                    <h3>Registro de Materias</h3>
+                    <p>Inscríbete a tus materias este semestre</p>
+                    <p class="sub">27 Mayo 2026</p>
+                </article>
+            </div>
+        </section>
+        <section class="tre">
+            <h5>¿Listo para comenzar?</h5>
+            <p>Completa tu registro en la sección de "Registro" para formar parte de la comunidad ESCOM. Asegúrate de tener todos tus documentos a la mano.</p>
+            <a href="#" class="ir">Ir a Registro</a>
+        </section>
+    </main>
+
+    <footer class="text-center text-lg-start mt-auto py-4 border-top">
+        <div class="container text-center">
+            <span class="text-whited">© 2026 Instituto Politécnico Nacional - ESCOM - Equipo 2</span>
+            <!-- <span class="text-white py-1">Equipo 2</span> -->
+            <div class="mt-2">
+                <a href="#" class="">Registro de Datos Generales para Estudiantes de Nuevo Ingreso</a>
+                <a href="#" class="">Tecnologías para el Desarrollo de Aplicaciones Web</a>
+            </div>
+        </div>
+    </footer>
+  </body>
+</html>
