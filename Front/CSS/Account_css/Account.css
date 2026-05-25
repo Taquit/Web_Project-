@@ -245,44 +245,43 @@ footer div.mt-2{
 }
 
 .shield-wrap {
-  background-color: rgba(21, 93, 252);
-  width: 72px;
-  height: 72px;
+    background-color: rgba(21, 93, 252);
+    width: 72px;
+    height: 72px;
 }
-/*
-main{
-    background-color: green;
-  }
-section{
-    background-color: #8d1a46;
-  }
-  .card{
-    background-color: blue;
-  }
-*/
-  
 
-  .btn-ipn {
-      background-color: rgba(21, 93, 252);
-      color: #fff;
-      border: none;
-    }
 
-  .btn-ipn:hover  { 
+.btn-ipn {
+    background-color: rgba(21, 93, 252);
+    color: #fff;
+    border: none;
+}
+
+.btn-ipn:hover  { 
     background-color: rgb(22, 85, 221); 
     color: #fff; 
-  }
+}
 
-  .btn-ipn:active { 
+.btn-ipn:active { 
     background-color: rgb(22, 85, 221);
     color: #fff; 
-  }
+}
 
-  .btn-ipn:focus  {
+.btn-ipn:focus  {
     background-color: rgb(22, 85, 221);
     color: #fff;
     box-shadow: 0 0 0 0.10rem rgb(157, 185, 245);
-  }
+}
+
+.form-control:focus {
+    border-color: rgba(21, 93, 252);
+    box-shadow: 0 0 0 0.0rem;
+    /*box-shadow: 0 0 0 0.0rem rgba(109, 26, 54, 0.15);*/
+}
+
+.input-group:focus-within .input-group-text {
+    border-color: rgba(21, 93, 252);
+}
 
 #menu{
     display: none;

@@ -28,43 +28,24 @@
           $("#pantalla").removeClass("pantalla-moderna");
           $("ul").removeClass("activo");
         });
+
+        $("#togglePassword").click(function () {
+          const passwordInput = $("#password");
+          const lockIcon = $("#lockIcon");
+
+          if (passwordInput.attr("type") === "password") {
+            passwordInput.attr("type", "text");
+            
+            lockIcon.removeClass("bi-lock").addClass("bi-lock-fill"); 
+          } else {
+            passwordInput.attr("type", "password");
+
+            lockIcon.removeClass("bi-lock-fill").addClass("bi-lock");
+          }
+        });
       });
     </script>
-    <script>
-      function validarCorreoInstitucional(){
-        var correo = document.forms.LoginEst.email.value;
-        var rCorreoInstitucional = /^\w{5,}@alumno\.ipn\.mx$/;
-        
-        return rCorreoInstitucional.test(correo);        
-      }
-
-      function validarContraseña(){
-        var password = document.forms.LoginEst.password.value;
-        //var rpassword = /(\w|[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])*[A-Z](\w|[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])*[0-9](\w|[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])*[%#$&/()?¿.:,;*\-+=_!<>\[\]{}](\w|[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])*$/;
-        var rpassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])[A-Za-z\d%#$&/()?¿.:,;*\-+=_!<>\[\]{}]{6,}$/;
-        return rpassword.test(password); 
-      }
-
-      function validar(){
-        var bandCorreo = validarCorreoInstitucional();
-        var bandPassw = validarContraseña();
-        
-        if(!bandCorreo && bandPassw){
-          alert("Correo institucional inváido.");
-          return false;
-        } else if(!bandPassw && bandCorreo){
-          alert("Contraseña inválida.\nAsegúrese que sea de mínimo de 6 caracteres, que incluya al menos una letra mayúscula, un número y un caracter especial.")
-          return false;
-        } else if(!bandPassw && !bandCorreo){
-          alert("Correo institucional inváido.\nContraseña inválida. Asegúrese que sea de mínimo de 6 caracteres, que incluya al menos una letra mayúscula, un número y un caracter especial.");
-          return false;
-        } else {
-          alert("Inicio de sesión exitoso.")
-          return true;
-        }
-      }
-      
-    </script>
+    <script src="../JS/validarFormAccount.js"></script>
   </head>
   <body class="p-0 m-0 border-0 bd-example m-0 border-0">
     <header class="position-sticky">
@@ -85,12 +66,12 @@
           <li class="asd"><button id="cerrar" type="button">✖</button></li>
           <li ><a href="../Home_page/index.html">Inicio</a></li>
           <li><a href="">Registro</a></li>
-          <li><a href="../Admin_page/Admin.html">Admin</a></li>
-          <li class="cuenta"><a href="../Account_page/Account.html">Cuenta</a></li>
+          <li><a href="../Admin_page/Admin.html">Administración</a></li>
+          <li class="cuenta"><a href="#">Cuenta</a></li>
         </ul>
     </header>
 
-    <main class="flex-grow-1 d-flex flex-column align-items-center justify-content-start py-5 px-3">
+    <main class="flex-grow-1 d-flex flex-column align-items-center justify-content-start py-3 px-3">
       
       <div class="shield-wrap rounded-circle d-flex align-items-center justify-content-center mb-3">
         <i class="bi bi-person-circle text-white fs-1"></i>
@@ -105,7 +86,7 @@
       <div class="card shadow-sm border-0 rounded-3 w-100" style="max-width:420px">
         <div class="card-body p-4">
 
-          <h5 class="fw-bold mb-1">Iniciar Sesión</h5>
+          <h5 class="h5 fw-bold mb-1">Iniciar Sesión</h5>
           <p class="text-muted small mb-4">Ingrese sus credenciales institucionales</p>
 
           <form id="LoginEst" action="../Home_page/index.html" onsubmit="return validar()">
@@ -136,8 +117,8 @@
             <div class="mb-3">
               <label for="password" class="form-label small fw-medium">Contraseña</label>
               <div class="input-group">
-                <span class="input-group-text bg-light border-end-0">
-                  <i class="bi bi-lock text-secondary"></i>
+                <span class="input-group-text bg-light border-end-0" id="togglePassword" style="cursor: pointer;">
+                  <i class="bi bi-lock text-secondary" id="lockIcon"></i>
                 </span>
                 <input
                   type="password"

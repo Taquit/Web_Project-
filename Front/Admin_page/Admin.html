@@ -3,99 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IPN - ESCOM | Panel de Administración</title>
+  <link rel="shortcut icon" href="../../Assets/imgIndex/escom.webp" type="image/x-icon">
+  <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
+  <title>Administración</title>
 
-  <!-- Bootstrap 5 -->
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
     rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
     crossorigin="anonymous"
   />
-  <!-- Bootstrap Icons -->
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     rel="stylesheet"
   />
-  <!-- Custom overrides -->
   <link rel="stylesheet" href="../CSS/Admin_css/Admin.css" />
+
+  <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(() => {
+      $("#menu").click(() => {
+        $("#pantalla").toggleClass("pantalla-moderna");
+        $("ul").addClass("activo");
+      });
+      
+      $("#cerrar").click(() => {
+        $("#pantalla").removeClass("pantalla-moderna");
+        $("ul").removeClass("active");
+        $("ul").removeClass("activo");
+      });
+
+      $("#pantalla").click(() => {
+        $("#pantalla").removeClass("pantalla-moderna");
+        $("ul").removeClass("activo");
+      });
+      $("#togglePassword").click(function () {
+        const passwordInput = $("#password");
+        const lockIcon = $("#lockIcon");
+
+        if (passwordInput.attr("type") === "password") {
+          passwordInput.attr("type", "text");
+          
+          lockIcon.removeClass("bi-lock").addClass("bi-lock-fill"); 
+        } else {
+          passwordInput.attr("type", "password");
+
+          lockIcon.removeClass("bi-lock-fill").addClass("bi-lock");
+        }
+      });
+    });
+  </script>
+  <script src="../JS/validarFormAdmin.js"></script>
 </head>
 
 <body class="bg-light min-vh-100 d-flex flex-column">
 
-  <!-- ══ Site header & primary navigation ══ -->
-  <header>
-    <nav class="navbar navbar-expand-md navbar-dark ipn-navbar sticky-top px-3"
-         aria-label="Navegación principal">
-      <div class="container-fluid gap-2">
-
-        <!-- Brand -->
-        <div class="d-flex align-items-center gap-2 me-3">
-          <a href="https://www.ipn.mx/" target="_blank" rel="noopener noreferrer"
-             aria-label="Sitio oficial del IPN">
-            <img src="../../Assets/logotipo_ipn.png" alt="Logo IPN" class="nav-logo" />
-          </a>
-          <a href="https://www.escom.ipn.mx/" target="_blank" rel="noopener noreferrer"
-             aria-label="Sitio oficial de ESCOM">
-            <img src="../../Assets/escudoESCOM.png" alt="Escudo ESCOM" class="nav-logo" />
-          </a>
-          <p class="brand-text lh-sm mb-0">
-            <strong class="d-block fs-6">IPN – ESCOM</strong>
-            <span class="opacity-75" style="font-size:.72rem">
-              Sistema de Registro de Estudiantes
-            </span>
-          </p>
-        </div>
-
-        <!-- Hamburger toggle -->
-        <button
-          class="navbar-toggler ms-auto border-0"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#mainNav"
-          aria-controls="mainNav"
-          aria-expanded="false"
-          aria-label="Abrir menú de navegación"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Nav links -->
-        <div class="collapse navbar-collapse" id="mainNav">
-          <ul class="navbar-nav mx-auto gap-1" role="list">
-            <li class="nav-item">
-              <a class="nav-link" href="../Home_page/index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Registration</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active-pill px-3 py-1 rounded"
-                 href="#" aria-current="page">Admin</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Account</a>
-            </li>
-          </ul>
-
-          <!-- Logged-in user indicator -->
-          <span class="nav-user d-flex align-items-center gap-2 px-3 py-1 rounded mt-2 mt-md-0">
-            <i class="bi bi-person-circle fs-5" aria-hidden="true"></i>
-            <span class="small">U.A. Technologies</span>
-          </span>
-        </div>
-
+  <header class="position-sticky">
+    <div class="izq">
+      <div class="header-imgs">
+        <img class="ipn" src="../../Assets/imgIndex/ipn.webp" alt="IPN" title="Instituto Politécnico Nacional">
+        <img class="escom" src="../../Assets/imgIndex/escom.webp" alt="ESCOM" title="ESCOM">
+        <img class="fp" src="../../Assets/imgIndex/familiapev2.webp" alt="Logo del equipo 2" title="Logo del equipo 2">
       </div>
-    </nav>
+      <div class="titulo">
+        <h4>IPN - ESCOM</h4>  
+        <p>Sistema de Registro de Estudiantes</p>
+      </div>
+    </div>
+    
+    <button id="menu" type="button">☰</button>
+    <div id="pantalla" class=""></div>
+    
+    <ul class="">
+      <li class="asd"><button id="cerrar" type="button">✖</button></li>
+      <li><a href="../Home_page/index.html">Inicio</a></li>
+      <li><a href="">Registro</a></li>
+      <li class="admin"><a href="../Admin_page/Admin.html">Administración</a></li>
+      <li><a href="../Account_page/Account.html">Cuenta</a></li>
+    </ul>
   </header>
 
-  <!-- ══ Page content ══ -->
-  <main class="flex-grow-1 d-flex flex-column align-items-center
-               justify-content-start py-5 px-3">
+  <main class="flex-grow-1 d-flex flex-column align-items-center justify-content-start py-3 px-3">
 
-    <!-- Page identity -->
-    <figure class="shield-wrap rounded-circle d-flex align-items-center
-                   justify-content-center mb-3" aria-hidden="true">
+    <figure class="shield-wrap rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true">
       <i class="bi bi-shield-check text-white fs-2"></i>
     </figure>
 
@@ -104,25 +94,16 @@
     </h1>
     <p class="text-muted small mb-4">Acceso restringido para personal autorizado</p>
 
-    <!-- ── Login section ── -->
-    <section class="card shadow-sm border-0 rounded-3 w-100"
-             style="max-width:420px"
-             aria-labelledby="login-heading">
-
+    <section class="card shadow-sm border-0 rounded-3 w-100" style="max-width:420px" aria-labelledby="login-heading">
       <div class="card-body p-4">
-
         <header class="mb-4">
           <h2 id="login-heading" class="h5 fw-bold mb-1">Iniciar Sesión</h2>
           <p class="text-muted small mb-0">Ingrese sus credenciales de administrador</p>
         </header>
 
-        <form novalidate>
-
-          <!-- Email field -->
+        <form id="LoginAdmin" action="../Home_page/index.html" onsubmit="return validar()">
           <div class="mb-3">
-            <label for="email" class="form-label small fw-medium">
-              Correo Electrónico
-            </label>
+            <label for="email" class="form-label small fw-medium">Correo Electrónico</label>
             <div class="input-group">
               <span class="input-group-text bg-light border-end-0" aria-hidden="true">
                 <i class="bi bi-envelope text-secondary"></i>
@@ -134,28 +115,32 @@
                 class="form-control border-start-0 bg-light"
                 placeholder="admin@escom.ipn.mx"
                 autocomplete="email"
+                minlength="11"
+                maxlength="255"
+                pattern="\w{5,}@alumno\.ipn\.mx"
+                title="Correo institucional inváido."
                 required
                 aria-required="true"
               />
             </div>
           </div>
 
-          <!-- Password field -->
           <div class="mb-3">
-            <label for="password" class="form-label small fw-medium">
-              Contraseña
-            </label>
+            <label for="password" class="form-label small fw-medium">Contraseña</label>
             <div class="input-group">
-              <span class="input-group-text bg-light border-end-0" aria-hidden="true">
-                <i class="bi bi-lock text-secondary"></i>
+              <span class="input-group-text bg-light border-end-0" id="togglePassword" style="cursor: pointer;">
+                <i class="bi bi-lock text-secondary" id="lockIcon"></i>
               </span>
               <input
                 type="password"
                 id="password"
                 name="password"
                 class="form-control border-start-0 bg-light"
-                placeholder="••••••••"
+                placeholder="Contraseña"
                 autocomplete="current-password"
+                minlength="6"
+                  pattern="(?=.*[A-Z])(?=.*\d)(?=.*[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])[A-Za-z0-9%#$&/()?¿.:,;*\-+=_!<>\[\]{}]{6,}"
+                  title="La contraseña debe ser de mínimo 6 caracteres, que incluya al menos una letra mayúscula, un número y un caracter especial."
                 required
                 aria-required="true"
               />
@@ -165,9 +150,7 @@
           <button type="submit" class="btn btn-ipn w-100 mt-1 fw-semibold">
             Ingresar
           </button>
-
         </form>
-
       </div>
     </section>
 
@@ -175,10 +158,8 @@
       ¿Olvidó su contraseña?
       <a href="#" class="ipn-link fw-semibold">Solicitar ayuda</a>
     </p>
-
   </main>
 
-  <!-- ══ Site footer ══ -->
   <footer class="text-center text-lg-start mt-auto py-4 border-top">
     <div class="container text-center">
       <span class="text-whited">© 2026 Instituto Politécnico Nacional - ESCOM - Equipo 2</span>
@@ -189,7 +170,6 @@
     </div>
   </footer>
 
-  <!-- Bootstrap 5 JS -->
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmFXFMrWCU3FA0e6LMkHoqgtwwhq"
