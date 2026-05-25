@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../../Assets/imgIndex/escom.webp" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
+    <title>Cuenta</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../CSS/Account_css/Account.css">
+    <script>
+      $(document).ready(() => {
+
+        $("#menu").click(() => {
+          $("#pantalla").toggleClass("pantalla-moderna");
+          $("ul").addClass("activo");
+        });
+        
+        $("#cerrar").click(() => {
+          $("#pantalla").removeClass("pantalla-moderna");
+          $("ul").removeClass("activo");
+        });
+
+        $("#pantalla").click(() => {
+          $("#pantalla").removeClass("pantalla-moderna");
+          $("ul").removeClass("activo");
+        });
+      });
+    </script>
+    <script>
+      function validarCorreoInstitucional(){
+        var correo = document.forms.LoginEst.email.value;
+        var rCorreoInstitucional = /^\w{5,}@alumno\.ipn\.mx$/;
+        
+        return rCorreoInstitucional.test(correo);        
+      }
+
+      function validarContraseña(){
+        var password = document.forms.LoginEst.password.value;
+        //var rpassword = /(\w|[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])*[A-Z](\w|[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])*[0-9](\w|[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])*[%#$&/()?¿.:,;*\-+=_!<>\[\]{}](\w|[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])*$/;
+        var rpassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])[A-Za-z\d%#$&/()?¿.:,;*\-+=_!<>\[\]{}]{6,}$/;
+        return rpassword.test(password); 
+      }
+
+      function validar(){
+        var bandCorreo = validarCorreoInstitucional();
+        var bandPassw = validarContraseña();
+        
+        if(!bandCorreo && bandPassw){
+          alert("Correo institucional inváido.");
+          return false;
+        } else if(!bandPassw && bandCorreo){
+          alert("Contraseña inválida.\nAsegúrese que sea de mínimo de 6 caracteres, que incluya al menos una letra mayúscula, un número y un caracter especial.")
+          return false;
+        } else if(!bandPassw && !bandCorreo){
+          alert("Correo institucional inváido.\nContraseña inválida. Asegúrese que sea de mínimo de 6 caracteres, que incluya al menos una letra mayúscula, un número y un caracter especial.");
+          return false;
+        } else {
+          alert("Inicio de sesión exitoso.")
+          return true;
+        }
+      }
+      
+    </script>
+  </head>
+  <body class="p-0 m-0 border-0 bd-example m-0 border-0">
+    <header class="position-sticky">
+      <div class="izq">
+        <div class="header-imgs">
+            <img class="ipn" src="../../Assets/imgIndex/ipn.webp" alt="IPN" title="Instituto Politécnico Nacional">
+            <img class="escom" src="../../Assets/imgIndex/escom.webp" alt="ESCOM" title="ESCOM">
+            <img class="fp" src="../../Assets/imgIndex/familiapev2.webp" alt="Logo del equipo 2" title="Logo del equipo 2 ESTRENO DOMINGO 22 / 12:00pm">
+        </div>
+        <div class="titulo">
+            <h4>IPN - ESCOM</h4>  
+            <p>Sistema de Registro de Estudiantes</p>
+        </div>
+      </div>
+        <button id="menu" type="button">☰</button>
+        <div id="pantalla" class=""></div>
+        <ul class="">
+          <li class="asd"><button id="cerrar" type="button">✖</button></li>
+          <li ><a href="../Home_page/index.html">Inicio</a></li>
+          <li><a href="">Registro</a></li>
+          <li><a href="../Admin_page/Admin.html">Admin</a></li>
+          <li class="cuenta"><a href="../Account_page/Account.html">Cuenta</a></li>
+        </ul>
+    </header>
+
+    <main class="flex-grow-1 d-flex flex-column align-items-center justify-content-start py-5 px-3">
+      
+      <div class="shield-wrap rounded-circle d-flex align-items-center justify-content-center mb-3">
+        <i class="bi bi-person-circle text-white fs-1"></i>
+      </div>
+
+      <h1 class="fw-bold text-center mb-1" style="font-size:clamp(1.6rem,4vw,2rem)">
+        Portal del Estudiante
+      </h1>
+      <p class="text-muted small mb-4">Accede a tu cuenta de estudiante</p>
+
+      <!-- Login card -->
+      <div class="card shadow-sm border-0 rounded-3 w-100" style="max-width:420px">
+        <div class="card-body p-4">
+
+          <h5 class="fw-bold mb-1">Iniciar Sesión</h5>
+          <p class="text-muted small mb-4">Ingrese sus credenciales institucionales</p>
+
+          <form id="LoginEst" action="../Home_page/index.html" onsubmit="return validar()">
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="email" class="form-label small fw-medium">Correo Electrónico</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                  <i class="bi bi-envelope text-secondary"></i>
+                </span>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-control border-start-0 bg-light"
+                  placeholder="estudiante1234@escom.ipn.mx"
+                  autocomplete="email"
+                  minlength="11"
+                  maxlength="255"
+                  pattern="\w{5,}@alumno\.ipn\.mx"
+                  title="Correo institucional inváido."
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password" class="form-label small fw-medium">Contraseña</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                  <i class="bi bi-lock text-secondary"></i>
+                </span>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-control border-start-0 bg-light"
+                  placeholder="Contraseña"
+                  autocomplete="current-password"
+                  minlength="6"
+                  pattern="(?=.*[A-Z])(?=.*\d)(?=.*[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])[A-Za-z0-9%#$&/()?¿.:,;*\-+=_!<>\[\]{}]{6,}"
+                  title="La contraseña debe ser de mínimo 6 caracteres, que incluya al menos una letra mayúscula, un número y un caracter especial."
+                  required
+                />
+              </div>
+            </div>
+            
+            <p class="text-muted small mt-3">
+              <a href="#" class="ipn-link fw-semibold">¿Olvidó su contraseña?</a>
+            </p>
+
+            <button type="submit" class="btn btn-ipn w-100 mt-1 fw-semibold">
+              Ingresar
+            </button>
+
+            <p class="text-muted small mt-3">
+              ¿No tienes una cuenta? <a href="#" class="ipn-link fw-semibold">Regístrate aquí</a>
+            </p>
+
+            <div class="alert alert-info small mt-3 mb-0 py-2 px-3" role="note">
+              <strong>Información: </strong><br>
+              Usa el correo y contraseña que registraste en el formulario de registro.
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="text-center text-lg-start mt-auto py-4 border-top">
+        <div class="container text-center">
+            <span class="text-whited">© 2026 Instituto Politécnico Nacional - ESCOM - Equipo 2</span>
+            <!-- <span class="text-white py-1">Equipo 2</span> -->
+            <div class="mt-2">
+                <a href="#">Registro de Datos Generales para Estudiantes de Nuevo Ingreso</a>
+                <a href="#">Tecnologías para el Desarrollo de Aplicaciones Web</a>
+            </div>
+        </div>
+    </footer>
+  </body>
+</html>
