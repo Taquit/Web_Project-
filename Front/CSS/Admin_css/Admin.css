@@ -1,19 +1,12 @@
-/* ══════════════════════════════════════
-   Variables Globales y de Marca
-   ══════════════════════════════════════ */
 :root {
-  --shadow:       0 25px 50px -12px rgb(0 0 0 / 0.25);
-  --header:       #6D1A36; /* Guinda institucional */
-  --bg:           #F9FAFB;
-  --footer:       oklch(27.8% 0.033 256.848);
-  --titulo:       oklch(21% 0.034 264.665);
-  --texto:        oklch(44.6% 0.03 256.802);
-  --ipn-red-dark: #5e1028;
+  --shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --header: #6d1a36;
+  --bg: #f9fafb;
+  --footer: oklch(27.8% 0.033 256.848);
+  --titulo: oklch(21% 0.034 264.665);
+  --texto: oklch(44.6% 0.03 256.802);
 }
 
-/* ══════════════════════════════════════
-   Base
-   ══════════════════════════════════════ */
 * {
   margin: 0;
   padding: 0;
@@ -24,13 +17,6 @@ body {
   background-color: var(--bg);
 }
 
-a {
-  text-decoration: none;
-}
-
-/* ══════════════════════════════════════
-   Header e Identidad Estilo Index (Imagen)
-   ══════════════════════════════════════ */
 header:not(section header) {
   position: sticky;
   top: -3px;
@@ -45,16 +31,15 @@ header:not(section header) {
   width: 100%;
 }
 
-header > div {
-  display: inline-block;
-  color: white;
+#menu {
+  display: none;
 }
 
-.izq {
-  display: flex;
+.asd {
+  cursor: default;
 }
 
-.header-imgs > img {
+.header-imgs img {
   display: inline-block;
   background-color: white;
   width: 80px;
@@ -66,10 +51,53 @@ header > div {
   object-fit: cover;
 }
 
-.titulo {
+.ipn {
+  padding: 0;
+}
+
+ul {
+  display: block;
+  margin-bottom: 0;
+}
+
+ul li {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+ul a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 17px;
+  border-radius: 6px;
+}
+
+ul li:not(.inicio > li):hover {
+  background-color: #8d1a46;
+}
+
+.inicio > li {
+  background-color: #dadce0;
+}
+
+.inicio > li:hover {
+  background-color: #cbbcc5;
+}
+
+.inicio {
+  color: black;
+}
+
+.izq {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+}
+
+header > div {
+  display: inline-block;
+  color: white;
 }
 
 header h4 {
@@ -77,9 +105,15 @@ header h4 {
   font-weight: bold;
 }
 
+.titulo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .titulo p {
   margin: 0;
-  color: #DFDCE2;
+  color: #dfdce2;
 }
 
 /* ══════════════════════════════════════
@@ -110,11 +144,11 @@ ul > li:not(.admin):hover {
 
 /* Pestaña activa (Estilo "admin" de la imagen) */
 .admin {
-  background-color: #DADCE0;
+  background-color: #dadce0;
 }
 
 .admin:hover {
-  background-color: #CBBCC5;
+  background-color: #cbbcc5;
 }
 
 .admin a {
@@ -141,9 +175,15 @@ ul > li:not(.admin):hover {
   border: none;
 }
 
-.btn-ipn:hover  { background-color: #8d1a46;          color: #fff; }
-.btn-ipn:active { background-color: var(--ipn-red-dark); color: #fff; }
-.btn-ipn:focus  {
+.btn-ipn:hover {
+  background-color: #8d1a46;
+  color: #fff;
+}
+.btn-ipn:active {
+  background-color: var(--ipn-red-dark);
+  color: #fff;
+}
+.btn-ipn:focus {
   background-color: #8d1a46;
   color: #fff;
   box-shadow: 0 0 0 0.25rem rgba(109, 26, 54, 0.35);
@@ -152,7 +192,7 @@ ul > li:not(.admin):hover {
 /* Anillos de foco del formulario */
 .form-control:focus {
   border-color: var(--header);
-  box-shadow: 0 0 0 0.0rem;
+  box-shadow: 0 0 0 0rem;
   /*rgba(109, 26, 54, 0.15)*/
 }
 
@@ -187,7 +227,7 @@ div.container.text-center {
 }
 
 footer a {
-  color: #9097A6;
+  color: #9097a6;
   text-decoration: none;
 }
 
@@ -234,8 +274,9 @@ footer div.mt-2 {
     background-color: white;
   }
 
-  .admin:hover, ul li:hover {
-    background-color: #DADCE0 !important;
+  .admin:hover,
+  ul li:hover {
+    background-color: #dadce0 !important;
   }
 
   #cerrar {
@@ -245,14 +286,32 @@ footer div.mt-2 {
     font-size: 1.5rem;
   }
 
-  .asd {
-    display: flex;
-    justify-content: end;
-  }
+  .inicio>li{
+        background: none;
+    }
 
-  .asd:hover {
-    background-color: white !important;
-  }
+    .inicio:hover, .inicio li:hover, ul a:hover{
+        background-color: #DADCE0 !important;
+    }
+
+    li:hover{
+        background-color: #DADCE0 !important;
+    }
+
+    #cerrar{
+        display: block;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+    }
+
+    .asd{
+        display: flex;
+        justify-content: end;
+    }
+    .asd:hover{
+        background-color: white !important;
+    }
 
   .pantalla-moderna {
     position: fixed;
@@ -293,7 +352,7 @@ footer div.mt-2 {
   footer a {
     font-size: 0.75rem;
   }
-  
+
   ul {
     width: 70%;
     right: -70%;
