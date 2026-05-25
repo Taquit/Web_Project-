@@ -17,91 +17,114 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     rel="stylesheet"
   />
-
   <!-- Custom overrides -->
   <link rel="stylesheet" href="../CSS/Admin_css/Admin.css" />
 </head>
+
 <body class="bg-light min-vh-100 d-flex flex-column">
 
-  <!-- ── Navbar ── -->
-  <nav class="navbar navbar-expand-md navbar-dark ipn-navbar sticky-top px-3">
-    <div class="container-fluid gap-2">
+  <!-- ══ Site header & primary navigation ══ -->
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark ipn-navbar sticky-top px-3"
+         aria-label="Navegación principal">
+      <div class="container-fluid gap-2">
 
-      <!-- Brand -->
-      <div class="d-flex align-items-center gap-2 me-3">
-        <a href="https://www.ipn.mx/" target="_blank" class="d-flex">
-          <img src="../../Assets/logotipo_ipn.png" alt="Logo IPN" class="nav-logo" />
-        </a>
-        <a href="https://www.escom.ipn.mx/" target="_blank" class="d-flex">
-          <img src="../../Assets/escudoESCOM.png" alt="Escudo ESCOM" class="nav-logo" />
-        </a>
-        <div class="brand-text lh-sm">
-          <strong class="d-block fs-6">IPN – ESCOM</strong>
-          <small class="opacity-75" style="font-size:.72rem">Sistema de Registro de Estudiantes</small>
+        <!-- Brand -->
+        <div class="d-flex align-items-center gap-2 me-3">
+          <a href="https://www.ipn.mx/" target="_blank" rel="noopener noreferrer"
+             aria-label="Sitio oficial del IPN">
+            <img src="../../Assets/logotipo_ipn.png" alt="Logo IPN" class="nav-logo" />
+          </a>
+          <a href="https://www.escom.ipn.mx/" target="_blank" rel="noopener noreferrer"
+             aria-label="Sitio oficial de ESCOM">
+            <img src="../../Assets/escudoESCOM.png" alt="Escudo ESCOM" class="nav-logo" />
+          </a>
+          <p class="brand-text lh-sm mb-0">
+            <strong class="d-block fs-6">IPN – ESCOM</strong>
+            <span class="opacity-75" style="font-size:.72rem">
+              Sistema de Registro de Estudiantes
+            </span>
+          </p>
         </div>
-      </div>
 
-      <!-- Hamburger -->
-      <button
-        class="navbar-toggler ms-auto border-0"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#mainNav"
-        aria-controls="mainNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <!-- Hamburger toggle -->
+        <button
+          class="navbar-toggler ms-auto border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNav"
+          aria-controls="mainNav"
+          aria-expanded="false"
+          aria-label="Abrir menú de navegación"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <!-- Links -->
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav mx-auto gap-1">
-          <li class="nav-item"><a class="nav-link" href="../Home_page/index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Registration</a></li>
-          <li class="nav-item">
-            <a class="nav-link active-pill px-3 py-1 rounded" href="#" aria-current="page">Admin</a>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="#">Account</a></li>
-        </ul>
+        <!-- Nav links -->
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav mx-auto gap-1" role="list">
+            <li class="nav-item">
+              <a class="nav-link" href="../Home_page/index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Registration</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active-pill px-3 py-1 rounded"
+                 href="#" aria-current="page">Admin</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Account</a>
+            </li>
+          </ul>
 
-        <!-- User badge -->
-        <div class="nav-user d-flex align-items-center gap-2 px-3 py-1 rounded mt-2 mt-md-0">
-          <i class="bi bi-person-circle fs-5"></i>
-          <span class="small">U.A. Technologies</span>
+          <!-- Logged-in user indicator -->
+          <span class="nav-user d-flex align-items-center gap-2 px-3 py-1 rounded mt-2 mt-md-0">
+            <i class="bi bi-person-circle fs-5" aria-hidden="true"></i>
+            <span class="small">U.A. Technologies</span>
+          </span>
         </div>
+
       </div>
+    </nav>
+  </header>
 
-    </div>
-  </nav>
+  <!-- ══ Page content ══ -->
+  <main class="flex-grow-1 d-flex flex-column align-items-center
+               justify-content-start py-5 px-3">
 
-  <!-- ── Main ── -->
-  <main class="flex-grow-1 d-flex flex-column align-items-center justify-content-start py-5 px-3">
-
-    <!-- Shield icon -->
-    <div class="shield-wrap rounded-circle d-flex align-items-center justify-content-center mb-3">
+    <!-- Page identity -->
+    <figure class="shield-wrap rounded-circle d-flex align-items-center
+                   justify-content-center mb-3" aria-hidden="true">
       <i class="bi bi-shield-check text-white fs-2"></i>
-    </div>
+    </figure>
 
     <h1 class="fw-bold text-center mb-1" style="font-size:clamp(1.6rem,4vw,2rem)">
-      Panel de<br>Administración
+      Panel de Administración
     </h1>
     <p class="text-muted small mb-4">Acceso restringido para personal autorizado</p>
 
-    <!-- Login card -->
-    <div class="card shadow-sm border-0 rounded-3 w-100" style="max-width:420px">
+    <!-- ── Login section ── -->
+    <section class="card shadow-sm border-0 rounded-3 w-100"
+             style="max-width:420px"
+             aria-labelledby="login-heading">
+
       <div class="card-body p-4">
 
-        <h5 class="fw-bold mb-1">Iniciar Sesión</h5>
-        <p class="text-muted small mb-4">Ingrese sus credenciales de administrador</p>
+        <header class="mb-4">
+          <h2 id="login-heading" class="h5 fw-bold mb-1">Iniciar Sesión</h2>
+          <p class="text-muted small mb-0">Ingrese sus credenciales de administrador</p>
+        </header>
 
         <form novalidate>
 
-          <!-- Email -->
+          <!-- Email field -->
           <div class="mb-3">
-            <label for="email" class="form-label small fw-medium">Correo Electrónico</label>
+            <label for="email" class="form-label small fw-medium">
+              Correo Electrónico
+            </label>
             <div class="input-group">
-              <span class="input-group-text bg-light border-end-0">
+              <span class="input-group-text bg-light border-end-0" aria-hidden="true">
                 <i class="bi bi-envelope text-secondary"></i>
               </span>
               <input
@@ -112,15 +135,18 @@
                 placeholder="admin@escom.ipn.mx"
                 autocomplete="email"
                 required
+                aria-required="true"
               />
             </div>
           </div>
 
-          <!-- Password -->
+          <!-- Password field -->
           <div class="mb-3">
-            <label for="password" class="form-label small fw-medium">Contraseña</label>
+            <label for="password" class="form-label small fw-medium">
+              Contraseña
+            </label>
             <div class="input-group">
-              <span class="input-group-text bg-light border-end-0">
+              <span class="input-group-text bg-light border-end-0" aria-hidden="true">
                 <i class="bi bi-lock text-secondary"></i>
               </span>
               <input
@@ -131,6 +157,7 @@
                 placeholder="••••••••"
                 autocomplete="current-password"
                 required
+                aria-required="true"
               />
             </div>
           </div>
@@ -138,24 +165,29 @@
           <button type="submit" class="btn btn-ipn w-100 mt-1 fw-semibold">
             Ingresar
           </button>
+
         </form>
 
-        <!-- Credentials hint -->
-        <div class="alert alert-info small mt-3 mb-0 py-2 px-3" role="note">
-          <strong>Credenciales de prueba:</strong><br>
-          Email: admin@escom.ipn.mx<br>
-          Contraseña: Admin123!
-        </div>
-
       </div>
-    </div>
+    </section>
 
-    <!-- Forgot password -->
     <p class="text-muted small mt-3">
-      ¿Olvidó su contraseña? <a href="#" class="ipn-link fw-semibold">Solicitar ayuda</a>
+      ¿Olvidó su contraseña?
+      <a href="#" class="ipn-link fw-semibold">Solicitar ayuda</a>
     </p>
 
   </main>
+
+  <!-- ══ Site footer ══ -->
+  <footer class="text-center text-lg-start mt-auto py-4 border-top">
+    <div class="container text-center">
+      <span class="text-whited">© 2026 Instituto Politécnico Nacional - ESCOM - Equipo 2</span>
+      <div class="mt-2">
+        <a href="#">Registro de Datos Generales para Estudiantes de Nuevo Ingreso</a>
+        <a href="#">Tecnologías para el Desarrollo de Aplicaciones Web</a>
+      </div>
+    </div>
+  </footer>
 
   <!-- Bootstrap 5 JS -->
   <script
@@ -163,5 +195,6 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmFXFMrWCU3FA0e6LMkHoqgtwwhq"
     crossorigin="anonymous"
   ></script>
+
 </body>
 </html>
