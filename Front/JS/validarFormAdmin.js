@@ -1,13 +1,13 @@
 function validarCorreoInstitucional(){
     var correo = document.forms.LoginAdmin.email.value;
-    var rCorreoInstitucional = /^\w{5,}@alumno\.ipn\.mx$/;
+    var rCorreoInstitucional = /^\w+@ipn\.mx$/;
 
     return rCorreoInstitucional.test(correo);        
 }
 
 function validarContraseña(){
     var password = document.forms.LoginAdmin.password.value;
-    var rpassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[%#$&/()?¿.:,;*\-+=_!<>\[\]{}])[A-Za-z\d%#$&/()?¿.:,;*\-+=_!<>\[\]{}]{6,}$/;
+    var rpassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=])[A-Za-z\d!@#$%^&*()_\-+=]{6,}$/;
 
     return rpassword.test(password); 
 }
