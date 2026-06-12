@@ -75,19 +75,19 @@ ul a {
   border-radius: 6px;
 }
 
-ul li:not(.inicio > li):hover {
+ul li:not(.admin > li):hover {
   background-color: #8d1a46;
 }
 
-.inicio > li {
+.admin > li {
   background-color: #dadce0;
 }
 
-.inicio > li:hover {
+.admin > li:hover {
   background-color: #cbbcc5;
 }
 
-.inicio {
+.admin {
   color: black;
 }
 
@@ -114,45 +114,6 @@ header h4 {
 .titulo p {
   margin: 0;
   color: #dfdce2;
-}
-
-/* ══════════════════════════════════════
-   Menú de Navegación (Lista de Enlaces)
-   ══════════════════════════════════════ */
-ul {
-  display: block;
-  margin-bottom: 0;
-}
-
-ul li {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-ul li a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 17px;
-}
-
-ul > li:not(.admin):hover {
-  background-color: #8d1a46;
-}
-
-/* Pestaña activa (Estilo "admin" de la imagen) */
-.admin {
-  background-color: #dadce0;
-}
-
-.admin:hover {
-  background-color: #cbbcc5;
-}
-
-.admin a {
-  color: black !important;
 }
 
 #menu {
@@ -274,8 +235,7 @@ footer div.mt-2 {
     background-color: white;
   }
 
-  .admin:hover,
-  ul li:hover {
+  .admin:hover, ul li:hover {
     background-color: #dadce0 !important;
   }
 
@@ -286,31 +246,24 @@ footer div.mt-2 {
     font-size: 1.5rem;
   }
 
-  .inicio>li{
+  .asd{
+      display: flex;
+      justify-content: end;
+  }
+  .asd:hover{
+      background-color: white !important;
+  }
+
+  .admin>li{
         background: none;
     }
 
-    .inicio:hover, .inicio li:hover, ul a:hover{
+    .admin:hover, .admin li:hover, ul a:hover{
         background-color: #DADCE0 !important;
     }
 
     li:hover{
         background-color: #DADCE0 !important;
-    }
-
-    #cerrar{
-        display: block;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-    }
-
-    .asd{
-        display: flex;
-        justify-content: end;
-    }
-    .asd:hover{
-        background-color: white !important;
     }
 
   .pantalla-moderna {

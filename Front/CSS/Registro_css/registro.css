@@ -31,7 +31,11 @@ header{
     width: 100%;
 }
 
-.header-imgs > img{
+.asd {
+    cursor: default;
+}
+
+.header-imgs img{
     display: inline-block;
     background-color: white;
     width: 80px;
@@ -59,26 +63,27 @@ ul li{
     cursor: pointer;
 }
 
-ul li a{
+ul a{
     color: white;
     text-decoration: none;
     font-weight: 500;
     font-size: 17px;
+    border-radius: 6px;
 }
 
-ul>li:not(.registro):hover{
+ul li:not(.registro > li):hover{
     background-color: #8d1a46;
 }
 
-.registro{
+.registro > li{
     background-color: #DADCE0;
 }
 
-.registro:hover{
+.registro > li:hover{
     background-color: #CBBCC5;
 }
 
-.registro a{
+.registro {
     color: black;
 }
 
@@ -132,10 +137,6 @@ h1, h2{
     text-align: center;
 }
 
-main{
-    /*background-color: rgb(188, 0, 0);*/
-}
-
 form{
     display: flex;
     flex-direction: column;
@@ -150,7 +151,6 @@ form{
     display: flex;
     flex-direction: column;
     height: 50vh;
-  
 }
 
 
@@ -404,11 +404,11 @@ select{
         color: black !important;
     }
 
-    .inicio{
+    .registro{
         background-color: white;
     }
 
-    .inicio:hover, li:hover{
+    .registro:hover, ul li:hover{
         background-color: #DADCE0 !important;
     }
 
@@ -418,13 +418,25 @@ select{
         border: none;
         font-size: 1.5rem;
     }
-
+    
     .asd{
         display: flex;
         justify-content: end;
     }
     .asd:hover{
         background-color: white !important;
+    }
+
+    .registro>li{
+        background: none;
+    }
+
+    .registro:hover, .registro li:hover, ul a:hover{
+        background-color: #DADCE0 !important;
+    }
+
+    li:hover{
+        background-color: #DADCE0 !important;
     }
 
     .pantalla-moderna {
