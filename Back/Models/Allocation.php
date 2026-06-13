@@ -41,7 +41,7 @@ class Allocation {
         $query = "SELECT 
                     a.id_allocation,
                     a.no_boleta,
-                    s.name_student,
+                    s.name AS name_student,
                     s.last_name_P,
                     s.last_name_M,
                     l.name AS lab_name,

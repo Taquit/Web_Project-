@@ -29,14 +29,8 @@ class Lab{
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_lab", $id_to_find);
         $stmt->execute();
-        if($stmt->rowCount() > 0) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $this->id_lab = $row['id_lab'];
-            $this->name = $row['name'];
-            $this->capacity = $row['capacity'];
-            return true;
-        }
-        return false;
+
+        return $stmt;
     }
 }
 

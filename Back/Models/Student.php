@@ -7,16 +7,15 @@ class Student{
 
     //Propiedades Student
     public $no_boleta;
-    public $name_student;
+    public $name;
     public $id_user;
     public $last_name_P;
     public $last_name_M;
     public $birth_date;
-    public $id_gender;
+    public $gender;
     public $id_state_origin;
     public $id_school;
-    public $curp;
-    public $average;
+    public $other_school_name;
 
     //COnstructor de db
     public function __construct($db){
@@ -28,24 +27,23 @@ class Student{
 
         //Query para insert
         $query= "INSERT INTO " . $this->table_name . "
-            (no_boleta, id_user, name_student, last_name_P,last_name_M,birth_date,id_gender,id_state_origin,id_school,curp,average)
+            (no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, other_school_name)
             VALUES
-            (:no_boleta, :id_user, :name_student, :last_name_P,:last_name_M,:birth_date,:id_gender,:id_state_origin,:id_school,:curp,:average)";
+            (:no_boleta, :id_user, :name, :last_name_P, :last_name_M, :birth_date, :gender, :id_state_origin, :id_school, :other_school_name)";
 
         $stmt = $this->conn->prepare($query);
 
         //Se vincula
-        $stmt->bindParam(":no_boleta",$this->no_boleta);
-        $stmt->bindParam(":id_user",$this->id_user);
-        $stmt->bindParam(":name_student", $this->name_student);
-        $stmt->bindParam(":last_name_P",$this->last_name_P);
-        $stmt->bindParam(":last_name_M",$this->last_name_M);
-        $stmt->bindParam(":birth_date",$this->birth_date);
-        $stmt->bindParam(":id_gender",$this->id_gender);
-        $stmt->bindParam(":id_state_origin",$this->id_state_origin);
-        $stmt->bindParam(":id_school",$this->id_school);
-        $stmt->bindParam(":curp",$this->curp);
-        $stmt->bindParam(":average",$this->average);
+        $stmt->bindParam(":no_boleta",        $this->no_boleta);
+        $stmt->bindParam(":id_user",          $this->id_user);
+        $stmt->bindParam(":name",             $this->name);
+        $stmt->bindParam(":last_name_P",      $this->last_name_P);
+        $stmt->bindParam(":last_name_M",      $this->last_name_M);
+        $stmt->bindParam(":birth_date",       $this->birth_date);
+        $stmt->bindParam(":gender",           $this->gender);
+        $stmt->bindParam(":id_state_origin",  $this->id_state_origin);
+        $stmt->bindParam(":id_school",        $this->id_school);
+        $stmt->bindParam(":other_school_name",$this->other_school_name);
 
         //Ejecuta la consulta
         if($stmt->execute()){
@@ -58,7 +56,7 @@ class Student{
     public function get_Student($boleta_to_find){
 
         //Consulta SQL
-        $query = "SELECT no_boleta, id_user, name_student, last_name_P,last_name_M,birth_date,id_gender,id_state_origin,id_school,curp,average
+        $query = "SELECT no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, other_school_name
                 FROM " . $this->table_name . "
                 WHERE no_boleta = :no_boleta LIMIT 0,1";
 

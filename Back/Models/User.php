@@ -3,7 +3,7 @@
 class User{
     //Atributos conexion de datos
     private $conn;
-    private $table_name= "UserG";
+    private $table_name= "User";
 
     //Propiedades Student
     public $id_user;
@@ -21,9 +21,9 @@ class User{
 
         //Query para insert
         $query= "INSERT INTO " . $this->table_name . "
-            (email_user, password_user, id_rol)
+            (email_user, password, id_rol)
             VALUES
-            (:email_user, :password_user, :id_rol)";
+            (:email_user, :password, :id_rol)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -31,7 +31,7 @@ class User{
 
         //Se vincula
         $stmt->bindParam(":email_user",$this->email_user);
-        $stmt->bindParam(":password_user", $password_hash);
+        $stmt->bindParam(":password", $password_hash);
         $stmt->bindParam(":id_rol",$this->id_rol);
         
         //Ejecuta la consulta
