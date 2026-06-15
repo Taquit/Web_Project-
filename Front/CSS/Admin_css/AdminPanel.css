@@ -1,0 +1,279 @@
+:root{
+    --shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    --header: #6D1A36;
+    --bg: #F9FAFB;
+    --footer: oklch(27.8% 0.033 256.848);
+    --titulo: oklch(21% 0.034 264.665);
+    --texto: oklch(44.6% 0.03 256.802);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: var(--bg);
+}
+
+header{
+    position: sticky;
+    top: -3px;
+    z-index: 500;
+    background-color: var(--header);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+#menu{
+    display: none;
+}
+
+.asd{
+    cursor: default;
+}
+
+.header-imgs img{
+    display: inline-block;
+    background-color: white;
+    width: 80px;
+    height: 60px;
+    padding: 5px;
+    border-radius: 6px;
+    aspect-ratio: 16 / 9;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+.ipn{
+    padding: 0;
+}
+
+ul{
+    display: block;
+    margin-bottom: 0;
+}
+
+ul li{
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+ul a{
+    color: white;   
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 17px;
+    border-radius: 6px;
+}
+
+ul li:not(.inicio>li):hover{
+    background-color: #8d1a46;
+}
+
+.inicio>li{
+    background-color: #DADCE0;
+}
+
+.inicio>li:hover{
+    background-color: #CBBCC5;
+}
+
+.inicio{
+    color: black;
+}
+
+.izq{
+    display: flex;
+}
+
+header > div{
+    display: inline-block;
+    color: white;
+}
+
+header h4{
+    margin: 0;
+    font-weight: bold;
+}
+
+.titulo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.titulo p{
+    margin: 0;
+    color: #DFDCE2;
+}
+
+/* Fin header */
+
+
+
+
+
+/* Inicio footer */
+
+a{
+    text-decoration: none;
+}
+
+.ir:hover{
+    background-color: #8d1a46;
+}
+
+footer{
+    background-color: var(--footer);
+    color: white;
+}
+
+div.container.text-center{
+    display: flex;
+    flex-direction: column;
+}
+
+footer a{
+    color: #9097A6;
+    text-decoration: none;
+}
+
+footer div.mt-2{
+    display: flex;
+    flex-direction: column;
+}
+
+
+@media only screen and (max-width: 1055px) {
+    .titulo{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 808px) {
+    
+    header{
+        justify-content: space-between;
+        z-index: 99999 !important;
+    }
+
+    #menu{
+        display: block;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.8rem;
+        margin-left: auto;  /* waos */
+        padding: 4px 12px;
+        border-radius: 6px;
+    }
+
+    #menu:hover{
+        background-color: #8d1a46;
+    }
+
+    ul a{
+        color: black !important;
+    }
+
+    .inicio>li{
+        background: none;
+    }
+
+    .inicio:hover, .inicio li:hover, ul a:hover{
+        background-color: #DADCE0 !important;
+    }
+
+    li:hover{
+        background-color: #DADCE0 !important;
+    }
+
+    #cerrar{
+        display: block;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+    }
+
+    .asd{
+        display: flex;
+        justify-content: end;
+    }
+    .asd:hover{
+        background-color: white !important;
+    }
+
+    .pantalla-moderna {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(8px);
+        z-index: 9998 !important;
+    } 
+
+    ul{
+        background-color: white;
+        position: fixed;
+        top: 0;
+        right: -50%;
+        z-index: 99999 !important;
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        height: 100dvh;
+        transition: right 0.3s ease;
+    }
+
+    ul.activo{ 
+        right: 0 !important; 
+    }
+
+
+}
+
+
+@media only screen and (min-width: 808px){
+    #cerrar{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+
+    footer a{
+        font-size: 0.75rem;
+    }
+
+    h1{
+        font-size: 1.75rem;
+    }
+
+    .tre p{
+        margin: 0 auto !important;
+        width: 90% !important;
+        margin-bottom: 24px !important;
+    }
+    
+    ul {
+        width: 70%;
+        right: -70%;
+    }
+}
+
+@media only screen and (min-width: 566px) and (max-width: 576px){
+    ul{
+        transition: none;   
+    }
+}
