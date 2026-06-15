@@ -1,10 +1,12 @@
 :root{
     --shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
     --header: #6D1A36;
-    --bg: #F9FAFB;
+    --bg: #F3F4F6;
     --footer: oklch(27.8% 0.033 256.848);
     --titulo: oklch(21% 0.034 264.665);
     --texto: oklch(44.6% 0.03 256.802);
+    --botones: rgb(123, 16, 52);
+    --btnhover: #872647;
 }
 
 *{
@@ -118,9 +120,78 @@ header h4{
 
 /* Fin header */
 
+main{
+    padding: 0.5rem 1rem;
+}
 
+.tit{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.tit h1{
+    padding-bottom: 0.25rem;
+}
 
+.tit h1, .tit p{
+    margin: 0;
+}
+
+.tit button{
+    display: block;
+    background-color: var(--botones);
+    color: white;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 0.75rem;
+    border: none;
+    border-color: var(--header);
+}
+
+.tit button:hover{
+    background-color: var(--btnhover);
+}
+
+.tit span{
+    position: relative;
+    bottom: 10px;
+    height: 20px;
+    font-size: x-large;
+    margin-right: 0.5rem;
+}
+
+.tit h1{
+    color: var(--header);
+    font-weight: bold;
+    font-size: 1.75rem;
+}
+
+.cartas{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.cartas article{
+    background-color: white;
+    padding: 16px 20px;
+}
+
+.a{
+    color: var(--botones);
+}
+.b{
+    color: #2563EB;
+}
+.c{
+    color: #059669;
+}
+.d{
+    color: #D97706;
+}
 
 /* Inicio footer */
 
