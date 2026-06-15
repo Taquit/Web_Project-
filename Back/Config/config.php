@@ -14,13 +14,13 @@ class Database{
         $this->conn = null;
         try{
             //cadena de conexion
-            $dsn ="mysql:host" . $this->host . ";dbname=" . $this->db_name . ";charset=utfmb4";
+            $dsn ="mysql:host=" . $this->host . ";dbname=" . $this->db_name . ";charset=utf8mb4";
             
             //PDO
             $this->conn = new PDO($dsn,$this->user,$this->password);
 
             $this->conn->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        }catch (PDOExecption $exception){
+        }catch (PDOException $exception){
             echo json_encode(array("error" => "Error de conexión a la base de datos: " . $exception->getMessage()));
             exit();
         }

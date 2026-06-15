@@ -54,7 +54,7 @@ class User{
         return $stmt;
     }
     
-    public function get_By_email($email_to_find){
+    public function get_By_Email($email_to_find){
         $query = "SELECT * FROM " . $this->table_name . " WHERE email_user = :email_user LIMIT 0,1 ";
         $stmt = $this->conn->prepare($query);
 
