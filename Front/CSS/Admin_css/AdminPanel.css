@@ -231,6 +231,22 @@ main{
     background-color: white;
 }
 
+.cont-buscar{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 12px 16px;
+    gap: 0.75rem;
+    border-radius: 1rem 1rem 0 0;
+}
+
+.buscar{
+    width: 100%;
+    outline: none;
+    border: none;
+}
+
+
 table {
     width: 100%;
     border-collapse: collapse; /* Quitar los espacios vacíos entre celdas */
