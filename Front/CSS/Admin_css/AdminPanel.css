@@ -291,6 +291,41 @@ tbody tr:nth-child(even){
     padding: 0.125rem 0.5rem;
     border-radius: calc(infinity * 1px);
 }
+
+thead th:last-child{
+    padding-left: 20px;
+}
+
+.acciones{
+    display: flex;
+    row-gap: 0.25rem;
+}
+.acciones button{
+    border: none;
+    background: none;
+    padding: 4px 8px;
+}
+
+.acciones button:nth-child(1){
+    color: oklch(44.631% 0.03692 258.925);
+}
+.acciones button:nth-child(1):hover{
+    background-color: #F9FAFB;
+}
+.acciones button:nth-child(2){
+    color: rgb(37, 99, 235);
+}
+.acciones button:nth-child(2):hover{
+    background-color: #eff6ff;
+}
+.acciones button:nth-child(3){
+    color: red;
+}
+.acciones button:nth-child(3):hover{
+    background-color: oklch(97.1% 0.013 17.38);
+}
+
+
 /* Inicio footer */
 
 a{
