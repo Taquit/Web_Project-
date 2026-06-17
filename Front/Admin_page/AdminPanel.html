@@ -1,184 +1,545 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <link rel="shortcut icon" href="../../Assets/imgIndex/escom.webp" type="image/x-icon">
-    <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
-    <title>Panel</title>
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="/Front/CSS/Admin_css/AdminPanel.css">
-    <script>
-      $(document).ready(() => {
+  <!doctype html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+      <link rel="shortcut icon" href="../../Assets/imgIndex/escom.webp" type="image/x-icon">
+      <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
+      <title>Panel</title>
+      <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+      <link rel="stylesheet" href="/Front/CSS/Admin_css/AdminPanel.css">
+      <script>
+        $(document).ready(() => {
 
-        $("#menu").click(() => {
-          $("#pantalla").toggleClass("pantalla-moderna");
-          $("ul").addClass("activo");
-        });
-        
-        $("#cerrar").click(() => {
-          $("#pantalla").removeClass("pantalla-moderna");
-          $("ul").removeClass("activo");
-        });
-
-        $("#pantalla").click(() => {
-          $("#pantalla").removeClass("pantalla-moderna");
-          $("ul").removeClass("activo");
-        });
-
-        $("#buscar").on("input", (e) => {
-          let valorBusqueda = $(e.target).val().toLowerCase().trim();
-
-          $("table tbody tr").each((index, elemento) => {
-            let fila = $(elemento);
-            let boleta = fila.find(".boleta").text().toLowerCase();
-            let nombre = fila.find(".nombre").text().toLowerCase();
-
-            if(boleta.indexOf(valorBusqueda) !== -1 || nombre.indexOf(valorBusqueda) !== -1){
-              fila.show();
-            } else {
-              fila.hide();
-            }
+          $("#menu").click(() => {
+            $("#pantalla").toggleClass("pantalla-moderna");
+            $("ul").addClass("activo");
           });
+          
+          $("#cerrar").click(() => {
+            $("#pantalla").removeClass("pantalla-moderna");
+            $("ul").removeClass("activo");
+          });
+
+          $("#pantalla").click(() => {
+            $("#pantalla").removeClass("pantalla-moderna");
+            $("ul").removeClass("activo");
+          });
+
+
+          $("#buscar").on("input", (e) => {
+            let valorBusqueda = $(e.target).val().toLowerCase().trim();
+
+            $("table tbody tr").each((index, fila) => {
+              let boleta = $(fila).find(".boleta").text().toLowerCase();
+              let nombre = $(fila).find(".nombre").text().toLowerCase();
+
+              if(boleta.indexOf(valorBusqueda) !== -1 || nombre.indexOf(valorBusqueda) !== -1){
+                $(fila).show();
+              } else {
+                $(fila).hide();
+              }
+            });
+          });
+
+
+          $("table").on("click", ".btn-ver", function() {
+            let fila = $(this).closest("tr");
+            
+            let boleta = fila.find(".boleta").text().trim();
+            let nombreCompleto = fila.find(".nombre").text().trim();
+            let email = fila.find(".email").text().trim();
+            let entidad = fila.find(".entidad").text().trim();
+            let lab = fila.find(".lab").text().trim();
+            let horario = fila.find(".hora").text().trim();
+            let grupo = fila.find(".grupo span").text().trim();
+
+            let partesNombre = nombreCompleto.split(" ");
+            let nombre = partesNombre[0];
+            let apellidos = partesNombre.slice(1).join(" ");
+
+            let turno = (grupo.includes("A")) ? "Matutino" : "Vespertino";
+
+            $("#m-boleta").text(boleta);
+            $("#m-nombre").text(nombre);
+            $("#m-apellidos").text(apellidos || "N/A");
+            $("#m-email").text(email);
+            $("#m-entidad").text(entidad);
+            $("#m-lab").text(lab);
+            $("#m-horario").text(horario);
+            $("#m-grupo").text(grupo);
+            $("#m-turno").text(turno);
+          });
+
+          $("table").on("click", ".btn-editar", function() {
+            let fila = $(this).closest("tr");
+            
+            let boleta = fila.find(".boleta").text().trim();
+            let nombreCompleto = fila.find(".nombre").text().trim();
+            let email = fila.find(".email").text().trim();
+            let entidad = fila.find(".entidad").text().trim();
+            let lab = fila.find(".lab").text().trim();
+            let horario = fila.find(".hora").text().trim().replace(/\s+/g, ''); // Remueve espacios para coincidir con las opciones del select
+            let grupo = fila.find(".grupo span").text().trim();
+
+            let partesNombre = nombreCompleto.split(" ");
+            let nombre = partesNombre[0];
+            let apellidos = partesNombre.slice(1).join(" ");
+
+            let turno = (grupo.includes("A") || grupo.includes("B")) ? "Matutino" : "Vespertino";
+
+            $("#e-boleta").val(boleta);
+            $("#e-nombre").val(nombre);
+            $("#e-apellidos").val(apellidos);
+            $("#e-email").val(email);
+            $("#e-entidad").val(entidad);
+            $("#e-lab").val(lab);
+            $("#e-horario").val(horario);
+            $("#e-grupo").val(grupo);
+            $("#e-turno").val(turno);
+          });
+
+          $("#modalNuevo").on("show.bs.modal", () => {
+            $("#formNuevoAlumno")[0].reset();
+          });
+          
+          $("table").on("click", "button:has(.bi-trash), button:has(path[d^='M5.5 5.5'])", function() {
+            let fila = $(this).closest("tr");
+            let boleta = fila.find(".boleta").text().trim();
+            let nombreCompleto = fila.find(".nombre").text().trim();
+
+            $("#del-nombre").text(nombreCompleto);
+            $("#del-boleta").text(boleta);
+
+            $("#btnConfirmarEliminar").off("click").on("click", () => {
+
+              // Borrar de la BD
+
+            });
+          });
+
         });
-        
-      });
-    </script>
-  </head>
-  <body class="p-0 m-0 border-0 bd-example m-0 border-0">
-    <header class="position-sticky">
-      <div class="izq">
-        <div class="header-imgs">
-            <a href="https://www.ipn.mx/" target="_blank"><img class="ipn" src="../../Assets/imgIndex/ipn.webp" alt="IPN" title="Instituto Politécnico Nacional"></a>
-            <a href="https://www.escom.ipn.mx/" target="_blank"><img class="escom" src="../../Assets/imgIndex/escom.webp" alt="ESCOM" title="ESCOM"></a>
-            <img class="fp" src="../../Assets/imgIndex/familiapev2.webp" alt="Logo del equipo 2" title="Logo del equipo 2 ESTRENO DOMINGO 22 / 12:00pm">
+      </script>
+    </head>
+    <body class="p-0 m-0 border-0 bd-example m-0 border-0">
+      <header class="position-sticky">
+        <div class="izq">
+          <div class="header-imgs">
+              <a href="https://www.ipn.mx/" target="_blank"><img class="ipn" src="../../Assets/imgIndex/ipn.webp" alt="IPN" title="Instituto Politécnico Nacional"></a>
+              <a href="https://www.escom.ipn.mx/" target="_blank"><img class="escom" src="../../Assets/imgIndex/escom.webp" alt="ESCOM" title="ESCOM"></a>
+              <img class="fp" src="../../Assets/imgIndex/familiapev2.webp" alt="Logo del equipo 2" title="Logo del equipo 2 ESTRENO DOMINGO 22 / 12:00pm">
+          </div>
+          <div class="titulo">
+              <h4>IPN - ESCOM</h4>  
+              <p>Sistema de Registro de Estudiantes</p>
+          </div>
         </div>
-        <div class="titulo">
-            <h4>IPN - ESCOM</h4>  
-            <p>Sistema de Registro de Estudiantes</p>
+          <button id="menu" type="button">☰</button>
+          <div id="pantalla" class=""></div>
+          <ul class="">
+            <li class="asd"><button id="cerrar" type="button">✖</button></li>
+            <a href="../Home_page/index.html" class="inicio"><li>Inicio</li></a>
+            <a href="../Registro_page/registro.html"><li>Registro</li></a>
+            <a href="../Admin_page/Admin.html"><li>Admin</li></a>
+            <a href="../Account_page/Account.html"><li>Cuenta</li></a>
+          </ul>
+      </header>
+
+      <main>
+        <section class="tit">
+          <div class="int">
+            <h1>Panel de Administración</h1>
+            <p>Gestión de alumnos registrados - 6 registro(s)</p>
+          </div>
+          <button data-bs-toggle="modal" data-bs-target="#modalNuevo">
+            <span>+</span> Nuevo Alumno
+          </button>
+        </section>
+
+        <section class="cartas">
+          <article>
+            <p>Total Registros</p>
+            <p class="a">6</p>
+          </article>
+          <article>
+            <p>Turno Matutino</p>
+            <p class="b">4</p>
+          </article>
+          <article>
+            <p>Turno Vespertino</p>
+            <p class="c">2</p>
+          </article>
+          <article>
+            <p>Laboratorios</p>
+            <p class="d">5</p>
+          </article>
+        </section>
+
+        <section class="info">
+          <div class="cont-buscar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+            <input class="buscar" id="buscar" type="text" placeholder="Buscar por boleta, nombre o apellido...">
+            </div>
+          <div class="table-responsive">
+            <table>
+              <thead> 
+                <tr>
+                  <th>Boleta</th>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                  <th>Entidad</th>
+                  <th>Lab.</th>
+                  <th>Horario</th>
+                  <th>Grupo</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="boleta">2022630002</td>
+                  <td class="nombre">Pablo García Gámez</td>
+                  <td class="email">2022630001@alumno.ipn.mx</td>
+                  <td class="entidad">CDMX</td>
+                  <td class="lab">Lab 1 – Ed. B</td>
+                  <td class="horario">
+                    <span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/></svg>
+                      <span class="hora">09:00 – 10:30</span>
+                    </span>
+                  </td>
+                  <td class="grupo"><span>2A</span></td>
+                  <td class="acciones">
+                    <div>
+                      <button class="btn-ver" data-bs-toggle="modal" data-bs-target="#modalAlumno">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg>
+                      </button>
+                      <button data-bs-toggle="modal" data-bs-target="#modalEditar" class="btn-editar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/></svg>
+                      </button>
+                      <button data-bs-toggle="modal" data-bs-target="#modalEliminar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="boleta">2022631112</td>
+                  <td class="nombre">Pablo Jiménez Manzano</td>
+                  <td class="email">2022631112@alumno.ipn.mx</td>
+                  <td class="entidad">Estado de México</td>
+                  <td class="lab">Lab 1 – Ed. B</td>
+                  <td class="horario">
+                    <span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/></svg>
+                      <span class="hora">09:00 – 10:30</span>
+                    </span>
+                  </td>
+                  <td class="grupo"><span>2A</span></td>
+                  <td class="acciones">
+                    <div>
+                      <button class="btn-ver" data-bs-toggle="modal" data-bs-target="#modalAlumno">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg>
+                      </button>
+                      <button data-bs-toggle="modal" data-bs-target="#modalEditar" class="btn-editar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/></svg>
+                      </button>
+                      <button data-bs-toggle="modal" data-bs-target="#modalEliminar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="boleta">2022631777</td>
+                  <td class="nombre">Eduardo</td>
+                  <td class="email">2022631777@alumno.ipn.mx</td>
+                  <td class="entidad">Michoacán</td>
+                  <td class="lab">Lab 1 – Ed. B</td>
+                  <td class="horario">
+                    <span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/></svg>
+                      <span class="hora">09:00 – 10:30</span>
+                    </span>
+                  </td>
+                  <td class="grupo"><span>2A</span></td>
+                  <td class="acciones">
+                    <div>
+                      <button class="btn-ver" data-bs-toggle="modal" data-bs-target="#modalAlumno">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg>
+                      </button>
+                      <button data-bs-toggle="modal" data-bs-target="#modalEditar" class="btn-editar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/></svg>
+                      </button>
+                      <button data-bs-toggle="modal" data-bs-target="#modalEliminar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>    
+
+      <footer class="text-center text-lg-start mt-auto py-4 border-top">
+          <div class="container text-center">
+              <span class="text-whited">© 2026 Instituto Politécnico Nacional - ESCOM - Equipo 2</span>
+              <!-- <span class="text-white py-1">Equipo 2</span> -->
+              <div class="mt-2">
+                  <a href="#">Registro de Datos Generales para Estudiantes de Nuevo Ingreso</a>
+                  <a href="#">Tecnologías para el Desarrollo de Aplicaciones Web</a>
+              </div>
+          </div>
+      </footer>
+
+      <!-- Agregar -->
+       <div class="modal fade" id="modalNuevo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalNuevoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
+          <div class="modal-content border-0 style-modal">
+            <div class="modal-header border-0 text-white p-3" style="background-color: var(--header); border-radius: 0.75rem 0.75rem 0 0;">
+              <h5 class="modal-title" id="modalNuevoLabel" style="font-weight: 600;">Nuevo Alumno</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formNuevoAlumno" method="">
+              <div class="modal-body p-4 bg-white">
+                <div class="row g-3">
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Boleta</label>
+                    <input type="text" id="n-boleta" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Nombre</label>
+                    <input type="text" id="n-nombre" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Apellidos</label>
+                    <input type="text" id="n-apellidos" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Correo</label>
+                    <input type="email" id="n-email" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Entidad</label>
+                    <input type="text" id="n-entidad" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Laboratorio</label>
+                    <select id="n-lab" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                      <option value="Lab 1 – Ed. B">Lab 1 – Ed. B</option>
+                      <option value="Lab 2 – Ed. B">Lab 2 – Ed. B</option>
+                      <option value="Lab 3 – Ed. B">Lab 3 – Ed. B</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Horario</label>
+                    <select id="n-horario" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                      <option value="09:00–10:30">09:00–10:30</option>
+                      <option value="10:45–12:15">10:45–12:15</option>
+                      <option value="14:00–15:30">14:00–15:30</option>
+                      <option value="15:45–17:15">15:45–17:15</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Grupo</label>
+                    <select id="n-grupo" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                      <option value="2A">2A</option>
+                      <option value="2B">2B</option>
+                      <option value="2C">2C</option>
+                      <option value="2D">2D</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Turno</label>
+                    <select id="n-turno" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                      <option value="Matutino">Matutino</option>
+                      <option value="Vespertino">Vespertino</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-0 bg-light justify-content-end p-3" style="border-radius: 0 0 0.75rem 0.75rem; gap: 10px;">
+                <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal" style="border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500;">Cancelar</button>
+                <button type="submit" class="btn text-white px-4 py-2 d-flex align-items-center" style="background-color: var(--header); border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500; gap: 6px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                  </svg>
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-        <button id="menu" type="button">☰</button>
-        <div id="pantalla" class=""></div>
-        <ul class="">
-          <li class="asd"><button id="cerrar" type="button">✖</button></li>
-          <a href="../Home_page/index.html" class="inicio"><li>Inicio</li></a>
-          <a href="../Registro_page/registro.html"><li>Registro</li></a>
-          <a href="../Admin_page/Admin.html"><li>Admin</li></a>
-          <a href="../Account_page/Account.html"><li>Cuenta</li></a>
-        </ul>
-    </header>
 
-    <main>
-      <section class="tit">
-        <div class="int">
-          <h1>Panel de Administración</h1>
-          <p>Gestión de alumnos registrados - 6 registro(s)</p>
-        </div>
-        <button>
-          <span>+</span> Nuevo Alumno
-        </button>
-      </section>
-
-      <section class="cartas">
-        <article>
-          <p>Total Registros</p>
-          <p class="a">6</p>
-        </article>
-        <article>
-          <p>Turno Matutino</p>
-          <p class="b">4</p>
-        </article>
-        <article>
-          <p>Turno Vespertino</p>
-          <p class="c">2</p>
-        </article>
-        <article>
-          <p>Laboratorios</p>
-          <p class="d">5</p>
-        </article>
-      </section>
-
-      <section class="info">
-        <div class="cont-buscar">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-          </svg>
-          <input class="buscar" id="buscar" type="text" placeholder="Buscar por boleta, nombre o apellido...">
-          </div>
-        <div class="table-responsive">
-          <table>
-            <thead> 
-              <tr>
-                <th>Boleta</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Entidad</th>
-                <th>Lab.</th>
-                <th>Horario</th>
-                <th>Grupo</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="boleta">2022630002</td>
-                <td class="nombre">Pablo García Gámez</td>
-                <td class="email">2022630001@alumno.ipn.mx</td>
-                <td class="entidad">CDMX</td>
-                <td class="lab">Lab 1 – Ed. B</td>
-                <td class="horario">
-                  <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/></svg>
-                    <span class="hora">09:00 – 10:30</span>
-                  </span>
-                </td>
-                <td class="grupo"><span>2A</span></td>
-                <td class="acciones">
-                  <div>
-                    <button><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg></button>
-                    <button><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/></svg></button>
-                    <button><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg></button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="boleta">2022630001</td>
-                <td class="nombre">María García López</td>
-                <td class="email">2022630001@alumno.ipn.mx</td>
-                <td class="entidad">CDMX</td>
-                <td class="lab">Lab 1 – Ed. B</td>
-                <td class="horario">
-                  <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/></svg>
-                    <span class="hora">09:00 – 10:30</span>
-                  </span>
-                </td>
-                <td class="grupo"><span>2A</span></td>
-                <td class="acciones">
-                  <button><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/></svg></button>
-                  <button><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/></svg></button>
-                  <button><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-    </main>    
-
-    <footer class="text-center text-lg-start mt-auto py-4 border-top">
-        <div class="container text-center">
-            <span class="text-whited">© 2026 Instituto Politécnico Nacional - ESCOM - Equipo 2</span>
-            <!-- <span class="text-white py-1">Equipo 2</span> -->
-            <div class="mt-2">
-                <a href="#">Registro de Datos Generales para Estudiantes de Nuevo Ingreso</a>
-                <a href="#">Tecnologías para el Desarrollo de Aplicaciones Web</a>
+      <!-- Consultar -->
+      <div class="modal fade" id="modalAlumno" tabindex="-1" aria-labelledby="modalAlumnoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
+          <div class="modal-content border-0 style-modal">
+            <div class="modal-header border-0 text-white p-3" style="background-color: var(--header); border-radius: 0.75rem 0.75rem 0 0;">
+              <h5 class="modal-title id="modalAlumnoLabel" style="font-weight: 600;">Datos del Alumno</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body p-4 bg-white">
+              <div class="row g-4">
+                <div class="col-md-6 col-6">
+                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Boleta</label>
+                  <strong id="m-boleta" class="text-dark d-block" style="font-size: 0.95rem; font-weight: 600;"></strong>
+                </div>
+                <div class="col-md-6 col-6">
+                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Nombre</label>
+                  <strong id="m-nombre" class="text-dark d-block" style="font-size: 0.95rem; font-weight: 600;"></strong>
+                </div>
+                <div class="col-md-6 col-6">
+                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Apellidos</label>
+                  <strong id="m-apellidos" class="text-dark d-block" style="font-size: 0.95rem; font-weight: 600;"></strong>
+                </div>
+                <div class="col-md-6 col-6">
+                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Email</label>
+                  <strong id="m-email" class="text-dark d-block" style="font-size: 0.95rem; font-weight: 600; word-break: break-all;"></strong>
+                </div>
+                <div class="col-md-6 col-6">
+                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Entidad</label>
+                  <strong id="m-entidad" class="text-dark d-block" style="font-size: 0.95rem; font-weight: 600;"></strong>
+                </div>
+                <div class="col-md-6 col-6">
+                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Laboratorio</label>
+                  <strong id="m-lab" class="text-dark d-block" style="font-size: 0.95rem; font-weight: 600;"></strong>
+                </div>
+                <div class="col-md-6 col-6">
+                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Horario</label>
+                  <strong id="m-horario" class="text-dark d-block" style="font-size: 0.95rem; font-weight: 600;"></strong>
+                </div>
+                <div class="col-md-6 col-6">
+                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Grupo</label>
+                  <strong id="m-grupo" class="text-dark d-block" style="font-size: 0.95rem; font-weight: 600;"></strong>
+                </div>
+                <div class="col-md-6 col-6">
+                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Turno</label>
+                  <strong id="m-turno" class="text-dark d-block" style="font-size: 0.95rem; font-weight: 600;"></strong>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer border-0 bg-light justify-content-end p-3" style="border-radius: 0 0 0.75rem 0.75rem;">
+              <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal" style="border-radius: 0.5rem;">Cancelar</button>
+            </div>
+          </div>
         </div>
-    </footer>
-  </body>
-</html>
+      </div>
+
+      <!-- Editar -->
+      <div class="modal fade" id="modalEditar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
+          <div class="modal-content border-0 style-modal">
+            <div class="modal-header border-0 text-white p-3" style="background-color: var(--header); border-radius: 0.75rem 0.75rem 0 0;">
+              <h5 class="modal-title" id="modalEditarLabel" style="font-weight: 600;">Editar Alumno</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Para actualizar a la bd podrían usar un input type="hidden" con el id -->
+            <form id="formEditarAlumno" action="">
+              <div class="modal-body p-4 bg-white">
+                <div class="row g-3">
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Boleta</label>
+                    <input type="text" id="e-boleta" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Nombre</label>
+                    <input type="text" id="e-nombre" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Apellidos</label>
+                    <input type="text" id="e-apellidos" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Correo</label>
+                    <input type="email" id="e-email" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Entidad</label>
+                    <input type="text" id="e-entidad" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Laboratorio</label>
+                    <select id="e-lab" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                      <option value="Lab 1 – Ed. B">Lab 1 – Ed. B</option>
+                      <option value="Lab 2 – Ed. B">Lab 2 – Ed. B</option>
+                      <option value="Lab 3 – Ed. B">Lab 3 – Ed. B</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Horario</label>
+                    <select id="e-horario" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                      <option value="09:00–10:30">09:00–10:30</option>
+                      <option value="10:45–12:15">10:45–12:15</option>
+                      <option value="14:00–15:30">14:00–15:30</option>
+                      <option value="15:45–17:15">15:45–17:15</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Grupo</label>
+                    <select id="e-grupo" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                      <option value="2A">2A</option>
+                      <option value="2B">2B</option>
+                      <option value="2C">2C</option>
+                      <option value="2D">2D</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Turno</label>
+                    <select id="e-turno" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                      <option value="Matutino">Matutino</option>
+                      <option value="Vespertino">Vespertino</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-0 bg-light justify-content-end p-3" style="border-radius: 0 0 0.75rem 0.75rem; gap: 10px;">
+                <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal" style="border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500;">Cancelar</button>
+                <button type="submit" class="btn text-white px-4 py-2 d-flex align-items-center" style="background-color: var(--header); border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500; gap: 6px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                  </svg>
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Eliminar-->
+       <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;">
+          <div class="modal-content border-0" style="border-radius: 0.75rem; overflow: hidden;">
+            <div class="modal-header border-0 text-white p-3" style="background-color: var(--header);">
+              <h5 class="modal-title" id="modalEliminarLabel" style="font-weight: 600; font-size: 1.05rem;">Confirmar Eliminación</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 bg-white text-center">
+              <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px; background-color: #FFF5F5; border-radius: 50%;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#DC2626" class="bi bi-trash3" viewBox="0 0 16 16">
+                  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.054 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v85a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                </svg>
+              </div>
+              
+              <h4 class="text-dark mb-2" style="font-weight: 600; font-size: 1.25rem;">¿Eliminar registro?</h4>
+              <p class="text-secondary px-2" style="font-size: 0.92rem; line-height: 1.5;">
+                Se eliminará permanentemente el registro de <strong id="del-nombre" class="text-dark" style="font-weight: 600;"></strong> <br>
+                <span class="text-muted" style="font-size: 0.85rem;">(boleta: <span id="del-boleta"></span>).</span>
+              </p>
+            </div>
+            <div class="modal-footer border-0 bg-light justify-content-end p-3" style="gap: 10px;">
+              <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal" style="border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500; color: #4B5563;">Cancelar</button>
+              <button type="button" id="btnConfirmarEliminar" class="btn btn-danger px-4 py-2 d-flex align-items-center" style="border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500; background-color: #E11D48; border-color: #E11D48; gap: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                </svg>
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  </html>

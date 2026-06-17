@@ -386,6 +386,45 @@ footer div.mt-2{
     flex-direction: column;
 }
 
+.modal {
+    z-index: 999999 !important;
+}
+.modal-backdrop {
+    z-index: 999990 !important;
+}
+
+.style-modal {
+    border-radius: 1rem !important;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+}
+
+.style-modal label {
+    color: #9ca3af !important;
+    font-size: 0.78rem !important;
+    font-weight: 500;
+}
+
+.style-modal strong {
+    color: #1f2937 !important;
+    font-size: 0.95rem !important;
+    font-weight: 600;
+    margin-top: -2px;
+}
+
+.style-modal .row.g-4 {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 1rem;
+}
+
+@media (min-width: 576px) {
+    #modalAlumno .modal-dialog {
+        max-width: 540px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
 
 @media only screen and (max-width: 1055px) {
     .titulo{
