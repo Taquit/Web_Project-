@@ -28,14 +28,22 @@
           $("ul").removeClass("activo");
         });
 
-        $("#buscar").on("input", () => {
-          let valorBusqueda = $(this).val().toLowerCase().trim();
+        $("#buscar").on("input", (e) => {
+          let valorBusqueda = $(e.target).val().toLowerCase().trim();
 
-          $("table tbody tr").each(() => {
-            let boleta
-            let nombre
+          $("table tbody tr").each((index, elemento) => {
+            let fila = $(elemento);
+            let boleta = fila.find(".boleta").text().toLowerCase();
+            let nombre = fila.find(".nombre").text().toLowerCase();
+
+            if(boleta.indexOf(valorBusqueda) !== -1 || nombre.indexOf(valorBusqueda) !== -1){
+              fila.show();
+            } else {
+              fila.hide();
+            }
           });
         });
+        
       });
     </script>
   </head>
@@ -116,8 +124,8 @@
             </thead>
             <tbody>
               <tr>
-                <td class="boleta">2022630001</td>
-                <td class="nombre">María García López</td>
+                <td class="boleta">2022630002</td>
+                <td class="nombre">Pablo García Gámez</td>
                 <td class="email">2022630001@alumno.ipn.mx</td>
                 <td class="entidad">CDMX</td>
                 <td class="lab">Lab 1 – Ed. B</td>
