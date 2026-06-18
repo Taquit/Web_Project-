@@ -151,6 +151,7 @@ form{
     display: flex;
     flex-direction: column;
     height: 50vh;
+  
 }
 
 
@@ -216,6 +217,42 @@ input, select{
     height:5vh;
     border-radius: 6px;
 }
+
+input::placeholder{
+    font-weight: 500;
+}
+
+input:focus, select:focus{
+    outline:none;
+    background-color: #6d1a36c5;
+    color: #ffffff;
+    font-weight: 700;
+    padding-left: 0.5rem;
+}
+
+option{
+    color: #000000;
+    font-weight: 500;
+    boder-radius: 6px;
+    background-color: #ffffff;
+}
+
+.apellidos{
+    /*background-color: #9e2424;*/
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.apellidos input{
+    width: 50%;
+}
+
+.col-2{
+    gap:0.3vh;
+}
+
 
 .botones{
     /*background-color: #6D1A36;*/

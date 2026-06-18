@@ -4,6 +4,26 @@ function fmt(fechaISO) {
     return p[2] + "/" + p[1] + "/" + p[0];
   }
 
+function obtenerConsonante(palabra) {
+    const vocales = "aeiouáéíóúAEIOUÁÉÍÓÚ";
+    const consonantes = [];
+
+
+    for (let i = 0; i < palabra.length; i++) {
+        let letra = palabra[i];
+        if (/[a-zA-ZáéíóúÁÉÍÓÚñÑ]/.test(letra) && !vocales.includes(letra)) {
+            consonantes.push(letra);
+        }
+    }
+
+    
+    if (vocales.includes(palabra[0])) {
+        return consonantes[0].toUpperCase(); 
+    } else {
+        return consonantes[1].toUpperCase(); 
+    }
+}
+
   function validarFormulario() {
     var errores = [];
 
@@ -15,9 +35,50 @@ function fmt(fechaISO) {
     if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nom))
       errores.push("Nombre no válido. Solo se permiten letras y espacios.");
 
+  
+    var app = document.forms.formu.apellidopaterno.value;
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(app))
+      errores.push("Apellido no válido. Solo se permiten letras y espacios.");
+
+    var apm = document.forms.formu.apellidomaterno.value;
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(apm))
+      errores.push("Apellido no válido. Solo se permiten letras y espacios.");
+
+    var fecha = document.forms.formu["fecha-nacimiento"].value;
+    
+    var anio2 = fecha.substring (2, 4);
+    var mes = fecha.substring(5, 7);
+    var dia = fecha.substring(8, 10);
+
+    var genero = document.querySelector("input[name='genero']:checked");
+    var estado = document.forms.formu["estado-origen"].value;
+    
+
+
+    //Aquí se obtienen el primer caracter del nombre y del apellido materno, mientras que del apellido paterno se obtienen los dos primeros caracteres
+    const partenom = nom.charAt(0).toUpperCase();
+    const primerosdosapp = app.substr(0, 2).toUpperCase();
+    const parteapm = apm.charAt(0).toUpperCase();
+    const fechanaciemiento = anio2 + mes + dia;
+    const inicialgenero = genero.value.charAt(0).toUpperCase();
+
+    const consonanteApp = obtenerConsonante(app);
+    const consonanteApm = obtenerConsonante(apm);
+    const consonanteNom = obtenerConsonante(nom);
+
+    console.log(primerosdosapp, parteapm, partenom, fechanaciemiento, inicialgenero, estado, consonanteApp, consonanteApm, consonanteNom);
+
+
+
+
+
+
+
+   
     var curp = document.forms.formu.CURP.value;
-    if (!/^[A-Z]{4}\d{6}[A-Z]{6}[A-Z0-9]{2}$/.test(curp))
-      errores.push("CURP no válido.");
+    const curpGenerada = new RegExp(`^${primerosdosapp}${parteapm}${partenom}${fechanaciemiento}${inicialgenero}${estado}${consonanteApp}${consonanteApm}${consonanteNom}[A-Z0-9][0-9]$`);
+    if (!curpGenerada.test(curp))
+      errores.push("Tu CURP no coincide con los datos ingresados.");
 
     var tel = document.forms.formu.telefono.value;
     if (!/^\d{10}$/.test(tel))
