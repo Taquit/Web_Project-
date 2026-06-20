@@ -191,7 +191,7 @@ section{
 
 #info{
    /* background-color: aqua;*/
-    height: 100vh;
+    height: 100%;
 }
 .acuse_registro{
     padding: 2vw;
@@ -406,11 +406,85 @@ select{
 #contenedor-otra-escuela input{
     width: 100%;
 }
-@media only screen and (max-width: 1055px) {
-    .titulo{
+@media only screen and (max-width: 1300px) {
+
+
+    .acuse_registro{
+    
+       width: 70%;
+    }
+    .acuse_contenido{
+    display: flex;
+    flex-direction: row;
+   /* background-color: aquamarine;*/
+    width: 100%;
+    justify-content: center;
+    gap:5vw;
+    align-items: center;
+    text-align: center;
+}       
+
+ #info{
+ 
+    /*background-color: #8d1a46;*/
+ }
+
+ .acuse_asignacion{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+ }
+
+ .button_acuse{
+    padding: 0.5vw;
+    width: 30vw;
+    border: none;
+    background-color: #6D1A36;
+    color: #ffff;
+    font-weight:600;
+    font-size: 1em;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1vw;
+    height: 7vh;
+}
+
+.texto_correcto{
+    text-align: center;
+}
+}
+
+@media only screen and (max-width: 850px) {
+    .titulo-acuse{
+        text-align: center;
+    }
+
+    .ipn1, .escom1{
         display: none;
     }
+
+    .acuse_contenido_izquierda{
+    /*background-color: burlywood;*/
+    width: 100%;
+    text-align: center;
+        
+
 }
+
+.acuse_contenido_derecha{
+   /*background-color: blueviolet;*/
+     width: 100%;
+    text-align: center;
+}
+
+#paloma{
+    display: none;
+}
+}
+
 
 @media only screen and (max-width: 808px) {
     
@@ -489,10 +563,41 @@ select{
         right: 0 !important; 
     }
     
-    form{
-        gap:8vh;
-    }
 
+    .acuse_registro{
+    
+       width: 70%;
+    }
+    .acuse_contenido{
+    display: flex;
+    flex-direction: column;
+   /* background-color: aquamarine;*/
+    width: 100%;
+    justify-content: center;
+    gap:5vw;
+    align-items: center;
+    text-align: center;
+}       
+
+ #info{
+ 
+    /*background-color: #8d1a46;*/
+ }
+
+ 
+button p{
+    display: none;
+ }
+
+ 
+
+#impresora{
+    width: 9vw;
+    height: auto;
+}
+
+
+ 
 
 }
 
