@@ -8,7 +8,6 @@ if (!file_exists($envPath)) {
 // Parsear el archivo y guardar las variables en un arreglo
 $env = parse_ini_file($envPath);
 
-// 2. Asignar las variables
 // 2. Definir CONSTANTES globales de PHP
 define('DB_HOST', $env['DB_HOST']);
 define('DB_NAME', $env['DB_NAME']);
