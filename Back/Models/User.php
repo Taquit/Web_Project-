@@ -73,6 +73,16 @@ class User{
 
         return $stmt;
     }
+
+    public function get_Id_By_Email($email) {
+    $query = "SELECT id_user FROM " . $this->table_name . " WHERE email_user = :email LIMIT 1";
+    $stmt = $this->conn->prepare($query);
+    
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+    
+    return $stmt; 
+}
 }
 
 ?>

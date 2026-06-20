@@ -16,6 +16,7 @@ class Student{
     public $id_state_origin;
     public $id_school;
     public $other_school_name;
+    public $curp;
 
     //COnstructor de db
     public function __construct($db){
@@ -27,9 +28,9 @@ class Student{
 
         //Query para insert
         $query= "INSERT INTO " . $this->table_name . "
-            (no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, other_school_name)
+            (no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, other_school_name, curp_user)
             VALUES
-            (:no_boleta, :id_user, :name, :last_name_P, :last_name_M, :birth_date, :gender, :id_state_origin, :id_school, :other_school_name)";
+            (:no_boleta, :id_user, :name, :last_name_P, :last_name_M, :birth_date, :gender, :id_state_origin, :id_school, :other_school_name, :curp)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -44,6 +45,7 @@ class Student{
         $stmt->bindParam(":id_state_origin",  $this->id_state_origin);
         $stmt->bindParam(":id_school",        $this->id_school);
         $stmt->bindParam(":other_school_name",$this->other_school_name);
+        $stmt->bindParam(":curp",$this->curp);
 
         //Ejecuta la consulta
         if($stmt->execute()){
@@ -68,9 +70,23 @@ class Student{
 
         return $stmt;
     }
+
+    public function get_Student_By_CURP($curp){
+
+        //Consulta SQL
+        $query = "SELECT no_boleta FROM " . $this->table_name . "
+                WHERE curp_user = :curp LIMIT 0,1";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":curp",$curp);
+
+        $stmt->execute();
+
+        return $stmt;
+    }
     
     public function get_All_Students(){
-         
         //Consulta SQL
         $query = "SELECT * FROM " . $this->table_name;
 

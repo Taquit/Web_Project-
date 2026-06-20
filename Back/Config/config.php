@@ -1,12 +1,26 @@
 <?php
 
+$envPath = __DIR__ . '/.env';
+if (!file_exists($envPath)) {
+    die("Error: No se encontró el archivo .env");
+}
+
+// Parsear el archivo y guardar las variables en un arreglo
+$env = parse_ini_file($envPath);
+
+// 2. Definir CONSTANTES globales de PHP
+define('DB_HOST', $env['DB_HOST']);
+define('DB_NAME', $env['DB_NAME']);
+define('DB_USER', $env['DB_USER']);
+define('DB_PASSWORD', $env['DB_PASSWORD']);
+
 class Database{
 
     //Definimos credenciales
-    private $host= getenv('DB_HOST');
-    private $db_name= getenv('DB_NAME');
-    private $user=getenv('DB_USER');
-    private $password= getenv('DB_PASSWORD');
+    private $host= DB_HOST;
+    private $db_name= DB_NAME;
+    private $user=DB_USER;
+    private $password= DB_PASSWORD;
     public $conn;
 
     //Funcion que realiza la conexion
