@@ -31,7 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($row['id_rol'] == 2) {
             header('Location: ../../Front/Admin_page/AdminPanel.html');
         } else if($row['id_rol']==1) {
-            header('Location: ../../Front/Home_page/index.html');
+            header('Location: ../../Front/Cuenta/Cuenta.html');
+        }else{
+            alert("Credenciales no encontradas");
         }
         exit();
 

@@ -103,6 +103,44 @@ class Student{
         $stmt -> execute();
         return $stmt;
     }
-}
 
+    public function get_All_Info_Students(){
+       $sql = "
+            SELECT 
+                s.no_boleta, 
+                s.name, 
+                s.last_name_P, 
+                s.last_name_M, 
+                s.curp_user AS curp,
+                s.birth_date,
+                s.gender,
+                s.other_school_name AS other_school,
+                u.email_user AS email,
+                st.state_name AS estado,
+                sc.school_name AS escuela_catalogo,
+                l.name AS laboratorio,
+                CONCAT(sch.exam_date, ' ', sch.start_time, ' a ', sch.end_time) AS horario
+            FROM 
+                student s
+            INNER JOIN 
+                user u ON s.id_user = u.id_user
+            LEFT JOIN 
+                state st ON s.id_state_origin = st.id_state
+            LEFT JOIN 
+                school sc ON s.id_school = sc.id_school
+            LEFT JOIN 
+                allocation a ON s.no_boleta = a.no_boleta
+            LEFT JOIN 
+                lab l ON a.id_lab = l.id_lab
+            LEFT JOIN 
+                schedule sch ON a.id_schedule = sch.id_schedule
+            ORDER BY 
+                s.last_name_P ASC, s.last_name_M ASC
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
 ?>
