@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Redirigir segun rol 
         if ($row['id_rol'] == 2) {
             header('Location: ../../Front/Admin_page/AdminPanel.html');
-        } else {
-            header('Location: ../../Front/Account_page/Account.html');
+        } else if($row['id_rol']==1) {
+            header('Location: ../../Front/Home_page/index.html');
         }
         exit();
 
