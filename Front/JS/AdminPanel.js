@@ -50,9 +50,9 @@ $(document).ready(() => {
   // ══════════════════════════════════════
   function crearFila(alumno) {
     const nombreCompleto = `${alumno.name} ${alumno.last_name_P} ${alumno.last_name_M || ""}`.trim();
-    const escuela        = alumno.escuela_catalogo || alumno.other_school || "N/A";
-    const horario        = alumno.horario  || null;
-    const laboratorio    = alumno.laboratorio || null;
+    const escuela = alumno.escuela_catalogo || alumno.other_school || "N/A";
+    const horario = alumno.horario || null;
+    const laboratorio = alumno.laboratorio || null;
 
     return `
       <tr>
@@ -67,8 +67,8 @@ $(document).ready(() => {
         <td class="lab">${badgeAsignacion(laboratorio, "badge-lab")}</td>
         <td class="horario-cell">
           ${horario
-            ? `<span class="badge-horario">${SVG_CLOCK} <span class="hora">${horario}</span></span>`
-            : `<span class="badge-pendiente">Por asignar</span>`}
+        ? `<span class="badge-horario">${SVG_CLOCK} <span class="hora">${horario}</span></span>`
+        : `<span class="badge-pendiente">Por asignar</span>`}
         </td>
         <td class="acciones">
           <div class="acciones-wrap">
@@ -84,8 +84,13 @@ $(document).ready(() => {
             </button>
             <button class="btn-accion btn-eliminar"
                     data-bs-toggle="modal" data-bs-target="#modalEliminar"
-                    title="Eliminar registro">
-              ${SVG_TRASH} <span>Borrar</span>
+                    title="Remover asignación">
+              ${SVG_TRASH} <span>Asignación</span>
+            </button>
+            <button class="btn-accion btn-eliminar-estudiante"
+                    data-bs-toggle="modal" data-bs-target="#modalEliminarCompleto"
+                    title="Eliminar estudiante completo">
+              ${SVG_TRASH} <span style="color:#dc2626;">Eliminar</span>
             </button>
           </div>
         </td>
@@ -96,10 +101,10 @@ $(document).ready(() => {
   // Actualización de estadísticas
   // ══════════════════════════════════════
   function actualizarEstadisticas(alumnos) {
-    const total      = alumnos.length;
-    const asignados  = alumnos.filter(a => a.laboratorio && a.laboratorio !== "N/A").length;
+    const total = alumnos.length;
+    const asignados = alumnos.filter(a => a.laboratorio && a.laboratorio !== "N/A").length;
     const pendientes = total - asignados;
-    const labs       = new Set(alumnos.map(a => a.laboratorio).filter(v => v && v !== "N/A")).size;
+    const labs = new Set(alumnos.map(a => a.laboratorio).filter(v => v && v !== "N/A")).size;
 
     $("#stat-total").text(total);
     $("#stat-labs").text(labs || "—");
@@ -159,14 +164,69 @@ $(document).ready(() => {
   // Variable compartida para el alumno activo en los modales
   // ══════════════════════════════════════
   let alumnoActivo = { boleta: "", nombre: "" };
+  let currentBoleta = null;
+  let currentElement = null; // Para manipular la fila o el botón tras la respuesta
+
+  // ══════════════════════════════════════
+  // Modal — Agregar Alumno
+  // ══════════════════════════════════════
+  $("#n-escuela").on("change", function () {
+    if ($(this).val() === "Otra") {
+      $("#n-otra-escuela").show().prop("required", true);
+    } else {
+      $("#n-otra-escuela").hide().prop("required", false).val("");
+    }
+  });
+
+  $("#formNuevoAlumno").on("submit", function (e) {
+    e.preventDefault();
+
+    const payload = {
+      no_boleta: $("#n-boleta").val().trim(),
+      name: $("#n-nombre").val().trim(),
+      last_name_P: $("#n-apellidos").val().trim().split(" ")[0] || "",
+      last_name_M: $("#n-apellidos").val().trim().split(" ").slice(1).join(" ") || "",
+      email: $("#n-email").val().trim(),
+      curp: $("#n-curp").val().trim(),
+      gender: $("#n-genero").val().trim(),
+      birth_date: $("#n-nacimiento").val().trim(),
+      estado: $("#n-entidad").val().trim(),
+      escuela: $("#n-escuela").val() === "Otra" ? $("#n-otra-escuela").val().trim() : $("#n-escuela").val().trim(),
+      lab: $("#n-lab").val().trim(),
+      horario: $("#n-horario").val().trim()
+    };
+
+    $.ajax({
+      url: "../../Back/Controllers/CreateStudent.php",
+      method: "POST",
+      data: payload,
+      dataType: "json",
+      success: function (res) {
+        if (res.error) {
+          alert("Error: " + res.mensaje);
+        } else {
+          alert("¡Alumno agregado correctamente!");
+          $("#modalNuevo").modal("hide");
+          $("#formNuevoAlumno")[0].reset();
+          cargarAlumnos();
+        }
+      },
+      error: function (xhr) {
+        const errorMsg = xhr.responseJSON && xhr.responseJSON.mensaje 
+                       ? xhr.responseJSON.mensaje 
+                       : "Error al comunicarse con el servidor.";
+        alert("Error de red o servidor: " + errorMsg);
+      }
+    });
+  });
 
   // ══════════════════════════════════════
   // Modal — Ver alumno
   // ══════════════════════════════════════
   $("#tabla-body").on("click", ".btn-ver", function () {
-    const $fila          = $(this).closest("tr");
+    const $fila = $(this).closest("tr");
     const nombreCompleto = $fila.find(".nombre").text().trim();
-    const partes         = nombreCompleto.split(" ");
+    const partes = nombreCompleto.split(" ");
 
     // Guardar en variable externa para que el flujo a modalEliminarCompleto funcione
     alumnoActivo.boleta = $fila.find(".boleta").text().trim();
@@ -184,19 +244,39 @@ $(document).ready(() => {
   // ══════════════════════════════════════
   // Modal — Editar alumno
   // ══════════════════════════════════════
+  let oldBoletaEditar = "";
   $("#tabla-body").on("click", ".btn-editar", function () {
-    const $fila          = $(this).closest("tr");
+    const $fila = $(this).closest("tr");
     const nombreCompleto = $fila.find(".nombre").text().trim();
-    const partes         = nombreCompleto.split(" ");
-    const horario        = $fila.find(".hora").text().trim().replace(/\s+/g, "");
+    const partes = nombreCompleto.split(" ");
+    
+    // Extraer horario para que coincida con el <select>
+    const horaRaw = $fila.find(".hora").text().trim();
+    let horarioSelectValue = "";
+    if (horaRaw.includes("09:00")) {
+      horarioSelectValue = "09:00:00-11:00:00";
+    } else if (horaRaw.includes("12:00")) {
+      horarioSelectValue = "12:00:00-14:00:00";
+    }
 
-    $("#e-boleta").val($fila.find(".boleta").text().trim());
+    oldBoletaEditar = $fila.find(".boleta").text().trim();
+    const curp = $fila.find(".curp-cell").text().trim();
+    const nacimiento = $fila.find(".fecha").text().trim();
+    const genero = $fila.find(".genero").text().trim();
+    const entidad = $fila.find(".entidad").text().trim();
+    const escuela = $fila.find(".escuela-cell").text().trim();
+
+    $("#e-boleta").val(oldBoletaEditar);
     $("#e-nombre").val(partes[0] || "");
     $("#e-apellidos").val(partes.slice(1).join(" "));
-    $("#e-email").val($fila.find(".email").text().trim());
-    $("#e-entidad").val($fila.find(".entidad").text().trim());
+    $("#e-email").val($fila.find(".email").text().trim() === "—" ? "" : $fila.find(".email").text().trim());
+    $("#e-curp").val(curp === "—" ? "" : curp);
+    $("#e-nacimiento").val(nacimiento === "—" ? "" : nacimiento);
+    $("#e-genero").val(genero === "—" ? "" : genero);
+    $("#e-entidad").val(entidad === "—" ? "" : entidad);
+    $("#e-escuela").val(escuela === "—" ? "" : escuela);
     $("#e-lab").val($fila.find(".lab").text().trim());
-    $("#e-horario").val(horario);
+    $("#e-horario").val(horarioSelectValue);
   });
 
   // ══════════════════════════════════════
@@ -206,13 +286,19 @@ $(document).ready(() => {
     e.preventDefault();
 
     const payload = {
-      no_boleta:   $("#e-boleta").val().trim(),
-      name:        $("#e-nombre").val().trim(),
+      old_boleta: oldBoletaEditar,
+      no_boleta: $("#e-boleta").val().trim(),
+      name: $("#e-nombre").val().trim(),
       last_name_P: $("#e-apellidos").val().trim().split(" ")[0] || "",
       last_name_M: $("#e-apellidos").val().trim().split(" ").slice(1).join(" ") || "",
-      email:       $("#e-email").val().trim(),
-      gender:      $("#e-genero").val ? $("#e-genero").val() : "",
-      birth_date:  $("#e-nacimiento").val ? $("#e-nacimiento").val() : ""
+      email: $("#e-email").val().trim(),
+      curp: $("#e-curp").val().trim(),
+      gender: $("#e-genero").val().trim(),
+      birth_date: $("#e-nacimiento").val().trim(),
+      estado: $("#e-entidad").val().trim(),
+      escuela: $("#e-escuela").val().trim(),
+      lab: $("#e-lab").val().trim(),
+      horario: $("#e-horario").val().trim()
     };
 
     $.ajax({
@@ -238,7 +324,7 @@ $(document).ready(() => {
   // Modal — Eliminar asignación (horario/lab)
   // ══════════════════════════════════════
   $("#tabla-body").on("click", ".btn-eliminar", function () {
-    const $fila  = $(this).closest("tr");
+    const $fila = $(this).closest("tr");
     const boleta = $fila.find(".boleta").text().trim();
     const nombre = $fila.find(".nombre").text().trim();
 
@@ -249,11 +335,11 @@ $(document).ready(() => {
       const $btn = $(this);
       $btn.prop("disabled", true).html(`
         <span class="spinner-border spinner-border-sm me-1" role="status"></span>
-        Eliminando…
+        Removiendo…
       `);
 
       $.ajax({
-        url: "../../Back/Controllers/DeleteStudent.php",
+        url: "../../Back/Controllers/RemoveAssignment.php",
         method: "POST",
         data: { no_boleta: boleta },
         dataType: "json",
@@ -262,7 +348,7 @@ $(document).ready(() => {
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
               <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
             </svg>
-            Eliminar
+            Remover
           `);
 
           if (resp.error) {
@@ -273,19 +359,27 @@ $(document).ready(() => {
           bootstrap.Modal.getInstance(document.getElementById("modalEliminar")).hide();
           cargarAlumnos();
         },
-        error() {
-          $btn.prop("disabled", false).text("Eliminar");
-          alert("No se pudo conectar con el servidor. Intenta de nuevo.");
-        }
-      });
+        error: function (xhr) {
+        $btn.prop("disabled", false).text("Remover");
+        const errorMsg = xhr.responseJSON && xhr.responseJSON.mensaje 
+                       ? xhr.responseJSON.mensaje 
+                       : "Error al comunicarse con el servidor.";
+        alert("Error de red o servidor: " + errorMsg);
+      }
+    });
     });
   });
 
   // ══════════════════════════════════════
   // Modal — Eliminar estudiante completo
   // ══════════════════════════════════════
-  // Se abre desde el botón en el footer de modalAlumno.
-  // Cuando modalEliminarCompleto se muestra, lee alumnoActivo.
+  // Se abre desde el botón en el footer de modalAlumno o desde el botón en la tabla.
+  $("#tabla-body").on("click", ".btn-eliminar-estudiante", function () {
+    const $fila  = $(this).closest("tr");
+    alumnoActivo.boleta = $fila.find(".boleta").text().trim();
+    alumnoActivo.nombre = $fila.find(".nombre").text().trim();
+  });
+
   $("#modalEliminarCompleto").on("show.bs.modal", function () {
     $("#del-completo-nombre").text(alumnoActivo.nombre || "—");
   });
@@ -307,23 +401,32 @@ $(document).ready(() => {
       data: { no_boleta: boleta },
       dataType: "json",
       success: (resp) => {
+        $(this).prop("disabled", false).html(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+          </svg>
+          Sí, eliminar estudiante
+        `);
+
         if (resp.error) {
           alert("Error: " + resp.mensaje);
-          $(this).prop("disabled", false).html(`
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-            </svg>
-            Sí, eliminar estudiante
-          `);
           return;
         }
         alumnoActivo = { boleta: "", nombre: "" };
         bootstrap.Modal.getInstance(document.getElementById("modalEliminarCompleto")).hide();
         cargarAlumnos();
       },
-      error: () => {
-        alert("No se pudo conectar con el servidor. Intenta de nuevo.");
-        $(this).prop("disabled", false);
+      error: (xhr) => {
+        const errorMsg = xhr.responseJSON && xhr.responseJSON.mensaje 
+                       ? xhr.responseJSON.mensaje 
+                       : "Error al comunicarse con el servidor.";
+        alert("Error: " + errorMsg);
+        $(this).prop("disabled", false).html(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+          </svg>
+          Sí, eliminar estudiante
+        `);
       }
     });
   });

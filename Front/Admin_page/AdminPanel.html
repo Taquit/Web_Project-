@@ -1,369 +1,548 @@
-  <!doctype html>
-  <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-      <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-      <link rel="shortcut icon" href="../../Assets/imgIndex/escom.webp" type="image/x-icon">
-      <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
-      <title>Panel</title>
-      <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-      <link rel="stylesheet" href="../CSS/Admin_css/AdminPanel.css">
-      <script defer src="../JS/AdminPanel.js"></script>
-    </head>
-    <body class="p-0 m-0 border-0 bd-example m-0 border-0">
-      <header class="position-sticky">
-        <div class="izq">
-          <div class="header-imgs">
-              <a href="https://www.ipn.mx/" target="_blank"><img class="ipn" src="../../Assets/imgIndex/ipn.webp" alt="IPN" title="Instituto Politécnico Nacional"></a>
-              <a href="https://www.escom.ipn.mx/" target="_blank"><img class="escom" src="../../Assets/imgIndex/escom.webp" alt="ESCOM" title="ESCOM"></a>
-              <img class="fp" src="../../Assets/imgIndex/familiapev2.webp" alt="Logo del equipo 2" title="Logo del equipo 2 ESTRENO DOMINGO 22 / 12:00pm">
-          </div>
-          <div class="titulo">
-              <h4>IPN - ESCOM</h4>  
-              <p>Sistema de Registro de Estudiantes</p>
-          </div>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+  <link rel="shortcut icon" href="../../Assets/imgIndex/escom.webp" type="image/x-icon">
+  <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U="
+    crossorigin="anonymous"></script>
+  <title>Panel</title>
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="../CSS/Admin_css/AdminPanel.css">
+  <script defer src="../JS/AdminPanel.js"></script>
+</head>
+
+<body class="p-0 m-0 border-0 bd-example m-0 border-0">
+  <header class="position-sticky">
+    <div class="izq">
+      <div class="header-imgs">
+        <a href="https://www.ipn.mx/" target="_blank"><img class="ipn" src="../../Assets/imgIndex/ipn.webp" alt="IPN"
+            title="Instituto Politécnico Nacional"></a>
+        <a href="https://www.escom.ipn.mx/" target="_blank"><img class="escom" src="../../Assets/imgIndex/escom.webp"
+            alt="ESCOM" title="ESCOM"></a>
+        <img class="fp" src="../../Assets/imgIndex/familiapev2.webp" alt="Logo del equipo 2"
+          title="Logo del equipo 2 ESTRENO DOMINGO 22 / 12:00pm">
+      </div>
+      <div class="titulo">
+        <h4>IPN - ESCOM</h4>
+        <p>Sistema de Registro de Estudiantes</p>
+      </div>
+    </div>
+    <button id="menu" type="button">☰</button>
+    <div id="pantalla" class=""></div>
+    <ul class="">
+      <li class="asd"><button id="cerrar" type="button">✖</button></li>
+      <a href="../Home_page/index.html" class="inicio">
+        <li>Inicio</li>
+      </a>
+      <a href="../Registro_page/registro.html">
+        <li>Registro</li>
+      </a>
+      <a href="../Admin_page/Admin.html">
+        <li>Admin</li>
+      </a>
+      <a href="../Account_page/Account.html">
+        <li>Cuenta</li>
+      </a>
+    </ul>
+  </header>
+
+  <main>
+    <section class="tit">
+      <div class="int">
+        <h1>Panel de Administración</h1>
+        <p id="subtitulo-panel">Gestión de alumnos registrados</p>
+      </div>
+      <button data-bs-toggle="modal" data-bs-target="#modalNuevo">
+        <span>+</span> Nuevo Alumno
+      </button>
+    </section>
+
+    <section class="cartas">
+      <article>
+        <p>Total Registros</p>
+        <p class="a" id="stat-total">—</p>
+      </article>
+      <article>
+        <p>Laboratorios activos</p>
+        <p class="b" id="stat-labs">—</p>
+      </article>
+      <article>
+        <p>Con asignación</p>
+        <p class="c" id="stat-asignados">—</p>
+      </article>
+      <article>
+        <p>Sin asignación</p>
+        <p class="d" id="stat-pendientes">—</p>
+      </article>
+    </section>
+
+    <section class="info">
+      <div class="info-toolbar">
+        <div class="cont-buscar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+            viewBox="0 0 16 16">
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+          </svg>
+          <input class="buscar" id="buscar" type="text" placeholder="Buscar por boleta, nombre o apellido...">
         </div>
-          <button id="menu" type="button">☰</button>
-          <div id="pantalla" class=""></div>
-          <ul class="">
-            <li class="asd"><button id="cerrar" type="button">✖</button></li>
-            <a href="../Home_page/index.html" class="inicio"><li>Inicio</li></a>
-            <a href="../Registro_page/registro.html"><li>Registro</li></a>
-            <a href="../Admin_page/Admin.html"><li>Admin</li></a>
-            <a href="../Account_page/Account.html"><li>Cuenta</li></a>
-          </ul>
-      </header>
-
-      <main>
-        <section class="tit">
-          <div class="int">
-            <h1>Panel de Administración</h1>
-            <p id="subtitulo-panel">Gestión de alumnos registrados</p>
-          </div>
-          <button data-bs-toggle="modal" data-bs-target="#modalNuevo">
-            <span>+</span> Nuevo Alumno
-          </button>
-        </section>
-
-        <section class="cartas">
-          <article>
-            <p>Total Registros</p>
-            <p class="a" id="stat-total">—</p>
-          </article>
-          <article>
-            <p>Laboratorios activos</p>
-            <p class="b" id="stat-labs">—</p>
-          </article>
-          <article>
-            <p>Con asignación</p>
-            <p class="c" id="stat-asignados">—</p>
-          </article>
-          <article>
-            <p>Sin asignación</p>
-            <p class="d" id="stat-pendientes">—</p>
-          </article>
-        </section>
-
-        <section class="info">
-          <div class="info-toolbar">
-            <div class="cont-buscar">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-              </svg>
-              <input class="buscar" id="buscar" type="text" placeholder="Buscar por boleta, nombre o apellido...">
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table id="tablaAlumnos">
-            <thead> 
-                <tr>
-                    <th>Boleta</th>
-                    <th>Nombre</th>
-                    <th>CURP</th>
-                    <th>Email</th>
-                    <th>Nacimiento</th>
-                    <th>Género</th>
-                    <th>Estado</th>
-                    <th>Escuela</th>
-                    <th>Lab.</th>
-                    <th>Horario</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-body">
-                <!-- Los datos se inyectarán aquí vía AJAX -->
-            </tbody>
+      </div>
+      <div class="table-responsive">
+        <table id="tablaAlumnos">
+          <thead>
+            <tr>
+              <th>Boleta</th>
+              <th>Nombre</th>
+              <th>CURP</th>
+              <th>Email</th>
+              <th>Nacimiento</th>
+              <th>Género</th>
+              <th>Estado</th>
+              <th>Escuela</th>
+              <th>Lab.</th>
+              <th>Horario</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-body">
+            <!-- Los datos se inyectarán aquí vía AJAX -->
+          </tbody>
         </table>
-          </div>
-        </section>
-
-      </main>    
-
-      <footer class="text-center text-lg-start mt-auto py-4 border-top">
-          <div class="container text-center">
-              <span class="text-whited">© 2026 Instituto Politécnico Nacional - ESCOM - Equipo 2</span>
-              <!-- <span class="text-white py-1">Equipo 2</span> -->
-              <div class="mt-2">
-                  <a href="#">Registro de Datos Generales para Estudiantes de Nuevo Ingreso</a>
-                  <a href="#">Tecnologías para el Desarrollo de Aplicaciones Web</a>
-              </div>
-          </div>
-      </footer>
-
-      <!-- Agregar -->
-      <div class="modal fade" id="modalNuevo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalNuevoLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
-          <div class="modal-content border-0 style-modal">
-            <div class="modal-header border-0 text-white modal-header-ipn">
-              <h5 class="modal-title" id="modalNuevoLabel">Nuevo Alumno</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="formNuevoAlumno" method="">
-              <div class="modal-body p-4 bg-white">
-                <div class="row g-3">
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Boleta</label>
-                    <input type="text" id="n-boleta" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Nombre</label>
-                    <input type="text" id="n-nombre" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Apellidos</label>
-                    <input type="text" id="n-apellidos" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Correo</label>
-                    <input type="email" id="n-email" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Entidad</label>
-                    <input type="text" id="n-entidad" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Laboratorio</label>
-                    <select id="n-lab" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                      <option value="Lab 1 – Ed. B">Lab 1 – Ed. B</option>
-                      <option value="Lab 2 – Ed. B">Lab 2 – Ed. B</option>
-                      <option value="Lab 3 – Ed. B">Lab 3 – Ed. B</option>
-                    </select>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Horario</label>
-                    <select id="n-horario" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                      <option value="09:00–10:30">09:00–10:30</option>
-                      <option value="10:45–12:15">10:45–12:15</option>
-                      <option value="14:00–15:30">14:00–15:30</option>
-                      <option value="15:45–17:15">15:45–17:15</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer border-0 modal-footer-ipn justify-content-end">
-                <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal" style="border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500;">Cancelar</button>
-                <button type="submit" class="btn-ipn-modal">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                  </svg>
-                  Guardar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
       </div>
+    </section>
 
-      <!-- Consultar -->
-      <div class="modal fade" id="modalAlumno" tabindex="-1" aria-labelledby="modalAlumnoLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
-          <div class="modal-content border-0 style-modal">
-            <div class="modal-header border-0 text-white modal-header-ipn">
-              <h5 class="modal-title" id="modalAlumnoLabel">Datos del Alumno</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4 bg-white">
-              <div class="row g-4">
-                <div class="col-md-6 col-6">
-                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Boleta</label>
-                  <strong id="m-boleta" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
-                </div>
-                <div class="col-md-6 col-6">
-                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Nombre</label>
-                  <strong id="m-nombre" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
-                </div>
-                <div class="col-md-6 col-6">
-                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Apellidos</label>
-                  <strong id="m-apellidos" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
-                </div>
-                <div class="col-md-6 col-6">
-                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Email</label>
-                  <strong id="m-email" class="text-dark d-block" style="font-size: 0.95rem; word-break: break-all;"></strong>
-                </div>
-                <div class="col-md-6 col-6">
-                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Entidad</label>
-                  <strong id="m-entidad" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
-                </div>
-                <div class="col-md-6 col-6">
-                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Laboratorio</label>
-                  <strong id="m-lab" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
-                </div>
-                <div class="col-md-6 col-6">
-                  <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Horario</label>
-                  <strong id="m-horario" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
-                </div>
+  </main>
+
+  <footer class="text-center text-lg-start mt-auto py-4 border-top">
+    <div class="container text-center">
+      <span class="text-whited">© 2026 Instituto Politécnico Nacional - ESCOM - Equipo 2</span>
+      <!-- <span class="text-white py-1">Equipo 2</span> -->
+      <div class="mt-2">
+        <a href="#">Registro de Datos Generales para Estudiantes de Nuevo Ingreso</a>
+        <a href="#">Tecnologías para el Desarrollo de Aplicaciones Web</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Agregar -->
+  <div class="modal fade" id="modalNuevo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalNuevoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
+      <div class="modal-content border-0 style-modal">
+        <div class="modal-header border-0 text-white modal-header-ipn">
+          <h5 class="modal-title" id="modalNuevoLabel">Nuevo Alumno</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="formNuevoAlumno" method="">
+          <div class="modal-body p-4 bg-white">
+            <div class="row g-3">
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Boleta</label>
+                <input type="text" id="n-boleta" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;"
+                  required>
               </div>
-            </div>
-            <div class="modal-footer border-0 modal-footer-ipn justify-content-between">
-              <button type="button" class="btn-accion btn-eliminar-completo"
-                      data-bs-dismiss="modal"
-                      data-bs-toggle="modal" data-bs-target="#modalEliminarCompleto">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                </svg>
-                <span>Eliminar estudiante</span>
-              </button>
-              <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal" style="border-radius: 0.5rem;">Cerrar</button>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Nombre</label>
+                <input type="text" id="n-nombre" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;"
+                  required>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Apellidos</label>
+                <input type="text" id="n-apellidos" class="form-control"
+                  style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Correo</label>
+                <input type="email" id="n-email" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;"
+                  required>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">CURP</label>
+                <input type="text" id="n-curp" class="form-control"
+                  style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Fecha Nacimiento</label>
+                <input type="date" id="n-nacimiento" class="form-control"
+                  style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Género</label>
+                <select id="n-genero" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Femenino">Femenino</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Entidad</label>
+                <select id="n-entidad" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                    <option value="">Seleccione un estado</option>
+                    <option value="Aguascalientes">Aguascalientes</option>
+                    <option value="Baja California">Baja California</option>
+                    <option value="Baja California Sur">Baja California Sur</option>
+                    <option value="Campeche">Campeche</option>
+                    <option value="Chiapas">Chiapas</option>
+                    <option value="Chihuahua">Chihuahua</option>
+                    <option value="Ciudad de México">Ciudad de México</option>
+                    <option value="Coahuila">Coahuila</option>
+                    <option value="Colima">Colima</option>
+                    <option value="Durango">Durango</option>
+                    <option value="Estado de México">Estado de México</option>
+                    <option value="Guanajuato">Guanajuato</option>
+                    <option value="Guerrero">Guerrero</option>
+                    <option value="Hidalgo">Hidalgo</option>
+                    <option value="Jalisco">Jalisco</option>
+                    <option value="Michoacán">Michoacán</option>
+                    <option value="Morelos">Morelos</option>
+                    <option value="Nayarit">Nayarit</option>
+                    <option value="Nuevo León">Nuevo León</option>
+                    <option value="Oaxaca">Oaxaca</option>
+                    <option value="Puebla">Puebla</option>
+                    <option value="Querétaro">Querétaro</option>
+                    <option value="Quintana Roo">Quintana Roo</option>
+                    <option value="San Luis Potosí">San Luis Potosí</option>
+                    <option value="Sinaloa">Sinaloa</option>
+                    <option value="Sonora">Sonora</option>
+                    <option value="Tabasco">Tabasco</option>
+                    <option value="Tamaulipas">Tamaulipas</option>
+                    <option value="Tlaxcala">Tlaxcala</option>
+                    <option value="Veracruz">Veracruz</option>
+                    <option value="Yucatán">Yucatán</option>
+                    <option value="Zacatecas">Zacatecas</option>
+                </select>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Escuela</label>
+                <select id="n-escuela" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                    <option value="">Seleccione una escuela</option>
+                    <option value="CECyT # 1 “Gonzalo Vázquez Vela”">CECyT # 1 “Gonzalo Vázquez Vela”</option>
+                    <option value="CECyT # 2 “Miguel Bernard Perales”">CECyT # 2 “Miguel Bernard Perales”</option>
+                    <option value="CECyT # 3 “Estanislao Ramírez Ruiz”">CECyT # 3 “Estanislao Ramírez Ruiz”</option>
+                    <option value="CECyT # 4 “Lázaro Cárdenas”">CECyT # 4 “Lázaro Cárdenas”</option>
+                    <option value="CECyT # 5 “Benito Juárez García”">CECyT # 5 “Benito Juárez García”</option>
+                    <option value="CECyT # 6 “Miguel Othón de Mendizábal”">CECyT # 6 “Miguel Othón de Mendizábal”</option>
+                    <option value="CECyT # 7 “Cuauhtémoc”">CECyT # 7 “Cuauhtémoc”</option>
+                    <option value="CECyT # 8 “Narciso Bassols García”">CECyT # 8 “Narciso Bassols García”</option>
+                    <option value="CECyT # 9 “Juan de Dios Bátiz Paredes”">CECyT # 9 “Juan de Dios Bátiz Paredes”</option>
+                    <option value="CECyT # 10 “Carlos Vallejo Márquez”">CECyT # 10 “Carlos Vallejo Márquez”</option>
+                    <option value="CECyT # 11 “Wilfrido Massieu Pérez”">CECyT # 11 “Wilfrido Massieu Pérez”</option>
+                    <option value="CECyT # 12 “José María Morelos y Pavón”">CECyT # 12 “José María Morelos y Pavón”</option>
+                    <option value="CECyT # 13 “Ricardo Flores Magón”">CECyT # 13 “Ricardo Flores Magón”</option>
+                    <option value="CECyT # 14 “Luis Enrique Erro Soler”">CECyT # 14 “Luis Enrique Erro Soler”</option>
+                    <option value="CECyT # 15 “Diódoro Antúnez Echegaray”">CECyT # 15 “Diódoro Antúnez Echegaray”</option>
+                    <option value="CECyT # 16 “Hidalgo”">CECyT # 16 “Hidalgo”</option>
+                    <option value="CECyT # 17 “León, Guanajuato”">CECyT # 17 “León, Guanajuato”</option>
+                    <option value="CECyT # 18 “Zacatecas”">CECyT # 18 “Zacatecas”</option>
+                    <option value="CECyT # 19 “Leona Vicario”">CECyT # 19 “Leona Vicario”</option>
+                    <option value="CECyT # 20 “Nuevas Tecnologías”">CECyT # 20 “Nuevas Tecnologías”</option>
+                    <option value="Centro de Estudios Tecnológicos 1 &quot;Walter Cross Buchanan&quot;">Centro de Estudios Tecnológicos 1 "Walter Cross Buchanan"</option>
+                    <option value="Otra">Otra</option>
+                </select>
+                <input type="text" id="n-otra-escuela" class="form-control mt-2" style="font-size: 0.95rem; border-radius: 0.5rem; display: none;" placeholder="Escribe el nombre de tu escuela">
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Laboratorio</label>
+                <select id="n-lab" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;">
+                  <option value="">Por asignar...</option>
+                  <option value="Lab1001">Lab1001</option>
+                  <option value="Lab1002">Lab1002</option>
+                  <option value="Lab1003">Lab1003</option>
+                  <option value="Lab1004">Lab1004</option>
+                  <option value="Lab1005">Lab1005</option>
+                </select>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Horario</label>
+                <select id="n-horario" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;">
+                  <option value="">Por asignar...</option>
+                  <option value="09:00:00-11:00:00">09:00:00 a 11:00:00</option>
+                  <option value="12:00:00-14:00:00">12:00:00 a 14:00:00</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Editar -->
-      <div class="modal fade" id="modalEditar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
-          <div class="modal-content border-0 style-modal">
-            <div class="modal-header border-0 text-white modal-header-ipn">
-              <h5 class="modal-title" id="modalEditarLabel">Editar Alumno</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="formEditarAlumno" action="">
-              <div class="modal-body p-4 bg-white">
-                <div class="row g-3">
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Boleta</label>
-                    <input type="text" id="e-boleta" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Nombre</label>
-                    <input type="text" id="e-nombre" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Apellidos</label>
-                    <input type="text" id="e-apellidos" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Correo</label>
-                    <input type="email" id="e-email" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Entidad</label>
-                    <input type="text" id="e-entidad" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Laboratorio</label>
-                    <select id="e-lab" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                      <option value="Lab 1 – Ed. B">Lab 1 – Ed. B</option>
-                      <option value="Lab 2 – Ed. B">Lab 2 – Ed. B</option>
-                      <option value="Lab 3 – Ed. B">Lab 3 – Ed. B</option>
-                    </select>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Horario</label>
-                    <select id="e-horario" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                      <option value="09:00–10:30">09:00–10:30</option>
-                      <option value="10:45–12:15">10:45–12:15</option>
-                      <option value="14:00–15:30">14:00–15:30</option>
-                      <option value="15:45–17:15">15:45–17:15</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer border-0 modal-footer-ipn justify-content-end">
-                <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal" style="border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500;">Cancelar</button>
-                <button type="submit" class="btn-ipn-modal">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                  </svg>
-                  Guardar
-                </button>
-              </div>
-            </form>
+          <div class="modal-footer border-0 modal-footer-ipn justify-content-end">
+            <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal"
+              style="border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500;">Cancelar</button>
+            <button type="submit" class="btn-ipn-modal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-check-lg"
+                viewBox="0 0 16 16">
+                <path
+                  d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z" />
+              </svg>
+              Guardar
+            </button>
           </div>
-        </div>
+        </form>
       </div>
+    </div>
+  </div>
 
-      <!-- Eliminar -->
-      <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
-          <div class="modal-content border-0 style-modal">
-            <div class="modal-header border-0 text-white modal-header-ipn">
-              <h5 class="modal-title" id="modalEliminarLabel">Confirmar Eliminación</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+  <!-- Consultar -->
+  <div class="modal fade" id="modalAlumno" tabindex="-1" aria-labelledby="modalAlumnoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
+      <div class="modal-content border-0 style-modal">
+        <div class="modal-header border-0 text-white modal-header-ipn">
+          <h5 class="modal-title" id="modalAlumnoLabel">Datos del Alumno</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 bg-white">
+          <div class="row g-4">
+            <div class="col-md-6 col-6">
+              <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Boleta</label>
+              <strong id="m-boleta" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
             </div>
-            <div class="modal-body p-4 bg-white text-center">
-              <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px; background-color: #fff1f2; border-radius: 50%;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#dc2626" class="bi bi-trash3" viewBox="0 0 16 16">
-                  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.054 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-                </svg>
-              </div>
-              <h4 class="text-dark mb-2" style="font-weight: 600; font-size: 1.15rem;">¿Eliminar registro?</h4>
-              <p class="text-secondary px-2" style="font-size: 0.9rem; line-height: 1.55;">
-                Se eliminará permanentemente el registro de
-                <strong id="del-nombre" class="text-dark"></strong><br>
-                <span class="text-muted" style="font-size: 0.82rem;">Boleta: <span id="del-boleta"></span></span>
-              </p>
+            <div class="col-md-6 col-6">
+              <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Nombre</label>
+              <strong id="m-nombre" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
             </div>
-            <div class="modal-footer border-0 modal-footer-ipn justify-content-end">
-              <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal" style="border-radius: 0.5rem; font-size: 0.88rem; font-weight: 500;">Cancelar</button>
-              <button type="button" id="btnConfirmarEliminar" class="btn btn-danger px-4 py-2 d-flex align-items-center gap-2" style="border-radius: 0.5rem; font-size: 0.88rem; font-weight: 600; background-color: #e11d48; border-color: #e11d48;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                </svg>
-                Eliminar
-              </button>
+            <div class="col-md-6 col-6">
+              <label class="text-muted small d-block mb-1"
+                style="font-size: 0.78rem; font-weight: 500;">Apellidos</label>
+              <strong id="m-apellidos" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
+            </div>
+            <div class="col-md-6 col-6">
+              <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Email</label>
+              <strong id="m-email" class="text-dark d-block"
+                style="font-size: 0.95rem; word-break: break-all;"></strong>
+            </div>
+            <div class="col-md-6 col-6">
+              <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Entidad</label>
+              <strong id="m-entidad" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
+            </div>
+            <div class="col-md-6 col-6">
+              <label class="text-muted small d-block mb-1"
+                style="font-size: 0.78rem; font-weight: 500;">Laboratorio</label>
+              <strong id="m-lab" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
+            </div>
+            <div class="col-md-6 col-6">
+              <label class="text-muted small d-block mb-1" style="font-size: 0.78rem; font-weight: 500;">Horario</label>
+              <strong id="m-horario" class="text-dark d-block" style="font-size: 0.95rem;"></strong>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Eliminar estudiante completo -->
-      <div class="modal fade" id="modalEliminarCompleto" tabindex="-1" aria-labelledby="modalEliminarCompletoLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
-          <div class="modal-content border-0 style-modal">
-            <div class="modal-header border-0 text-white modal-header-danger">
-              <h5 class="modal-title" id="modalEliminarCompletoLabel">Eliminar Estudiante</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4 bg-white text-center">
-              <div class="d-inline-flex align-items-center justify-content-center mb-3 icono-danger-wrap">
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#dc2626" viewBox="0 0 16 16">
-                  <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                </svg>
-              </div>
-              <h4 class="text-dark mb-1" style="font-weight: 700; font-size: 1.1rem;">Acción irreversible</h4>
-              <p class="text-secondary px-2 mb-0" style="font-size: 0.88rem; line-height: 1.6;">
-                Se eliminará <strong class="text-dark">permanentemente</strong> al estudiante
-                <strong id="del-completo-nombre" class="text-dark"></strong> y <strong>todos sus datos</strong>
-                del sistema. Esta acción no se puede deshacer.
-              </p>
-            </div>
-            <div class="modal-footer border-0 modal-footer-ipn justify-content-end">
-              <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal"
-                      style="border-radius: 0.5rem; font-size: 0.88rem; font-weight: 500;">
-                Cancelar
-              </button>
-              <button type="button" id="btnEliminarCompleto" class="btn-eliminar-confirm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                </svg>
-                Sí, eliminar estudiante
-              </button>
-            </div>
-          </div>
+        <div class="modal-footer border-0 modal-footer-ipn justify-content-between">
+          <button type="button" class="btn-accion btn-eliminar-completo" data-bs-dismiss="modal" data-bs-toggle="modal"
+            data-bs-target="#modalEliminarCompleto">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
+              <path
+                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+            </svg>
+            <span>Eliminar estudiante</span>
+          </button>
+          <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal"
+            style="border-radius: 0.5rem;">Cerrar</button>
         </div>
       </div>
+    </div>
+  </div>
 
-    </body>
-  </html>
+  <!-- Editar -->
+  <div class="modal fade" id="modalEditar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalEditarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
+      <div class="modal-content border-0 style-modal">
+        <div class="modal-header border-0 text-white modal-header-ipn">
+          <h5 class="modal-title" id="modalEditarLabel">Editar Alumno</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="formEditarAlumno" action="">
+          <div class="modal-body p-4 bg-white">
+            <div class="row g-3">
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Boleta</label>
+                <input type="text" id="e-boleta" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem; background-color: #f8f9fa;"
+                  readonly>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Nombre</label>
+                <input type="text" id="e-nombre" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;"
+                  required>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Apellidos</label>
+                <input type="text" id="e-apellidos" class="form-control"
+                  style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Correo</label>
+                <input type="email" id="e-email" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem; background-color: #f8f9fa;"
+                  readonly>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">CURP</label>
+                <input type="text" id="e-curp" class="form-control"
+                  style="font-size: 0.95rem; border-radius: 0.5rem; background-color: #f8f9fa;" readonly>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Fecha Nacimiento</label>
+                <input type="date" id="e-nacimiento" class="form-control"
+                  style="font-size: 0.95rem; border-radius: 0.5rem; background-color: #f8f9fa;" readonly>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Género</label>
+                <select id="e-genero" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem; background-color: #f8f9fa;" disabled>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Femenino">Femenino</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Entidad</label>
+                <input type="text" id="e-entidad" class="form-control"
+                  style="font-size: 0.95rem; border-radius: 0.5rem; background-color: #f8f9fa;" readonly>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Escuela</label>
+                <input type="text" id="e-escuela" class="form-control"
+                  style="font-size: 0.95rem; border-radius: 0.5rem; background-color: #f8f9fa;" readonly>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Laboratorio</label>
+                <select id="e-lab" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  <option value="">Seleccione...</option>
+                  <option value="Lab1001">Lab1001</option>
+                  <option value="Lab1002">Lab1002</option>
+                  <option value="Lab1003">Lab1003</option>
+                  <option value="Lab1004">Lab1004</option>
+                  <option value="Lab1005">Lab1005</option>
+                </select>
+              </div>
+              <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Horario</label>
+                <select id="e-horario" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  <option value="">Seleccione...</option>
+                  <option value="09:00:00-11:00:00">09:00:00 a 11:00:00</option>
+                  <option value="12:00:00-14:00:00">12:00:00 a 14:00:00</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0 modal-footer-ipn justify-content-end">
+            <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal"
+              style="border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500;">Cancelar</button>
+            <button type="submit" class="btn-ipn-modal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-check-lg"
+                viewBox="0 0 16 16">
+                <path
+                  d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z" />
+              </svg>
+              Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Eliminar -->
+  <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
+      <div class="modal-content border-0 style-modal">
+        <div class="modal-header border-0 text-white modal-header-ipn">
+          <h5 class="modal-title" id="modalEliminarLabel">Remover Asignación</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 bg-white text-center">
+          <div class="d-inline-flex align-items-center justify-content-center mb-3"
+            style="width: 56px; height: 56px; background-color: #fff1f2; border-radius: 50%;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#dc2626" class="bi bi-trash3"
+              viewBox="0 0 16 16">
+              <path
+                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.054 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+            </svg>
+          </div>
+          <h4 class="text-dark mb-2" style="font-weight: 600; font-size: 1.15rem;">¿Remover asignación?</h4>
+          <p class="text-secondary px-2" style="font-size: 0.9rem; line-height: 1.55;">
+            Se removerá la asignación de laboratorio y horario de
+            <strong id="del-nombre" class="text-dark"></strong><br>
+            <span class="text-muted" style="font-size: 0.82rem;">Boleta: <span id="del-boleta"></span></span>
+          </p>
+        </div>
+        <div class="modal-footer border-0 modal-footer-ipn justify-content-end">
+          <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal"
+            style="border-radius: 0.5rem; font-size: 0.88rem; font-weight: 500;">Cancelar</button>
+          <button type="button" id="btnConfirmarEliminar"
+            class="btn btn-danger px-4 py-2 d-flex align-items-center gap-2"
+            style="border-radius: 0.5rem; font-size: 0.88rem; font-weight: 600; background-color: #e11d48; border-color: #e11d48;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-trash-fill"
+              viewBox="0 0 16 16">
+              <path
+                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+            </svg>
+            Remover
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Eliminar estudiante completo -->
+  <div class="modal fade" id="modalEliminarCompleto" tabindex="-1" aria-labelledby="modalEliminarCompletoLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
+      <div class="modal-content border-0 style-modal">
+        <div class="modal-header border-0 text-white modal-header-danger">
+          <h5 class="modal-title" id="modalEliminarCompletoLabel">Eliminar Estudiante</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 bg-white text-center">
+          <div class="d-inline-flex align-items-center justify-content-center mb-3 icono-danger-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#dc2626" viewBox="0 0 16 16">
+              <path
+                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+            </svg>
+          </div>
+          <h4 class="text-dark mb-1" style="font-weight: 700; font-size: 1.1rem;">Acción irreversible</h4>
+          <p class="text-secondary px-2 mb-0" style="font-size: 0.88rem; line-height: 1.6;">
+            Se eliminará <strong class="text-dark">permanentemente</strong> al estudiante
+            <strong id="del-completo-nombre" class="text-dark"></strong> y <strong>todos sus datos</strong>
+            del sistema. Esta acción no se puede deshacer.
+          </p>
+        </div>
+        <div class="modal-footer border-0 modal-footer-ipn justify-content-end">
+          <button type="button" class="btn btn-light border px-4 py-2" data-bs-dismiss="modal"
+            style="border-radius: 0.5rem; font-size: 0.88rem; font-weight: 500;">
+            Cancelar
+          </button>
+          <button type="button" id="btnEliminarCompleto" class="btn-eliminar-confirm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path
+                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+            </svg>
+            Sí, eliminar estudiante
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
