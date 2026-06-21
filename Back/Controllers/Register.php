@@ -32,12 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $student->birth_date = $_POST['fecha-nacimiento'];
     $student->gender = $_POST['genero'];
     $student->no_boleta = $_POST['numbol'];
-    //$student->id_state_origin = $_POST['estado-origen'];
-    $student->id_state_origin = 21;
+    $student->id_state_origin = $_POST['estado-origen'];
     $student->id_school = $_POST['escuela-procedencia'];
     $student->other_school_name = $_POST['nombre-escuela'];
     $student->curp = $_POST['CURP'];
-
+    
+    /*
     echo "Datos recibidos: <br>"
     . "Email: " . $user->email_user . "<br>"
     . "Contraseña: " . $user->password_user . "<br>"
@@ -51,6 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     . "ID Escuela: " . $student->id_school . "<br>"
     . "Otro Nombre Escuela: " . $student->other_school_name;
     
+    */
+    
     //Verificamos que no este registrado su correo, curp o boleta
     $stmt1 = $user->get_id_By_Email($user->email_user);
     $stmt2 = $student->get_Student($student->no_boleta);
@@ -62,16 +64,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if($email){
         //El correo ya existe
-        echo "<br>El correo ya existe";
-        //header("Location: ../../Front/Home_page/index.html");
+        //echo "<br>El correo ya existe";
+        header("Location: ../../Front/Registro_page/registro.html?error=email");
+        exit();
     } else if($boleta){
         //La boleta ya existe
-        echo "<br>La boleta ya existe";
-        //header("Location: ../../Front/Home_page/index.html");
+        //echo "<br>La boleta ya existe";
+        header("Location: ../../Front/Registro_page/registro.html?error=boleta");
+        exit();
     } else if($curp){
         //La curp ya existe
-        echo "<br>La curp ya existe";
-        //header("Location: ../../Front/Home_page/index.html");
+        //echo "<br>La curp ya existe";
+        header("Location: ../../Front/Registro_page/registro.html?error=curp");
+        exit();
     }
     
     //Conseguimos un lugar para asignarselo
@@ -81,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mat = $stmt4->fetchAll(PDO::FETCH_ASSOC);
     $ves = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
-    $allo->id_lab = 0;//id_ratotorio
+    $allo->id_lab = 0;//id_labotorio
     $allo->id_schedule = 0;//id horario
 
     if($mat){
@@ -114,8 +119,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if(!$allo->id_lab and !$allo->id_schedule){
         //Ya no hay lugares
-        echo "<br>No hay lugares";
-        //header("Location: ../../Front/Home_page/index.html");
+        //echo "<br>No hay lugares";
+        header("Location: ../../Front/Registro_page/registro.html?error=full");
+        exit();
     } else {
         echo "<br>Todo bien jaja<br>";
         echo "Laboratorio: ".$allo->id_lab.", Horario: ".$allo->id_schedule;
@@ -129,15 +135,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if($allo->create_Allocation()){
                     echo "<br><span style='color:green; font-weight: bold;'>FELCIDDADES, NACIO HOMOSEXUAL, quiero decir, registro exitoso!!!</span>";
                 } else {
-                    echo "<br>No se pudo registrar su Asignacion de examen, que chango";
+                    //echo "<br>No se pudo registrar su Asignacion de examen, que chango";
+                    $user->delete_By_Id($user->id_user);
+                    header("Location: ../../Front/Registro_page/registro.html?error=bd1");
+                    exit();
                 }
             } else {
-                echo "<br>No se pudo registrar su estudiante, que chango";
+                //echo "<br>No se pudo registrar su estudiante, que chango";
+                $user->delete_By_Id($user->id_user);
+                header("Location: ../../Front/Registro_page/registro.html?error=bd2");
+                exit();
             }
         } else {
-            echo "<br>No se pudo registrar su usuario, que chango";
+            //echo "<br>No se pudo registrar su usuario, que chango";
+            header("Location: ../../Front/Registro_page/registro.html?error=bd3");
+            exit();
         }
     }
     
+} else {
+    header("Location: ../../Front/Home_page/index.html");
+    exit();
 }
 ?>

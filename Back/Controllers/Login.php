@@ -41,5 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(array("error" => "Correo o contraseña incorrectos."));
         exit();
     }
+} else {
+    header("Location: ../../Front/Home_page/index.html");
+    exit();
 }
 ?>

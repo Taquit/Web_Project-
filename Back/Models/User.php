@@ -73,14 +73,24 @@ class User{
     }
 
     public function get_Id_By_Email($email) {
-    $query = "SELECT id_user FROM " . $this->table_name . " WHERE email_user = :email LIMIT 1";
-    $stmt = $this->conn->prepare($query);
-    
-    $stmt->bindParam(':email', $email);
-    $stmt->execute();
-    
-    return $stmt; 
-}
+        $query = "SELECT id_user FROM " . $this->table_name . " WHERE email_user = :email LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        
+        return $stmt; 
+    }
+
+    public function delete_By_Id($id){
+        $query = "DELETE FROM " . $this->table_name . " WHERE id_user = :user";
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(':user', $id);
+        $stmt->execute();
+        
+        return $stmt; 
+    }
 }
 
 ?>
