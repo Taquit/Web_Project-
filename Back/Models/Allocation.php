@@ -19,18 +19,19 @@ class Allocation {
     // Insertar una nueva asignacion
     public function create_Allocation() {
         $query = "INSERT INTO " . $this->table_name . "
-            (id_allocation, no_boleta, id_lab, id_schedule)
+            (no_boleta, id_lab, id_schedule)
             VALUES
-            (:id_allocation, :no_boleta, :id_lab, :id_schedule)";
+            (:no_boleta, :id_lab, :id_schedule)";
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":id_allocation", $this->id_allocation);
+        
         $stmt->bindParam(":no_boleta",     $this->no_boleta);
         $stmt->bindParam(":id_lab",        $this->id_lab);
         $stmt->bindParam(":id_schedule",   $this->id_schedule);
 
         if ($stmt->execute()) {
+            $this->id_allocation = $this->conn->lastInsertId();
             return true;
         }
         return false;

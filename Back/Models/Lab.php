@@ -32,6 +32,16 @@ class Lab{
 
         return $stmt;
     }
+
+    public function get_location_num($id_sch){
+        $query = "SELECT LAB.id_lab, count(*) as 'Free_Place', SCH.start_time from allocation as ALO inner join schedule SCH on SCH.id_schedule = ALO.id_schedule right join lab as LAB on LAB.id_lab = ALO.id_lab where SCH.id_schedule= :id_sch group by LAB.id_lab;";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":id_sch", $id_sch);
+        $stmt->execute();
+
+        return $stmt;
+    }
 }
 
 ?>

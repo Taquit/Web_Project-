@@ -3,6 +3,8 @@
 require_once '../Config/config.php';
 require_once '../Models/User.php';
 require_once '../Models/Student.php';
+require_once '../Models/Lab.php';
+require_once '../Models/Allocation.php';
 
 session_start();
 
@@ -12,12 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $database = new Database();
     $db = $database->getConnection();
 
+    //Objetos
     $user = new User($db);
     $student = new Student($db);
+    $lab = new lab($db);
+    $allo = new Allocation($db);
     
     //Usuario
     $user->email_user = $_POST['correo'];
     $user->password_user = $_POST['contrasena'];
+    $user->id_rol = 1;
 
     //Estudiante
     $student->name = $_POST['nombre'];
@@ -26,7 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $student->birth_date = $_POST['fecha-nacimiento'];
     $student->gender = $_POST['genero'];
     $student->no_boleta = $_POST['numbol'];
-    $student->id_state_origin = $_POST['estado-origen'];
+    //$student->id_state_origin = $_POST['estado-origen'];
+    $student->id_state_origin = 21;
     $student->id_school = $_POST['escuela-procedencia'];
     $student->other_school_name = $_POST['nombre-escuela'];
     $student->curp = $_POST['CURP'];
@@ -43,29 +50,94 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     . "ID Estado de Origen: " . $student->id_state_origin . "<br>"
     . "ID Escuela: " . $student->id_school . "<br>"
     . "Otro Nombre Escuela: " . $student->other_school_name;
-
-    if($student->gender == "Hombre") $student->gender = 1;
-    else $student->gender = 0;
     
     //Verificamos que no este registrado su correo, curp o boleta
     $stmt1 = $user->get_id_By_Email($user->email_user);
     $stmt2 = $student->get_Student($student->no_boleta);
     $stmt3 = $student->get_Student_By_CURP($student->curp);
 
-    $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+    $email = $stmt1->fetch(PDO::FETCH_ASSOC);
     $boleta = $stmt2->fetch(PDO::FETCH_ASSOC);
     $curp = $stmt3->fetch(PDO::FETCH_ASSOC);
 
-    if($row){
-        header("Location: ../../Front/Home_page/index.html");
+    if($email){
+        //El correo ya existe
+        echo "<br>El correo ya existe";
+        //header("Location: ../../Front/Home_page/index.html");
     } else if($boleta){
-        header("Location: ../../Front/Home_page/index.html");
+        //La boleta ya existe
+        echo "<br>La boleta ya existe";
+        //header("Location: ../../Front/Home_page/index.html");
     } else if($curp){
-        header("Location: ../../Front/Home_page/index.html");
+        //La curp ya existe
+        echo "<br>La curp ya existe";
+        //header("Location: ../../Front/Home_page/index.html");
     }
     
     //Conseguimos un lugar para asignarselo
+    $stmt4 = $lab->get_location_num(1);
+    $stmt5 = $lab->get_location_num(2);
+
+    $mat = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+    $ves = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+
+    $allo->id_lab = 0;//id_ratotorio
+    $allo->id_schedule = 0;//id horario
+
+    if($mat){
+        foreach($mat as $f){
+            if(!$f['Free_Place'] or $f['Free_Place'] < 30){
+                $allo->id_lab = $f['id_lab'];
+                $allo->id_schedule = 1;
+                break;
+            }
+        }
+    } else {
+        $allo->id_lab = 1;
+        $allo->id_schedule = 1;
+    }
+
+    if(!$allo->id_lab){
+        if($ves){
+            foreach($ves as $f){
+                if(!$f['Free_Place'] or $f['Free_Place'] < 30){
+                    $allo->id_lab = $f['id_lab'];
+                    $allo->id_schedule = 2;
+                    break;
+                }
+            }
+        } else {
+            $allo->id_lab = 1;
+            $allo->id_schedule = 2;
+        }
+    }
+
+    if(!$allo->id_lab and !$allo->id_schedule){
+        //Ya no hay lugares
+        echo "<br>No hay lugares";
+        //header("Location: ../../Front/Home_page/index.html");
+    } else {
+        echo "<br>Todo bien jaja<br>";
+        echo "Laboratorio: ".$allo->id_lab.", Horario: ".$allo->id_schedule;
+
+        $lab->no_boleta = $student->no_boleta;
+
+        if($user->creat_User()){
+            $student->id_user = $user->id_user;
+            if($student->creat_Student()){
+                $allo->no_boleta = $student->no_boleta;
+                if($allo->create_Allocation()){
+                    echo "<br><span style='color:green; font-weight: bold;'>FELCIDDADES, NACIO HOMOSEXUAL, quiero decir, registro exitoso!!!</span>";
+                } else {
+                    echo "<br>No se pudo registrar su Asignacion de examen, que chango";
+                }
+            } else {
+                echo "<br>No se pudo registrar su estudiante, que chango";
+            }
+        } else {
+            echo "<br>No se pudo registrar su usuario, que chango";
+        }
+    }
     
-    echo "Todo bien jaja";
 }
 ?>

@@ -1,3 +1,6 @@
+// Flag para saber si ya fue validado y solo falta enviar
+var formularioValidado = false;
+
 function fmt(fechaISO) {
   if (!fechaISO) return "—";
   var p = fechaISO.split("-");
@@ -7,14 +10,12 @@ function fmt(fechaISO) {
 function obtenerConsonante(palabra) {
   const vocales = "aeiouáéíóúAEIOUÁÉÍÓÚ";
   const consonantes = [];
-
   for (let i = 0; i < palabra.length; i++) {
     let letra = palabra[i];
     if (/[a-zA-ZáéíóúÁÉÍÓÚñÑ]/.test(letra) && !vocales.includes(letra)) {
       consonantes.push(letra);
     }
   }
-
   if (vocales.includes(palabra[0])) {
     return consonantes[0].toUpperCase();
   } else {
@@ -23,6 +24,9 @@ function obtenerConsonante(palabra) {
 }
 
 function validarFormulario() {
+  // Si ya fue validado (viene de confirmarEnvio), dejar pasar el submit
+  if (formularioValidado) return true;
+
   var errores = [];
 
   var p = document.forms.formu.numbol.value;
@@ -49,7 +53,6 @@ function validarFormulario() {
   if (!genero)
     errores.push("Selecciona un género.");
 
-  // ── CORRECCIÓN PRINCIPAL: usar el value numérico para buscar en el mapa ──
   var estadoNumerico = document.forms.formu["estado-origen"].value;
   const mapaEstadosCurp = {
     "1":  "AS", "2":  "BC", "3":  "BS", "4":  "CC", "5":  "CS", "6":  "CH",
@@ -61,11 +64,9 @@ function validarFormulario() {
   };
   var estado = mapaEstadosCurp[estadoNumerico] || "";
 
-  if (!estado) {
+  if (!estado)
     errores.push("Selecciona un estado de origen válido.");
-  }
 
-  // Solo construir y validar la CURP si los campos base son válidos
   if (errores.length === 0 && fecha && genero) {
     var anio2  = fecha.substring(2, 4);
     var mes    = fecha.substring(5, 7);
@@ -164,6 +165,8 @@ function cerrarModal() {
 
 function confirmarEnvio() {
   cerrarModal();
+  // Activar el flag para que validarFormulario() deje pasar el submit
+  formularioValidado = true;
   document.getElementById("formu").submit();
 }
 

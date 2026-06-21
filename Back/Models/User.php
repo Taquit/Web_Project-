@@ -34,9 +34,7 @@ class User{
         $stmt->bindParam(":password", $password_hash);
         $stmt->bindParam(":id_rol",$this->id_rol);
         
-        //Ejecuta la consulta
         if($stmt->execute()){
-            //Obtenemos el id generado automaticamente 
             $this->id_user = $this->conn->lastInsertId();
             return true;
         }

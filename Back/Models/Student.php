@@ -27,10 +27,17 @@ class Student{
     public function creat_Student(){
 
         //Query para insert
-        $query= "INSERT INTO " . $this->table_name . "
+        if($this->id_school==22){
+            $query= "INSERT INTO " . $this->table_name . "
             (no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, other_school_name, curp_user)
             VALUES
             (:no_boleta, :id_user, :name, :last_name_P, :last_name_M, :birth_date, :gender, :id_state_origin, :id_school, :other_school_name, :curp)";
+        } else {
+            $query= "INSERT INTO " . $this->table_name . "
+            (no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, curp_user)
+            VALUES
+            (:no_boleta, :id_user, :name, :last_name_P, :last_name_M, :birth_date, :gender, :id_state_origin, :id_school, :curp)";
+        } 
 
         $stmt = $this->conn->prepare($query);
 
@@ -44,8 +51,10 @@ class Student{
         $stmt->bindParam(":gender",           $this->gender);
         $stmt->bindParam(":id_state_origin",  $this->id_state_origin);
         $stmt->bindParam(":id_school",        $this->id_school);
-        $stmt->bindParam(":other_school_name",$this->other_school_name);
-        $stmt->bindParam(":curp",$this->curp);
+        if($this->id_school==22){
+            $stmt->bindParam(":other_school_name",$this->other_school_name);
+        } 
+        $stmt->bindParam(":curp",             $this->curp);
 
         //Ejecuta la consulta
         if($stmt->execute()){
