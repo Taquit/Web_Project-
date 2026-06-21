@@ -27,9 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['id_rol']   = $row['id_rol'];
         $_SESSION['email']    = $row['email_user'];
 
-        // Redirigir segun rol (1 = admin, 2 = student, ajusta segun tus datos)
-        if ($row['id_rol'] == 1) {
-            header('Location: ../../Front/Admin_page/Admin.html');
+        // Redirigir segun rol 
+        if ($row['id_rol'] == 2) {
+            header('Location: ../../Front/Admin_page/AdminPanel.html');
         } else {
             header('Location: ../../Front/Account_page/Account.html');
         }
