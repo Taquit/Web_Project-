@@ -14,18 +14,13 @@
     <script defer src="../JS/validarFormRegistro.js"></script>
     <script>
       $(document).ready(() => {
-
-        $("#menu").click(() => {
-          $("#pantalla").toggleClass("pantalla-moderna");
+        $("#menu").on("click", function(e) {
+          e.stopPropagation();
+          $("#pantalla").addClass("pantalla-moderna");
           $("ul").addClass("activo");
         });
         
-        $("#cerrar").click(() => {
-          $("#pantalla").removeClass("pantalla-moderna");
-          $("ul").removeClass("activo");
-        });
-
-        $("#pantalla").click(() => {
+        $("#cerrar, #pantalla").on("click", function() {
           $("#pantalla").removeClass("pantalla-moderna");
           $("ul").removeClass("activo");
         });
@@ -33,6 +28,7 @@
     </script>
 </head>
 <body class="p-0 m-0 border-0 bd-example m-0 border-0">
+  
   <div id="modal-resumen" role="dialog" aria-modal="true">
   <div class="modal-card">
     <div class="modal-header-custom">
@@ -61,7 +57,6 @@
         </div>
       </div>
         <button id="menu" type="button">☰</button>
-        <div id="pantalla" class=""></div>
         <ul class="">
           <li class="asd"><button id="cerrar" type="button">✖</button></li>
           <a href="../Home_page/index.html"><li>Inicio</li></a>
@@ -73,10 +68,10 @@
     <main>
         <section>
           <h1>Registro de Estudiantes de Nuevo Ingreso</h1>
-          <p>Complete todos los campos requeridos con infomrmación válida</p>
+          <p>Complete todos los campos requeridos con información válida</p>
         </section>
         <section class="formulario">
-          <form id="formu" action="../../Back/Controllers/Register.php" method="post">
+          <form id="formu" action="../../Back/Controllers/Register.php" method="post" class="mb-8">
             <div class="datos" id="datos-personales">
               <div class="cont-subtitulo">Datos Personales</div>
               <div class="campos">
@@ -104,9 +99,9 @@
                     <input type="text" class="input-nombre" id="nombre" name="nombre" placeholder="Luz María" required>
                   </div>
                   <div class="apellidos">
-                    <label for="apellido-paterno">Apellido Paterno:</label>
+                    <label for="apellidopaterno">Apellido Paterno:</label>
                     <input type="text" class="input-nombre" id="apellidopaterno" name="apellidopaterno" placeholder="García" required>
-                    <label for="apellido-materno">Apellido Materno:</label>
+                    <label for="apellidomaterno">Apellido Materno:</label>
                     <input type="text" class="input-nombre" id="apellidomaterno" name="apellidomaterno" placeholder="González" required>
                   </div>
                   <div class="separador_campos">
@@ -165,8 +160,7 @@
                 <div class="col-2">
                   <label for="escuela-procedencia">Escuela de Procedencia:</label>
                   <select name="escuela-procedencia" id="escuela-procedencia" required>
-                    <option value="">Seleccione una escuela</option>
-                    <option value="0" disabled selected>Seleccione una opción</option>
+                    <option value="" disabled selected>Seleccione una escuela</option>
                     <option value="1">CECyT # 1 “Gonzalo Vázquez Vela”</option>
                     <option value="2">CECyT # 2 “Miguel Bernard Perales”</option>
                     <option value="3">CECyT # 3 “Estanislao Ramírez Ruiz”</option>
@@ -198,7 +192,7 @@
                 </div>
                 <div class="col-2">
                   <label for="promedio">Promedio (6.0 - 10.0):</label>
-                  <input type="number" id="promedio" name="promedio" step="0.01" min="6" max="10"  required>
+                  <input type="number" id="promedio" name="promedio" step="0.01" min="6" max="10" placeholder="Ejemplo: 7.0" required>
                 </div>
               </div>
             </div>
