@@ -129,7 +129,7 @@ if (!isset($_SESSION['Registro'])) {
                             </div>
                         </div>
                     </div>
-                    <p class="acuse_asignacion_subtitulo">Presente este acuse el día del examen: Duración 2 hrs</p>
+                    <p class="acuse_asignacion_subtitulo">Presente este acuse el día del examen: Duración 90 min</p>
                 </div>
             </div>
         </section>

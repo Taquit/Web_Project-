@@ -176,7 +176,7 @@ try {
                             </div>
                         </div>
                     </div>
-                    <p class="acuse_asignacion_subtitulo">Presente este acuse el día del examen: Duración 30 min</p>
+                    <p class="acuse_asignacion_subtitulo">Presente este acuse el día del examen: Duración 90 min</p>
                 </div>
             </div>
         </section>

@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if($mat){
         foreach($mat as $f){
-            if(!$f['Free_Place'] || $f['Free_Place'] < 30){
+            if($f['Free_Place'] < 30){
                 $allo->id_lab = $f['id_lab'];
                 $allo->id_schedule = 1;
                 break;
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(!$allo->id_lab){
         if($ves){
             foreach($ves as $f){
-                if(!$f['Free_Place'] || $f['Free_Place'] < 30){
+                if($f['Free_Place'] < 30){
                     $allo->id_lab = $f['id_lab'];
                     $allo->id_schedule = 2;
                     break;

@@ -34,7 +34,8 @@ class Lab{
     }
 
     public function get_location_num($id_sch){
-        $query = "SELECT LAB.id_lab, count(*) as 'Free_Place', SCH.start_time from allocation as ALO inner join schedule SCH on SCH.id_schedule = ALO.id_schedule right join lab as LAB on LAB.id_lab = ALO.id_lab where SCH.id_schedule= :id_sch group by LAB.id_lab;";
+        //$query = "SELECT LAB.id_lab, count(*) as 'Free_Place', SCH.start_time from allocation as ALO inner join schedule SCH on SCH.id_schedule = ALO.id_schedule right join lab as LAB on LAB.id_lab = ALO.id_lab where SCH.id_schedule= :id_sch group by LAB.id_lab;";
+        $query = "SELECT LAB.id_lab,LAB.name,COUNT(ALO.id_allocation) AS Free_Place,SCH.start_time,SCH.exam_date FROM lab AS LAB LEFT JOIN allocation AS ALO ON LAB.id_lab = ALO.id_lab AND ALO.id_schedule = :id_sch LEFT JOIN schedule AS SCH ON SCH.id_schedule = ALO.id_schedule GROUP BY LAB.id_lab, LAB.name, SCH.start_time, SCH.exam_date ORDER BY LAB.id_lab;";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(":id_sch", $id_sch);
