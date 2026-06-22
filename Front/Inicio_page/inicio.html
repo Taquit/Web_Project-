@@ -140,5 +140,25 @@
             </div>
         </div>
     </footer>
+    <script>
+    // En cuanto el PHP lo redirige aquí, el HTML carga y ejecuta este fetch automáticamente
+    fetch('../../Back/Controllers/Controlador_registro.php')
+        .then(respuesta => respuesta.json())
+        .then(objetoData => {
+            /*
+            
+            */
+            console.log(objetoData.name); 
+            console.log(objetoData.laboratorio); 
+            
+            // Pintamos los datos en las etiquetas del HTML
+            document.getElementById('nombre_estudiante').textContent = objetoData.name;
+            document.getElementById('aviso-mensaje').textContent = objetoData.mensaje;
+            
+            
+
+        })
+        .catch(error => console.error("Error al leer el JSON:", error));
+</script>
 </body>
 </html>

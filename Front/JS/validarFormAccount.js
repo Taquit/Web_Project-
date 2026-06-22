@@ -26,7 +26,7 @@ function validar(){
         alert("Correo institucional inváido.\nContraseña inválida. Asegúrese que sea de mínimo de 6 caracteres, que incluya al menos una letra mayúscula, un número y un caracter especial.");
         return false;
     } else {
-        alert("Inicio de sesión exitoso.")
+        //alert("Inicio de sesión exitoso.")
         return true;
     }
 }

@@ -39,8 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } else {
         // Credenciales incorrectas
-        http_response_code(401);
-        echo json_encode(array("error" => "Correo o contraseña incorrectos."));
+        //http_response_code(401);
+        //echo json_encode(array("error" => "Correo o contraseña incorrectos."));
+        header("Location: ../../Front/Admin_page/admin.html?error=admin1");
         exit();
     }
 } else {

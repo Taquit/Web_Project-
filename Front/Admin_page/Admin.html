@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="shortcut icon" href="../../Assets/imgIndex/escom.webp" type="image/x-icon">
   <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <title>Administración</title>
 
   <link
@@ -169,6 +170,24 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmFXFMrWCU3FA0e6LMkHoqgtwwhq"
     crossorigin="anonymous"
   ></script>
+  <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorType = urlParams.get('error');
+
+        if (errorType) {
+            if(errorType === 'admin1') {
+              var err = "Las credenciales son incorrectas.";
+            }
+
+            Swal.fire({
+              title: "Error al inicio de sesión",
+              text: err,
+              icon: "error",
+              confirmButtonColor: '#d33',
+              confirmButtonText: "Ok"
+            });
+        }
+    </script>
 
 </body>
 </html>

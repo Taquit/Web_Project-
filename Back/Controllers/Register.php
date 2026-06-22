@@ -5,6 +5,9 @@ require_once '../Models/User.php';
 require_once '../Models/Student.php';
 require_once '../Models/Lab.php';
 require_once '../Models/Allocation.php';
+require_once '../Models/State.php';
+require_once '../Models/School.php';
+require_once '../Models/Schedule.php';
 
 session_start();
 
@@ -19,6 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $student = new Student($db);
     $lab = new lab($db);
     $allo = new Allocation($db);
+    $stat = new State($db);
+    $schol = new School($db);
     
     //Usuario
     $user->email_user = $_POST['correo'];
@@ -36,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $student->id_school = $_POST['escuela-procedencia'];
     $student->other_school_name = $_POST['nombre-escuela'];
     $student->curp = $_POST['CURP'];
+    $student->avarage = $_POST['promedio'];
     
     /*
     echo "Datos recibidos: <br>"
@@ -123,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: ../../Front/Registro_page/registro.html?error=full");
         exit();
     } else {
-        echo "<br>Todo bien jaja<br>";
+        //echo "<br>Todo bien jaja<br>";
         echo "Laboratorio: ".$allo->id_lab.", Horario: ".$allo->id_schedule;
 
         $lab->no_boleta = $student->no_boleta;
@@ -133,7 +139,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if($student->creat_Student()){
                 $allo->no_boleta = $student->no_boleta;
                 if($allo->create_Allocation()){
-                    echo "<br><span style='color:green; font-weight: bold;'>FELCIDDADES, NACIO HOMOSEXUAL, quiero decir, registro exitoso!!!</span>";
+                    
+                    //echo "<br><span style='color:green; font-weight: bold;'>FELCIDDADES, NACIO HOMOSEXUAL, quiero decir, registro exitoso!!!</span>";
+                    $usuario = $user->get_By_id($user->id_user)->fetch(PDO::FETCH_ASSOC);
+                    $estudiante = $student->get_Student($student->no_boleta)->fetch(PDO::FETCH_ASSOC);
+                    $horario_exam = $allo->get_By_Boleta($student->no_boleta)->fetch(PDO::FETCH_ASSOC);
+
+                    $_SESSION['Registro']= [
+                        "correo" => $usuario['email_user'],
+                        "no_boleta" => $estudiante['no_boleta'],
+                        "curp" => $estudiante['curp_user'],
+                        "name" => $estudiante['name'],
+                        "last_name_P" => $estudiante['last_name_P'],
+                        "last_name_M" => $estudiante['last_name_M'],
+                        "birth_date" => $estudiante['birth_date'],
+                        "gender" => $estudiante['gender'],
+                        "state" => $stat->get_By_Id($estudiante['id_state_origin'])->fetch(PDO::FETCH_ASSOC)['state_name'],
+                        "school" => ($estudiante['id_school'] == 22)?$estudiante['other_school_name']: $schol->get_By_id($estudiante['id_school'])->fetch(PDO::FETCH_ASSOC)['school_name'],
+                        "promedio" => $estudiante['avarage'],
+                        "hora_ini" => $horario_exam['start_time'],
+                        "hora_fin" => $horario_exam['end_time'],
+                        "fecha" => $horario_exam['exam_date'],
+                        "laboratorio" => $horario_exam['lab_name']
+                    ];
+
+                    header("Location: ../../Front/Inicio_page/inicio.html");
+                    exit();
                 } else {
                     //echo "<br>No se pudo registrar su Asignacion de examen, que chango";
                     $user->delete_By_Id($user->id_user);
