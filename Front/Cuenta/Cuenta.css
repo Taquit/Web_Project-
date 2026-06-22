@@ -531,13 +531,20 @@ select{
 }
 
 
-
+ul, li, .asd{
+    color: white;
+}
 
 /* ==========================================================================
    MEDIA QUERIES (El bloque conflictivo de 1400px ha sido eliminado)
    ========================================================================== */
 
 @media only screen and (max-width: 850px) {
+
+    .titulo{
+        display: none;
+    }
+
     .titulo-acuse{
         text-align: center;
     }
@@ -568,6 +575,12 @@ select{
 }
 
 @media only screen and (max-width: 808px) {
+
+    ul, li, .asd{
+        color: black;
+        padding: 1rem 2rem;
+    }
+
     header{
         justify-content: space-between;
         z-index: 99999 !important;
@@ -721,3 +734,4 @@ select{
         transition: none;
     }
 }
+

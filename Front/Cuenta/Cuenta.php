@@ -60,7 +60,7 @@ try {
     <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
     <title>Cuenta</title>
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../CSS/Cuenta_css/Cuenta.css">
+    <link rel="stylesheet" href="Cuenta.css">
     <script defer src="../JS/validarFormRegistro.js"></script>
     <script>
       $(document).ready(() => {

@@ -1,0 +1,155 @@
+/* ==========================================================================
+   ESTILOS GENERALES DEL MENÚ (ESCRITORIO)
+   ========================================================================== */
+ul {
+    display: flex; /* Cambiado a flex para alineación horizontal en escritorio */
+    align-items: center;
+    gap: 15px;
+    list-style: none;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+ul li {
+    display: inline-block;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Enlaces por defecto en Escritorio (Blancos) */
+ul li a {
+    color: #ffffff !important;   
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 17px;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+}
+
+/* Hover de los botones normales en escritorio */
+ul li:not(.inicio):not(.asd):hover {
+    background-color: #8d1a46;
+}
+
+/* Botón ACTIVO (Cuenta) en Escritorio (Color claro según tus imágenes) */
+.inicio {
+    background-color: #DADCE0;
+}
+
+.inicio a {
+    color: #000000 !important; /* Texto oscuro para que resalte en el fondo claro */
+}
+
+/* Hover del botón activo en escritorio */
+.inicio:hover {
+    background-color: #CBBCC5;
+}
+
+
+/* ==========================================================================
+   MEDIA QUERY PARA RESPONSIVE (MÓVIL - 808px)
+   ========================================================================== */
+@media only screen and (max-width: 808px) {
+    header {
+        justify-content: space-between;
+        z-index: 99999 !important;
+    }
+
+    #menu {
+        display: block;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.8rem;
+        margin-left: auto;
+        padding: 4px 12px;
+        border-radius: 6px;
+    }
+
+    #menu:hover {
+        background-color: #8d1a46;
+    }
+
+    /* Caja del menú desplegable móvil */
+    ul {
+        background-color: white;
+        position: fixed;
+        top: 0;
+        right: -50%;
+        z-index: 99999 !important;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 50%;
+        height: 100vh;
+        padding-top: 10px;
+        gap: 0;
+        transition: right 0.3s ease;
+    }
+
+    ul.activo { 
+        right: 0 !important; 
+    }
+
+    ul li {
+        width: 100%;
+        border-radius: 0;
+    }
+
+    /* Enlaces en versión móvil: Color oscuro sobre fondo blanco */
+    ul li a {
+        color: #333333 !important;
+        display: block;
+        width: 100%;
+        padding: 12px 24px;
+    }
+
+    /* Hover en versión móvil (Evita el bug del texto invisible) */
+    ul li:not(.asd):hover {
+        background-color: #DADCE0;
+    }
+    
+    ul li:not(.asd):hover a {
+        color: #8d1a46 !important; /* Texto guinda en hover sobre fondo claro */
+    }
+
+    /* Elemento seleccionado dentro de la vista móvil */
+    .inicio {
+        background-color: #f5f5f5;
+    }
+    
+    .inicio a {
+        color: #8d1a46 !important;
+        font-weight: 700;
+    }
+
+    #cerrar {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #333333;
+    }
+
+    .asd {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px 20px;
+        width: 100%;
+    }
+    
+    .asd:hover {
+        background-color: transparent !important;
+    }
+
+    .acuse_registro {
+       width: 85%;
+    }
+
+    .button_acuse {
+        padding: 10px;
+        width: 80%;
+        height: 50px;
+    }
+}
