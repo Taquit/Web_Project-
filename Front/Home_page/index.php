@@ -151,7 +151,7 @@
         
         <div class="text-center mb-4">
             <h2 class="fw-bold">Preguntas Frecuentes</h2>
-            <p class="text-muted">Resuelve tus dudas rápidamente sobre nuestro sistema</p>
+            <p class="text-muted">Resuelve tus dudas rápidamente sobre la escuela</p>
         </div>
 
         <div class="accordion" id="accordionFAQ">
