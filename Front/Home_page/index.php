@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../CSS/Home_css/index.css">
     <script>
       $(document).ready(() => {
-
+    
         $("#menu").click(() => {
           $("#pantalla").toggleClass("pantalla-moderna");
           $("ul").addClass("activo");
