@@ -7,20 +7,72 @@ function fmt(fechaISO) {
   return p[2] + "/" + p[1] + "/" + p[0];
 }
 
-function obtenerConsonante(palabra) {
+
+function obtenerPrimeraVocalInterna(palabra) {
   const vocales = "aeiouáéíóúAEIOUÁÉÍÓÚ";
-  const consonantes = [];
-  for (let i = 0; i < palabra.length; i++) {
-    let letra = palabra[i];
-    if (/[a-zA-ZáéíóúÁÉÍÓÚñÑ]/.test(letra) && !vocales.includes(letra)) {
-      consonantes.push(letra);
+  for (let i = 1; i < palabra.length; i++) {
+    if (vocales.includes(palabra[i])) {
+      return palabra[i].toUpperCase();
     }
   }
-  if (vocales.includes(palabra[0])) {
-    return consonantes[0].toUpperCase();
-  } else {
-    return consonantes[1].toUpperCase();
+  return "X"; 
+}
+
+
+function obtenerConsonante(palabra) {
+  const vocales = "aeiouáéíóúAEIOUÁÉÍÓÚ";
+  
+  for (let i = 1; i < palabra.length; i++) {
+    let letra = palabra[i];
+    // Comprobar que sea una letra y que NO sea una vocal
+    if (/[a-zA-ZñÑ]/.test(letra) && !vocales.includes(letra)) {
+      return letra.toUpperCase();
+    }
   }
+
+  return "X";
+}
+
+function mostrarResumen() {
+  const nombre    = document.forms.formu.nombre.value;
+  const apPat     = document.forms.formu.apellidopaterno.value;
+  const apMat     = document.forms.formu.apellidomaterno.value;
+  const boleta    = document.forms.formu.boleta.value;
+  const curp      = document.forms.formu.CURP.value;
+  const tel       = document.forms.formu.telefono.value;
+  const fecha     = document.forms.formu["fecha-nacimiento"].value;
+  const correo    = document.forms.formu.correo.value;
+  const promedio  = document.forms.formu.promedio.value;
+  const genero    = document.querySelector("input[name='genero']:checked")?.value || "—";
+  const estadoSel = document.getElementById("estado-origen");
+  const estado    = estadoSel.options[estadoSel.selectedIndex].text;
+  const escuelaSel = document.getElementById("escuela-procedencia");
+  const escuela   = escuelaSel.options[escuelaSel.selectedIndex].text;
+
+  document.getElementById("modal-saludo").textContent = `Hola, ${nombre} ${apPat}`;
+
+  document.getElementById("modal-datos").innerHTML = `
+    <p><strong>Boleta:</strong> ${boleta}</p>
+    <p><strong>Nombre:</strong> ${nombre} ${apPat} ${apMat}</p>
+    <p><strong>Fecha de nacimiento:</strong> ${fmt(fecha)}</p>
+    <p><strong>CURP:</strong> ${curp}</p>
+    <p><strong>Teléfono:</strong> ${tel}</p>
+    <p><strong>Género:</strong> ${genero}</p>
+    <p><strong>Estado de origen:</strong> ${estado}</p>
+    <p><strong>Escuela de procedencia:</strong> ${escuela}</p>
+    <p><strong>Promedio:</strong> ${promedio}</p>
+    <p><strong>Correo:</strong> ${correo}</p>
+  `;
+
+  document.getElementById("modal-resumen").style.display = "flex";
+}
+function cerrarModal() {
+  document.getElementById("modal-resumen").style.display = "none";
+}
+
+function confirmarEnvio() {
+  formularioValidado = true;
+  document.getElementById("formu").submit();
 }
 
 function validarFormulario() {
@@ -29,7 +81,7 @@ function validarFormulario() {
 
   var errores = [];
 
-  var p = document.forms.formu.numbol.value;
+  var p = document.forms.formu.boleta.value;
   if (!/^\d{10}$|^[A-Z]{2}\d{8}$/.test(p))
     errores.push("Número de boleta no válido. Debe contener exactamente 10 dígitos.");
 
@@ -46,8 +98,14 @@ function validarFormulario() {
     errores.push("Apellido materno no válido. Solo se permiten letras y espacios.");
 
   var fecha = document.forms.formu["fecha-nacimiento"].value;
-  if (!fecha)
+  if (!fecha) {
     errores.push("Fecha de nacimiento requerida.");
+  } else {
+    var anioNacimiento = parseInt(fecha.split("-")[0], 10);
+    if (anioNacimiento < 2000 || anioNacimiento > 2009) {
+      errores.push("Fecha de nacimiento no válida. Debes haber nacido entre el año 2000 y el 2009.");
+    }
+  }
 
   var genero = document.querySelector("input[name='genero']:checked");
   if (!genero)
@@ -73,7 +131,11 @@ function validarFormulario() {
     var dia    = fecha.substring(8, 10);
 
     const partenom        = nom.trim().charAt(0).toUpperCase();
-    const primerosdosapp  = app.trim().substr(0, 2).toUpperCase();
+    const appLimpio       = app.trim();
+    const primeraLetraApp = appLimpio.charAt(0).toUpperCase();
+    const primeraVocalApp = obtenerPrimeraVocalInterna(appLimpio);
+    
+    const primerosdosapp  = primeraLetraApp + primeraVocalApp;
     const parteapm        = apm.trim().charAt(0).toUpperCase();
     const fechaNacimiento = anio2 + mes + dia;
     const inicialgenero   = genero.value.charAt(0).toUpperCase();
@@ -118,81 +180,3 @@ function validarFormulario() {
   mostrarResumen();
   return false;
 }
-
-function mostrarResumen() {
-  var f        = document.forms.formu;
-  var nombre   = f.nombre.value.trim();
-  var boleta   = f.numbol.value.trim();
-  var fecha    = fmt(f["fecha-nacimiento"].value);
-  var curp     = f.CURP.value.trim();
-  var telefono = f.telefono.value.trim();
-  var genero   = (document.querySelector("input[name='genero']:checked") || {}).value || "No seleccionado";
-  var estadoSel  = document.getElementById("estado-origen");
-  var estado     = estadoSel.options[estadoSel.selectedIndex].text;
-  var escuelaSel = document.getElementById("escuela-procedencia");
-  var escuela    = escuelaSel.options[escuelaSel.selectedIndex].text;
-  if (escuelaSel.value === "22") escuela = "Otra: " + f["nombre-escuela"].value;
-  var promedio   = f.promedio.value;
-  var correo     = f.correo.value.trim();
-  var contrasena = f.contrasena.value;
-
-  document.getElementById("modal-saludo").textContent =
-    "Hola " + nombre + ", verifica que los datos que ingresaste sean correctos:";
-
-  document.getElementById("modal-datos").innerHTML = `
-    <div class="seccion-titulo">Datos Personales</div>
-    <div class="dato-fila"><span class="dato-label">No. de Boleta</span><span class="dato-valor">${boleta}</span></div>
-    <div class="dato-fila"><span class="dato-label">Nombre Completo</span><span class="dato-valor">${nombre}</span></div>
-    <div class="dato-fila"><span class="dato-label">Fecha de Nacimiento</span><span class="dato-valor">${fecha}</span></div>
-    <div class="dato-fila"><span class="dato-label">CURP</span><span class="dato-valor">${curp}</span></div>
-    <div class="dato-fila"><span class="dato-label">Teléfono</span><span class="dato-valor">${telefono}</span></div>
-    <div class="dato-fila"><span class="dato-label">Género</span><span class="dato-valor">${genero}</span></div>
-    <div class="dato-fila"><span class="dato-label">Estado de Origen</span><span class="dato-valor">${estado}</span></div>
-    <div class="seccion-titulo">Escuela de Procedencia</div>
-    <div class="dato-fila"><span class="dato-label">Escuela</span><span class="dato-valor">${escuela}</span></div>
-    <div class="dato-fila"><span class="dato-label">Promedio</span><span class="dato-valor">${promedio}</span></div>
-    <div class="seccion-titulo">Datos de la Cuenta</div>
-    <div class="dato-fila"><span class="dato-label">Correo</span><span class="dato-valor">${correo}</span></div>
-    <div class="dato-fila"><span class="dato-label">Contraseña</span><span class="dato-valor oculta">${"●".repeat(contrasena.length)}</span></div>
-  `;
-
-  document.getElementById("modal-resumen").classList.add("visible");
-}
-
-function cerrarModal() {
-  document.getElementById("modal-resumen").classList.remove("visible");
-}
-
-function confirmarEnvio() {
-  cerrarModal();
-  // Activar el flag para que validarFormulario() deje pasar el submit
-  formularioValidado = true;
-  document.getElementById("formu").submit();
-}
-
-$(document).ready(function () {
-  $("#menu").click(() => {
-    $("#pantalla").toggleClass("pantalla-moderna");
-    $("ul").addClass("activo");
-  });
-
-  $("#cerrar").click(() => {
-    $("#pantalla").removeClass("pantalla-moderna");
-    $("ul").removeClass("activo");
-  });
-
-  $("#pantalla").click(() => {
-    $("#pantalla").removeClass("pantalla-moderna");
-    $("ul").removeClass("activo");
-  });
-
-  $('#escuela-procedencia').change(function () {
-    if ($(this).val() === "22") {
-      $('#contenedor-otra-escuela').fadeIn();
-      $('#nombre-escuela').prop('required', true);
-    } else {
-      $('#contenedor-otra-escuela').fadeOut();
-      $('#nombre-escuela').prop('required', false).val('');
-    }
-  });
-});

@@ -390,13 +390,13 @@ if (!isset($_SESSION["id_user"]) || $_SESSION["id_rol"] != 2) {
                 <label class="text-muted small d-block mb-1"
                   style="font-size: 0.78rem; font-weight: 500;">Nombre</label>
                 <input type="text" id="e-nombre" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;"
-                  required>
+                  required readonly>
               </div>
               <div class="col-md-6 col-12">
                 <label class="text-muted small d-block mb-1"
                   style="font-size: 0.78rem; font-weight: 500;">Apellidos</label>
                 <input type="text" id="e-apellidos" class="form-control"
-                  style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+                  style="font-size: 0.95rem; border-radius: 0.5rem;" required readonly>
               </div>
               <div class="col-md-6 col-12">
                 <label class="text-muted small d-block mb-1"
@@ -419,11 +419,11 @@ if (!isset($_SESSION["id_user"]) || $_SESSION["id_rol"] != 2) {
               <div class="col-md-6 col-12">
                 <label class="text-muted small d-block mb-1"
                   style="font-size: 0.78rem; font-weight: 500;">Género</label>
-                <select id="e-genero" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem; background-color: #f8f9fa;">
+                <select id="e-genero" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem; background-color: #f8f9fa;" disabled>
                   <option value="Masculino">Masculino</option>
                   <option value="Femenino">Femenino</option>
                   <option value="Otro">Otro</option>
-                </select>
+                </select disabled>
               </div>
               <div class="col-md-6 col-12">
                 <label class="text-muted small d-block mb-1"
