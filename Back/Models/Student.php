@@ -18,6 +18,7 @@ class Student{
     public $other_school_name;
     public $curp;
     public $avarage;
+    public $num_phone;
 
     //COnstructor de db
     public function __construct($db){
@@ -30,14 +31,14 @@ class Student{
         //Query para insert
         if($this->id_school==22){
             $query= "INSERT INTO " . $this->table_name . "
-            (no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, other_school_name, curp_user, avarage)
+            (no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, other_school_name, curp_user, avarage, num_phone)
             VALUES
-            (:no_boleta, :id_user, :name, :last_name_P, :last_name_M, :birth_date, :gender, :id_state_origin, :id_school, :other_school_name, :curp, :avarage)";
+            (:no_boleta, :id_user, :name, :last_name_P, :last_name_M, :birth_date, :gender, :id_state_origin, :id_school, :other_school_name, :curp, :avarage, :phone)";
         } else {
             $query= "INSERT INTO " . $this->table_name . "
-            (no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, curp_user, avarage)
+            (no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, curp_user, avarage, num_phone)
             VALUES
-            (:no_boleta, :id_user, :name, :last_name_P, :last_name_M, :birth_date, :gender, :id_state_origin, :id_school, :curp, :avarage)";
+            (:no_boleta, :id_user, :name, :last_name_P, :last_name_M, :birth_date, :gender, :id_state_origin, :id_school, :curp, :avarage, :phone)";
         } 
 
         $stmt = $this->conn->prepare($query);
@@ -57,6 +58,7 @@ class Student{
         } 
         $stmt->bindParam(":curp",             $this->curp);
         $stmt->bindParam(":avarage",          $this->avarage);
+        $stmt->bindParam(":phone",          $this->num_phone);
 
         //Ejecuta la consulta
         if($stmt->execute()){
@@ -69,7 +71,7 @@ class Student{
     public function get_Student($boleta_to_find){
 
         //Consulta SQL
-        $query = "SELECT no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, other_school_name, curp_user, avarage
+        $query = "SELECT no_boleta, id_user, name, last_name_P, last_name_M, birth_date, gender, id_state_origin, id_school, other_school_name, curp_user, avarage, num_phone
                 FROM " . $this->table_name . "
                 WHERE no_boleta = :no_boleta LIMIT 0,1";
 
@@ -122,6 +124,7 @@ class Student{
                 sc.school_name AS escuela_catalogo,
                 l.name AS laboratorio,
                 s.avarage,
+                s.num_phone,
                 CONCAT(sch.exam_date, ' ', sch.start_time, ' a ', sch.end_time) AS horario
             FROM 
                 student s

@@ -18,7 +18,6 @@
         <div class="header-imgs">
             <img class="ipn" src="../../Assets/imgIndex/ipn.webp" alt="IPN" title="Instituto Politécnico Nacional">
             <img class="escom" src="../../Assets/imgIndex/escom.webp" alt="ESCOM" title="ESCOM">
-            <!-- !IMPORANTE - AQUI ESTA EL LOGO DE LA FAMILIA PLUCHE, cambienlo el logo del equipo, yo no voy a cambiar nada (no me gusta el logo, me rehuso a tener ese logo descargado en mi laptop) -->
             <img class="fp" src="../../Assets/imgIndex/familiapev2.webp" alt="Logo del equipo 2" title="Logo del equipo 2 ESTRENO DOMINGO 22 / 12:00pm">
         </div>
         <div class="titulo">
@@ -60,74 +59,78 @@
                     </div>
                 </div>
                 <div class="acuse_cuerpo">
-                    <p class="acuse_cuerpo_titulo">Hola Inserte nombre</p>
+                    <p class="acuse_cuerpo_titulo" id="nombre_est"></p>
                     <div class="acuse_contenido">
                         <div class="acuse_contenido_izquierda">
                             <div class="acuse_datos">
                                 <p class="acuse_datos_texto">No. Boleta</p>
-                                <p class="acuse_datos_bd"> 2023567503</p>
+                                <p class="acuse_datos_bd" id="no_boleta"></p>
                             </div>
                             <div class="acuse_datos">
                                 <p class="acuse_datos_texto">Fecha de Nacimiento</p>
-                                <p class="acuse_datos_bd">14/05/1330</p>
+                                <p class="acuse_datos_bd" id="fchnac"></p>
                             </div>
                             <div class="acuse_datos">
                                 <p class="acuse_datos_texto">Entidad de Procedencia</p>
-                                <p class="acuse_datos_bd">CCMS</p>
+                                <p class="acuse_datos_bd" id="estado"></p>
                             </div>
                             <div class="acuse_datos">
                                 <p class="acuse_datos_texto">Promedio</p>
-                                <p class="acuse_datos_bd">9.2</p>
+                                <p class="acuse_datos_bd" id="promedio"></p>
                             </div>
                         </div>
                         <div class="acuse_contenido_derecha">
                              <div class="acuse_datos">
                                 <p class="acuse_datos_texto">CURP</p>
-                                <p class="acuse_datos_bd">PADD015305DKMCCGA3</p>
+                                <p class="acuse_datos_bd" id="curp"></p>
                             </div>
                             <div class="acuse_datos">
                                 <p class="acuse_datos_texto">Genero</p>
-                                <p class="acuse_datos_bd">Mujer</p>
+                                <p class="acuse_datos_bd" id="genero"></p>
                             </div>
                             <div class="acuse_datos">
                                 <p class="acuse_datos_texto">Escuela de Procedencia</p>
-                                <p class="acuse_datos_bd">ccg</p>    
+                                <p class="acuse_datos_bd" id="escuela"></p>    
                             </div>
                             <div class="acuse_datos">
                                 <p class="acuse_datos_texto">Correo</p>
-                                <p class="acuse_datos_bd">dguiarf4455@alumno.ipn.mx</p>
+                                <p class="acuse_datos_bd" id="correo_user"></p>
                             </div>
                         </div>
                     </div>
                     <div class="acuse_asignacion">
                         <p class="acuse_asignacion_titulo">ASIGNACIÓN DE EXAMEN DIAGNÓSTICO</p>
                         <div class="acuse_asignacion_contenido">
+                            <!--
                             <div class="acuse_asignacion_dato">
                                 <p class="acuse_asignacion_subtitulo">Grupo</p>
                                 <p class="acuse_asignacion_dato">Grupo 2A</p>
                             </div>
+                            -->
                             <div class="acuse_asignacion_dato">
                             <p class="acuse_asignacion_subtitulo">Laboratorio</p> 
-                                <p class="acuse_asignacion_dato">Lab 3-Edificio B</p>
+                                <p class="acuse_asignacion_dato" id="laboratorio"></p>
                             </div>
                             <div class="acuse_asignacion_dato">
                                 <p class="acuse_asignacion_subtitulo">Horario</p>
-                                <p class="acuse_asignacion_dato">Lunes 14 de Julio 9:00 - 10:00</p>
+                                <p class="acuse_asignacion_dato"><span id="fecha"></span> <span id="inicio"></span> - <span id="fin"></span></p>
                             </div>
                         </div>
                     </div>
-                    <p class="acuse_asignacion_subtitulo">Presente este acuse el día del examen: Duración 30 min</p>
+                    <p class="acuse_asignacion_subtitulo">Presente este acuse el día del examen: Duración 2 hrs</p>
                 </div>
             </div>
         </section>
         <section>
-            <button type="button" class="button_acuse">
+            <form action="../../Back/Controllers/Generator_PDF.php" method="POST" target="_blank">
+            <button type="submit" class="button_acuse">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5vw" height="auto" fill="currentColor" class="bi bi-printer" id="impresora" viewBox="0 0 16 16">
                 <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
                 <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
                 </svg>
                 <p>Imprimir acuse (PDF)</p>
             </button>
+            </form>
         </section>
     </main>
      <footer class="text-center text-lg-start mt-auto py-4 border-top">
@@ -135,7 +138,7 @@
             <span class="text-whited">© 2026 Instituto Politécnico Nacional - ESCOM - Equipo 2</span>
             <!-- <span class="text-white py-1">Equipo 2</span> -->
             <div class="mt-2">
-                <a href="#">Registro de Datos Generales para Estudiantes de Nuevo Ingreso</a>
+                <a href="../Registro_page/registro.html">Registro de Datos Generales para Estudiantes de Nuevo Ingreso</a>
                 <a href="#">Tecnologías para el Desarrollo de Aplicaciones Web</a>
             </div>
         </div>
@@ -149,11 +152,23 @@
             
             */
             console.log(objetoData.name); 
-            console.log(objetoData.laboratorio); 
+            console.log(objetoData.no_boleta); 
             
             // Pintamos los datos en las etiquetas del HTML
-            document.getElementById('nombre_estudiante').textContent = objetoData.name;
-            document.getElementById('aviso-mensaje').textContent = objetoData.mensaje;
+            document.getElementById('nombre_est').textContent = 'Hola '+objetoData.name+' '+objetoData.last_name_P+' '+objetoData.last_name_M;
+            document.getElementById('no_boleta').textContent = objetoData.no_boleta;
+            document.getElementById('fchnac').textContent = objetoData.birth_date;
+            document.getElementById('estado').textContent = objetoData.state;
+            document.getElementById('promedio').textContent = objetoData.promedio;
+            document.getElementById('curp').textContent = objetoData.curp;
+
+            document.getElementById('genero').textContent = objetoData.genero;
+            document.getElementById('escuela').textContent = objetoData.school;
+            document.getElementById('correo_user').textContent = objetoData.correo;
+            document.getElementById('laboratorio').textContent = objetoData.laboratorio;
+            document.getElementById('fecha').textContent = objetoData.fecha;
+            document.getElementById('inicio').textContent = objetoData.hora_ini;
+            document.getElementById('fin').textContent = objetoData.hora_fin;
             
             
 
