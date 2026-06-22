@@ -197,7 +197,7 @@ h3{
     margin-bottom: 0;
 }
 
-main section:nth-child(3){
+main section:nth-child(3), main section:nth-child(4){
     background-color: #EFF6FF;
     text-align: center;
     width: 95%;
@@ -212,13 +212,13 @@ h5{
     margin-bottom: 1rem;
 }
 
-main section:nth-child(3) p{
+main section:nth-child(3) p, main section:nth-child(4) p{
     width: 70%;
     margin: auto;
     margin-bottom: 1.5rem;
 }
 
-main section:nth-child(3) a{
+main section:nth-child(3) a, main section:nth-child(4) a{
     display: inline-block;
     background-color: var(--header);
     padding: 0.75rem 2rem;

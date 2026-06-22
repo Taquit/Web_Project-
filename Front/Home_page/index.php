@@ -147,6 +147,82 @@
                 </article>
             </div>
         </section>
+        <div class="container my-5" style="max-width: 800px;">
+        
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">Preguntas Frecuentes</h2>
+            <p class="text-muted">Resuelve tus dudas rápidamente sobre nuestro sistema</p>
+        </div>
+
+        <div class="accordion" id="accordionFAQ">
+
+            <div class="accordion-item shadow-sm mb-2 border-0 rounded">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        ¿Qué es la ESCOM?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionFAQ">
+                    <div class="accordion-body text-secondary">
+                        La Escuela Superior de Cómputo (ESCOM) es una unidad académica del Instituto Politécnico Nacional especializada en la formación de profesionales en áreas relacionadas con la computación, software, inteligencia artificial y sistemas digitales.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item shadow-sm mb-2 border-0 rounded">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        ¿Dónde se encuentra la ESCOM?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionFAQ">
+                    <div class="accordion-body text-secondary">
+                        La ESCOM se encuentra en Avenida Juan de Dios Bátiz s/n, esquina con Avenida Miguel Othón de Mendizábal.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item shadow-sm mb-2 border-0 rounded">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        ¿Qué carreras ofrece la ESCOM?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionFAQ">
+                    <div class="accordion-body text-secondary">
+                        Actualmente ofrece programas académicos relacionados con Ingeniería en Sistemas Computacionales, Inteligencia Artificial y Ciencia de Datos, además de educación de posgrado especializada en tecnología en la carrera de Maestría en Sistemas Móviles.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item shadow-sm mb-2 border-0 rounded">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        ¿Cómo realizo mi registro de nuevo ingreso?
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionFAQ">
+                    <div class="accordion-body text-secondary">
+                        Debes ingresar a la sección de Registro y completar la información solicitada.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item shadow-sm mb-2 border-0 rounded">
+                <h2 class="accordion-header" id="headingFive">
+                    <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        ¿Dónde puedo consultar información sobre becas?
+                    </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionFAQ">
+                    <div class="accordion-body text-secondary">
+                        La información sobre becas se publica en los medios oficiales del IPN y de la ESCOM, así como en las secciones de servicios estudiantiles.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+      </div>
         <section class="tre">
             <h5>¿Listo para comenzar?</h5>
             <p>Completa tu registro en la sección de "Registro" para formar parte de la comunidad ESCOM. Asegúrate de tener todos tus documentos a la mano.</p>
