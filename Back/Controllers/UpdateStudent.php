@@ -56,8 +56,15 @@ try {
                     curp_user         = :curp,
                     avarage           = :promedio,
                     id_state_origin   = COALESCE((SELECT id_state FROM State WHERE state_name = :estado LIMIT 1), id_state_origin),
-                    id_school         = COALESCE((SELECT id_school FROM School WHERE school_name = :escuela LIMIT 1), 22),
-                    other_school_name = IF((SELECT id_school FROM School WHERE school_name = :escuela LIMIT 1) IS NULL, :escuela, NULL)
+                    id_school         = COALESCE(
+                        (SELECT id_school FROM School WHERE school_name = :escuela LIMIT 1),
+                        IF(:escuela REGEXP '^[0-9]+$', :escuela, 22)
+                    ),
+                    other_school_name = IF(
+                        (SELECT id_school FROM School WHERE school_name = :escuela LIMIT 1) IS NULL AND NOT :escuela REGEXP '^[0-9]+$',
+                        :escuela,
+                        NULL
+                    )
                    WHERE no_boleta = :old_boleta";
 
     $stmtS = $conn->prepare($sqlStudent);
@@ -90,16 +97,48 @@ try {
         $horarioLike  = '%' . str_replace('–', '%', $horario) . '%';
         $horarioLike2 = '%' . str_replace('-', '%', $horario) . '%';
 
+        // Primero obtenemos los IDs reales a los que se intenta asignar
+        $stmtLab = $conn->prepare("SELECT id_lab FROM Lab WHERE name = :lab LIMIT 1");
+        $stmtLab->bindParam(':lab', $lab);
+        $stmtLab->execute();
+        $id_lab_nuevo = $stmtLab->fetchColumn();
+
+        $stmtHor = $conn->prepare("SELECT id_schedule FROM Schedule WHERE CONCAT(start_time, '-', end_time) LIKE :h1 OR CONCAT(start_time, '-', end_time) LIKE :h2 LIMIT 1");
+        $stmtHor->bindParam(':h1', $horarioLike);
+        $stmtHor->bindParam(':h2', $horarioLike2);
+        $stmtHor->execute();
+        $id_horario_nuevo = $stmtHor->fetchColumn();
+
+        if ($id_lab_nuevo && $id_horario_nuevo) {
+            // Verificamos si el alumno ya tiene asignado este mismo laboratorio y horario para no contarlo
+            $stmtCurrent = $conn->prepare("SELECT id_lab, id_schedule FROM Allocation WHERE no_boleta = :no_boleta LIMIT 1");
+            $stmtCurrent->bindParam(':no_boleta', $boleta);
+            $stmtCurrent->execute();
+            $currentAlloc = $stmtCurrent->fetch(PDO::FETCH_ASSOC);
+
+            if (!$currentAlloc || $currentAlloc['id_lab'] != $id_lab_nuevo || $currentAlloc['id_schedule'] != $id_horario_nuevo) {
+                // Solo validamos cupo si está intentando cambiarse a uno distinto
+                $stmtCount = $conn->prepare("SELECT COUNT(*) FROM Allocation WHERE id_lab = :lab AND id_schedule = :horario");
+                $stmtCount->bindParam(':lab', $id_lab_nuevo);
+                $stmtCount->bindParam(':horario', $id_horario_nuevo);
+                $stmtCount->execute();
+                $ocupados = $stmtCount->fetchColumn();
+
+                if ($ocupados >= 30) {
+                    throw new Exception("El laboratorio seleccionado ya no tiene cupo en este horario (Límite de 30 lugares alcanzado).");
+                }
+            }
+        }
+
         $sqlAlloc = "UPDATE Allocation SET
-                     id_lab      = COALESCE((SELECT id_lab FROM Lab WHERE name = :lab LIMIT 1), id_lab),
-                     id_schedule = COALESCE((SELECT id_schedule FROM Schedule WHERE CONCAT(start_time, '-', end_time) LIKE :h1 OR CONCAT(start_time, '-', end_time) LIKE :h2 LIMIT 1), id_schedule)
+                     id_lab      = COALESCE(:lab_id, id_lab),
+                     id_schedule = COALESCE(:horario_id, id_schedule)
                      WHERE no_boleta = :no_boleta";
 
         $stmtA = $conn->prepare($sqlAlloc);
-        $stmtA->bindParam(':lab',       $lab);
-        $stmtA->bindParam(':h1',        $horarioLike);
-        $stmtA->bindParam(':h2',        $horarioLike2);
-        $stmtA->bindParam(':no_boleta', $boleta);
+        $stmtA->bindParam(':lab_id',       $id_lab_nuevo);
+        $stmtA->bindParam(':horario_id',   $id_horario_nuevo);
+        $stmtA->bindParam(':no_boleta',    $boleta);
         $stmtA->execute();
     }
 

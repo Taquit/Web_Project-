@@ -25,6 +25,7 @@ $genero     = trim($_POST['gender']      ?? '');
 $nacimiento = trim($_POST['birth_date']  ?? '');
 $estado     = trim($_POST['estado']      ?? '');
 $escuela    = trim($_POST['escuela']     ?? '');
+$otraEscuela = trim($_POST['otra_escuela'] ?? '');
 $lab        = trim($_POST['lab']         ?? '');
 $horario    = trim($_POST['horario']     ?? '');
 $promedio   = trim($_POST['promedio']    ?? '');
@@ -63,23 +64,12 @@ try {
         exit();
     }
 
-    // Resolver ID de Estado
-    $stmtSt = $db->prepare("SELECT id_state FROM State WHERE id_state = :estado LIMIT 1");
-$stmtSt->bindParam(':estado', $estado);
-$stmtSt->execute();
-$rowSt = $stmtSt->fetch(PDO::FETCH_ASSOC);
-$id_state = $rowSt ? $rowSt['id_state'] : 7;
-    $stmtSt->execute();
-    $rowSt = $stmtSt->fetch(PDO::FETCH_ASSOC);
-    $id_state = $rowSt ? $rowSt['id_state'] : 9; // 9 es CDMX por defecto si no se encuentra
+    // Resolver ID de Estado (el frontend ya envía el id_state numérico)
+    $id_state = is_numeric($estado) ? intval($estado) : 7;
 
-    // Resolver ID de Escuela
-    $stmtSc = $db->prepare("SELECT id_school FROM school WHERE school_name = :escuela LIMIT 1");
-    $stmtSc->bindParam(':escuela', $escuela);
-    $stmtSc->execute();
-    $rowSc = $stmtSc->fetch(PDO::FETCH_ASSOC);
-    $id_school = $rowSc ? $rowSc['id_school'] : 22; // 22 suele ser "Otra"
-    $other_school = ($id_school == 22) ? $escuela : null;
+    // Resolver ID de Escuela (el frontend ya envía el id_school numérico)
+    $id_school = is_numeric($escuela) ? intval($escuela) : 22;
+    $other_school = ($id_school == 22 && !empty($otraEscuela)) ? $otraEscuela : (($id_school == 22) ? 'N/A' : 'N/A');
 
     // Iniciar transacción para evitar datos huérfanos
     $db->beginTransaction();
@@ -115,24 +105,28 @@ $id_state = $rowSt ? $rowSt['id_state'] : 7;
 
     // 3. Crear Asignación (Solo si eligió Lab y Horario)
     if (!empty($lab) && !empty($horario)) {
-        // Resolver ID de Laboratorio
+        // Resolver ID de Laboratorio (el frontend envía el nombre del lab)
         $stmtLab = $db->prepare("SELECT id_lab FROM lab WHERE name = :lab LIMIT 1");
         $stmtLab->bindParam(':lab', $lab);
         $stmtLab->execute();
         $rowLab = $stmtLab->fetch(PDO::FETCH_ASSOC);
         $id_lab = $rowLab ? $rowLab['id_lab'] : null;
 
-        // Resolver ID de Horario
-        $horarioLike1 = '%' . str_replace('–', '%', $horario) . '%';
-        $horarioLike2 = '%' . str_replace('-', '%', $horario) . '%';
-        $stmtHor = $db->prepare("SELECT id_schedule FROM schedule WHERE CONCAT(start_time, '-', end_time) LIKE :h1 OR CONCAT(start_time, '-', end_time) LIKE :h2 LIMIT 1");
-        $stmtHor->bindParam(':h1', $horarioLike1);
-        $stmtHor->bindParam(':h2', $horarioLike2);
-        $stmtHor->execute();
-        $rowHor = $stmtHor->fetch(PDO::FETCH_ASSOC);
-        $id_horario = $rowHor ? $rowHor['id_schedule'] : null;
+        // Resolver ID de Horario (el frontend ya envía el id_schedule numérico)
+        $id_horario = is_numeric($horario) ? intval($horario) : null;
 
         if ($id_lab && $id_horario) {
+            // Verificar cupo antes de asignar
+            $stmtCount = $db->prepare("SELECT COUNT(*) as ocupados FROM allocation WHERE id_lab = :lab AND id_schedule = :horario");
+            $stmtCount->bindParam(':lab', $id_lab);
+            $stmtCount->bindParam(':horario', $id_horario);
+            $stmtCount->execute();
+            $rowCount = $stmtCount->fetch(PDO::FETCH_ASSOC);
+
+            if ($rowCount && $rowCount['ocupados'] >= 30) {
+                throw new Exception("El laboratorio seleccionado ya no tiene cupo en este horario (Límite de 30 lugares alcanzado).");
+            }
+
             $allo->no_boleta = $boleta;
             $allo->id_lab = $id_lab;
             $allo->id_schedule = $id_horario;
@@ -153,6 +147,7 @@ $id_state = $rowSt ? $rowSt['id_state'] : 7;
         $db->rollBack();
     }
     http_response_code(500);
-    echo json_encode(["error" => true, "mensaje" => $e->getMessage()]);
+    error_log("CreateStudent Error - lab: '$lab', horario: '$horario', escuela: '$escuela', estado: '$estado'");
+    echo json_encode(["error" => true, "mensaje" => "Error en el servidor: " . $e->getMessage()]);
 }
 ?>

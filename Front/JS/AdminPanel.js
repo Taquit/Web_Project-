@@ -95,7 +95,7 @@ $(document).ready(() => {
           </div>
         </td>
       </tr>`;
-}
+  }
 
   // ══════════════════════════════════════
   // Actualización de estadísticas
@@ -171,12 +171,122 @@ $(document).ready(() => {
   // Modal — Agregar Alumno
   // ══════════════════════════════════════
   $("#n-escuela").on("change", function () {
-    if ($(this).val() === "Otra") {
+    if ($(this).val() === "22") {
       $("#n-otra-escuela").show().prop("required", true);
     } else {
       $("#n-otra-escuela").hide().prop("required", false).val("");
     }
   });
+
+  // --- VALIDACIONES DE REGISTRO, ACCOUNT Y ADMIN ---
+  function obtenerPrimeraVocalInterna(palabra) {
+    const vocales = "aeiouáéíóúAEIOUÁÉÍÓÚ";
+    for (let i = 1; i < palabra.length; i++) {
+      if (vocales.includes(palabra[i])) {
+        return palabra[i].toUpperCase();
+      }
+    }
+    return "X"; 
+  }
+
+  function obtenerConsonante(palabra) {
+    const vocales = "aeiouáéíóúAEIOUÁÉÍÓÚ";
+    for (let i = 1; i < palabra.length; i++) {
+      let letra = palabra[i];
+      if (/[a-zA-ZñÑ]/.test(letra) && !vocales.includes(letra)) {
+        return letra.toUpperCase();
+      }
+    }
+    return "X";
+  }
+
+  function validarNuevoAlumno(payload) {
+    var errores = [];
+
+    if (!/^\d{10}$|^[A-Z]{2}\d{8}$/.test(payload.no_boleta))
+      errores.push("Número de boleta no válido. Debe contener exactamente 10 dígitos o 2 letras y 8 dígitos.");
+
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(payload.name))
+      errores.push("Nombre no válido. Solo se permiten letras y espacios.");
+
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(payload.last_name_P) || (payload.last_name_M && !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(payload.last_name_M)))
+      errores.push("Apellidos no válidos. Solo se permiten letras y espacios.");
+
+    if (!payload.birth_date) {
+      errores.push("Fecha de nacimiento requerida.");
+    } else {
+      var anioNacimiento = parseInt(payload.birth_date.split("-")[0], 10);
+      if (anioNacimiento < 2000 || anioNacimiento > 2009) {
+        errores.push("Fecha de nacimiento no válida. Debes haber nacido entre el año 2000 y el 2009.");
+      }
+    }
+
+    if (!payload.gender)
+      errores.push("Selecciona un género.");
+
+    const mapaEstadosCurp = {
+      "1":  "AS", "2":  "BC", "3":  "BS", "4":  "CC", "5":  "CS", "6":  "CH",
+      "7":  "DF", "8":  "CL", "9":  "CM", "10": "DG", "11": "MC", "12": "GT",
+      "13": "GR", "14": "HG", "15": "JC", "16": "MN", "17": "MS", "18": "NT",
+      "19": "NL", "20": "OC", "21": "PL", "22": "QT", "23": "QR", "24": "SP",
+      "25": "SL", "26": "SR", "27": "TC", "28": "TS", "29": "TL", "30": "VZ",
+      "31": "YN", "32": "ZS"
+    };
+    var estadoAbrev = mapaEstadosCurp[payload.estado] || "";
+    if (!estadoAbrev)
+      errores.push("Selecciona un estado de origen válido.");
+
+    if (errores.length === 0 && payload.birth_date && payload.gender) {
+      var anio2  = payload.birth_date.substring(2, 4);
+      var mes    = payload.birth_date.substring(5, 7);
+      var dia    = payload.birth_date.substring(8, 10);
+
+      const partenom        = payload.name.trim().charAt(0).toUpperCase();
+      const appLimpio       = payload.last_name_P.trim();
+      const primeraLetraApp = appLimpio.charAt(0).toUpperCase();
+      const primeraVocalApp = obtenerPrimeraVocalInterna(appLimpio);
+      
+      const primerosdosapp  = primeraLetraApp + primeraVocalApp;
+      const parteapm        = payload.last_name_M ? payload.last_name_M.trim().charAt(0).toUpperCase() : "X";
+      const fechaNacimiento = anio2 + mes + dia;
+      let inicialgenero = "X";
+      if (payload.gender === "Masculino") inicialgenero = "H";
+      else if (payload.gender === "Femenino") inicialgenero = "M";
+
+      const consonanteApp = obtenerConsonante(payload.last_name_P.trim());
+      const consonanteApm = payload.last_name_M ? obtenerConsonante(payload.last_name_M.trim()) : "X";
+      const consonanteNom = obtenerConsonante(payload.name.trim());
+
+      const curpGenerada = new RegExp(
+        `^${primerosdosapp}${parteapm}${partenom}${fechaNacimiento}${inicialgenero}${estadoAbrev}${consonanteApp}${consonanteApm}${consonanteNom}[A-Z0-9][0-9]$`
+      );
+
+      console.log("Patrón CURP esperado:", curpGenerada.source);
+      console.log("CURP ingresada:", payload.curp);
+
+      if (!curpGenerada.test(payload.curp))
+        errores.push("La CURP no coincide con los datos ingresados o el formato es incorrecto.");
+    }
+
+    if (!/^\d{10}$/.test(payload.telefono))
+      errores.push("Teléfono no válido. Debe tener exactamente 10 dígitos.");
+
+    // Validación de correos de Admin (.mx) y Account/Registro (@alumno.ipn.mx)
+    const correoRegex = /^[a-zA-Z]+[0-9]{4}@alumno\.ipn\.mx$|^\w{5,}@alumno\.ipn\.mx$|^\w+@ipn\.mx$/;
+    if (!correoRegex.test(payload.email))
+      errores.push("Correo no válido. Debe ser correo institucional (@alumno.ipn.mx o @ipn.mx).");
+
+    var prom = parseFloat(payload.promedio);
+    if (isNaN(prom) || prom < 6 || prom > 10)
+      errores.push("Promedio no válido. Debe estar entre 6.0 y 10.0.");
+
+    if (errores.length > 0) {
+      alert(errores.join("\n\n"));
+      return false;
+    }
+    return true;
+  }
+  // ----------------------------------------------------
 
   $("#formNuevoAlumno").on("submit", function (e) {
     e.preventDefault();
@@ -184,21 +294,28 @@ $(document).ready(() => {
     const payload = {
       no_boleta: $("#n-boleta").val().trim(),
       name: $("#n-nombre").val().trim(),
-      last_name_P: $("#n-apellidos").val().trim().split(" ")[0] || "",
-      last_name_M: $("#n-apellidos").val().trim().split(" ").slice(1).join(" ") || "",
+      last_name_P: $("#n-apellidopaterno").val().trim(),
+      last_name_M: $("#n-apellidomaterno").val().trim(),
       email: $("#n-email").val().trim(),
       curp: $("#n-curp").val().trim(),
       gender: $("#n-genero").val().trim(),
       birth_date: $("#n-nacimiento").val().trim(),
       estado: $("#n-entidad").val().trim(),
-      escuela: $("#n-escuela").val() === "Otra" ? $("#n-otra-escuela").val().trim() : $("#n-escuela").val().trim(),
+      escuela: $("#n-escuela").val(),
+      otra_escuela: $("#n-escuela").val() === "22" ? $("#n-otra-escuela").val().trim() : "",
       lab: $("#n-lab").val().trim(),
       horario: $("#n-horario").val().trim(),
-      promedio:$("#n-promedio").val().trim(),
-      telefono:$("#n-telefono").val().trim()  
+      promedio: $("#n-promedio").val().trim(),
+      telefono: $("#n-telefono").val().trim()
     };
 
-     console.log("Promedio capturado:", $("#n-promedio").val());
+    console.log("Promedio capturado:", $("#n-promedio").val());
+    
+    // Aplicar validaciones combinadas antes de enviar
+    if (!validarNuevoAlumno(payload)) {
+      return;
+    }
+
     $.ajax({
       url: "../../Back/Controllers/CreateStudent.php",
       method: "POST",
@@ -215,9 +332,9 @@ $(document).ready(() => {
         }
       },
       error: function (xhr) {
-        const errorMsg = xhr.responseJSON && xhr.responseJSON.mensaje 
-                       ? xhr.responseJSON.mensaje 
-                       : "Error al comunicarse con el servidor.";
+        const errorMsg = xhr.responseJSON && xhr.responseJSON.mensaje
+          ? xhr.responseJSON.mensaje
+          : "Error al comunicarse con el servidor.";
         alert("Error de red o servidor: " + errorMsg);
       }
     });
@@ -252,7 +369,7 @@ $(document).ready(() => {
     const $fila = $(this).closest("tr");
     const nombreCompleto = $fila.find(".nombre").text().trim();
     const partes = nombreCompleto.split(" ");
-    
+
     // Extraer horario para que coincida con el <select>
     const horaRaw = $fila.find(".hora").text().trim();
     let horarioSelectValue = "";
@@ -277,7 +394,16 @@ $(document).ready(() => {
     $("#e-nacimiento").val(nacimiento === "—" ? "" : nacimiento);
     $("#e-genero").val(genero === "—" ? "" : genero);
     $("#e-entidad").val(entidad === "—" ? "" : entidad);
-    $("#e-escuela").val(escuela === "—" ? "" : escuela);
+    
+    // Asignar el select de escuela buscando la opción por texto
+    if (escuela === "—" || !escuela) {
+      $("#e-escuela").val("");
+    } else {
+      $("#e-escuela option").filter(function() {
+        return $(this).text().trim() === escuela;
+      }).prop("selected", true);
+    }
+    
     $("#e-lab").val($fila.find(".lab").text().trim());
     $("#e-horario").val(horarioSelectValue);
     $("#e-promedio").val($fila.data("promedio") || "");
@@ -291,7 +417,7 @@ $(document).ready(() => {
 
 
     console.log("Promedio:", $("#e-promedio").val());
-    console.log("data-promedio:", $(this).closest("tr") );
+    console.log("data-promedio:", $(this).closest("tr"));
 
     const payload = {
       old_boleta: oldBoletaEditar,
@@ -304,10 +430,10 @@ $(document).ready(() => {
       gender: $("#e-genero").val().trim(),
       birth_date: $("#e-nacimiento").val().trim(),
       estado: $("#e-entidad").val().trim(),
-      escuela: $("#e-escuela").val().trim(),
+      escuela: $("#e-escuela").val(), // Envia el index (value del select) a la DB
       lab: $("#e-lab").val().trim(),
       horario: $("#e-horario").val().trim(),
-       promedio:$("#e-promedio").val().trim() 
+      promedio: $("#e-promedio").val().trim()
     };
 
     $.ajax({
@@ -323,7 +449,7 @@ $(document).ready(() => {
         bootstrap.Modal.getInstance(document.getElementById("modalEditar")).hide();
         cargarAlumnos();
       },
-     error(xhr) {
+      error(xhr) {
         alert("Respuesta del servidor: " + xhr.responseText);
       }
     });
@@ -369,13 +495,13 @@ $(document).ready(() => {
           cargarAlumnos();
         },
         error: function (xhr) {
-        $btn.prop("disabled", false).text("Remover");
-        const errorMsg = xhr.responseJSON && xhr.responseJSON.mensaje 
-                       ? xhr.responseJSON.mensaje 
-                       : "Error al comunicarse con el servidor.";
-        alert("Error de red o servidor: " + errorMsg);
-      }
-    });
+          $btn.prop("disabled", false).text("Remover");
+          const errorMsg = xhr.responseJSON && xhr.responseJSON.mensaje
+            ? xhr.responseJSON.mensaje
+            : "Error al comunicarse con el servidor.";
+          alert("Error de red o servidor: " + errorMsg);
+        }
+      });
     });
   });
 
@@ -384,7 +510,7 @@ $(document).ready(() => {
   // ══════════════════════════════════════
   // Se abre desde el botón en el footer de modalAlumno o desde el botón en la tabla.
   $("#tabla-body").on("click", ".btn-eliminar-estudiante", function () {
-    const $fila  = $(this).closest("tr");
+    const $fila = $(this).closest("tr");
     alumnoActivo.boleta = $fila.find(".boleta").text().trim();
     alumnoActivo.nombre = $fila.find(".nombre").text().trim();
   });
@@ -426,9 +552,9 @@ $(document).ready(() => {
         cargarAlumnos();
       },
       error: (xhr) => {
-        const errorMsg = xhr.responseJSON && xhr.responseJSON.mensaje 
-                       ? xhr.responseJSON.mensaje 
-                       : "Error al comunicarse con el servidor.";
+        const errorMsg = xhr.responseJSON && xhr.responseJSON.mensaje
+          ? xhr.responseJSON.mensaje
+          : "Error al comunicarse con el servidor.";
         alert("Error: " + errorMsg);
         $(this).prop("disabled", false).html(`
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">

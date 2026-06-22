@@ -147,17 +147,23 @@ if (!isset($_SESSION["id_user"]) || $_SESSION["id_rol"] != 2) {
                 <input type="text" id="n-boleta" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;"
                   required>
               </div>
-              <div class="col-md-6 col-12">
+              <div class="col-md-4 col-12">
                 <label class="text-muted small d-block mb-1"
                   style="font-size: 0.78rem; font-weight: 500;">Nombre</label>
                 <input type="text" id="n-nombre" class="form-control" style="font-size: 0.95rem; border-radius: 0.5rem;"
                   required>
               </div>
-              <div class="col-md-6 col-12">
+              <div class="col-md-4 col-12">
                 <label class="text-muted small d-block mb-1"
-                  style="font-size: 0.78rem; font-weight: 500;">Apellidos</label>
-                <input type="text" id="n-apellidos" class="form-control"
+                  style="font-size: 0.78rem; font-weight: 500;">Apellido Paterno</label>
+                <input type="text" id="n-apellidopaterno" class="form-control"
                   style="font-size: 0.95rem; border-radius: 0.5rem;" required>
+              </div>
+              <div class="col-md-4 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Apellido Materno</label>
+                <input type="text" id="n-apellidomaterno" class="form-control"
+                  style="font-size: 0.95rem; border-radius: 0.5rem;">
               </div>
               <div class="col-md-6 col-12">
                 <label class="text-muted small d-block mb-1"
@@ -230,28 +236,28 @@ if (!isset($_SESSION["id_user"]) || $_SESSION["id_rol"] != 2) {
                   style="font-size: 0.78rem; font-weight: 500;">Escuela</label>
                 <select id="n-escuela" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
                     <option value="">Seleccione una escuela</option>
-                    <option value="CECyT # 1 “Gonzalo Vázquez Vela”">CECyT # 1 “Gonzalo Vázquez Vela”</option>
-                    <option value="CECyT # 2 “Miguel Bernard Perales”">CECyT # 2 “Miguel Bernard Perales”</option>
-                    <option value="CECyT # 3 “Estanislao Ramírez Ruiz”">CECyT # 3 “Estanislao Ramírez Ruiz”</option>
-                    <option value="CECyT # 4 “Lázaro Cárdenas”">CECyT # 4 “Lázaro Cárdenas”</option>
-                    <option value="CECyT # 5 “Benito Juárez García”">CECyT # 5 “Benito Juárez García”</option>
-                    <option value="CECyT # 6 “Miguel Othón de Mendizábal”">CECyT # 6 “Miguel Othón de Mendizábal”</option>
-                    <option value="CECyT # 7 “Cuauhtémoc”">CECyT # 7 “Cuauhtémoc”</option>
-                    <option value="CECyT # 8 “Narciso Bassols García”">CECyT # 8 “Narciso Bassols García”</option>
-                    <option value="CECyT # 9 “Juan de Dios Bátiz Paredes”">CECyT # 9 “Juan de Dios Bátiz Paredes”</option>
-                    <option value="CECyT # 10 “Carlos Vallejo Márquez”">CECyT # 10 “Carlos Vallejo Márquez”</option>
-                    <option value="CECyT # 11 “Wilfrido Massieu Pérez”">CECyT # 11 “Wilfrido Massieu Pérez”</option>
-                    <option value="CECyT # 12 “José María Morelos y Pavón”">CECyT # 12 “José María Morelos y Pavón”</option>
-                    <option value="CECyT # 13 “Ricardo Flores Magón”">CECyT # 13 “Ricardo Flores Magón”</option>
-                    <option value="CECyT # 14 “Luis Enrique Erro Soler”">CECyT # 14 “Luis Enrique Erro Soler”</option>
-                    <option value="CECyT # 15 “Diódoro Antúnez Echegaray”">CECyT # 15 “Diódoro Antúnez Echegaray”</option>
-                    <option value="CECyT # 16 “Hidalgo”">CECyT # 16 “Hidalgo”</option>
-                    <option value="CECyT # 17 “León, Guanajuato”">CECyT # 17 “León, Guanajuato”</option>
-                    <option value="CECyT # 18 “Zacatecas”">CECyT # 18 “Zacatecas”</option>
-                    <option value="CECyT # 19 “Leona Vicario”">CECyT # 19 “Leona Vicario”</option>
-                    <option value="CECyT # 20 “Nuevas Tecnologías”">CECyT # 20 “Nuevas Tecnologías”</option>
-                    <option value="Centro de Estudios Tecnológicos 1 &quot;Walter Cross Buchanan&quot;">Centro de Estudios Tecnológicos 1 "Walter Cross Buchanan"</option>
-                    <option value="Otra">Otra</option>
+                    <option value="1">CECyT 1 "Gonzalo Vázquez Vela"</option>
+                    <option value="2">CECyT 2 "Miguel Bernard"</option>
+                    <option value="3">CECyT 3 "Estanislao Ramírez Ruiz"</option>
+                    <option value="4">CECyT 4 "Lázaro Cárdenas"</option>
+                    <option value="5">CECyT 5 "Benito Juárez"</option>
+                    <option value="6">CECyT 6 "Miguel Othón de Mendizábal"</option>
+                    <option value="7">CECyT 7 "Cuauhtémoc"</option>
+                    <option value="8">CECyT 8 "Narciso Bassols"</option>
+                    <option value="9">CECyT 9 "Juan de Dios Bátiz"</option>
+                    <option value="10">CECyT 10 "Carlos Vallejo Márquez"</option>
+                    <option value="11">CECyT 11 "Wilfrido Massieu"</option>
+                    <option value="12">CECyT 12 "José María Morelos y Pavón"</option>
+                    <option value="13">CECyT 13 "Ricardo Flores Magón"</option>
+                    <option value="14">CECyT 14 "Luis Enrique Erro"</option>
+                    <option value="15">CECyT 15 "Diódoro Antúnez Echegaray"</option>
+                    <option value="16">CECyT 16 "Hidalgo"</option>
+                    <option value="17">CECyT 17 "León"</option>
+                    <option value="18">CECyT 18 "Zacatecas"</option>
+                    <option value="19">CECyT 19 "Leona Vicario"</option>
+                    <option value="20">CECyT 20 "Natalia Serdán Alatriste"</option>
+                    <option value="21">Centro de Estudios Tecnológicos 1 "Walter Cross Buchanan"</option>
+                    <option value="22">Otra</option>
                 </select>
                 <input type="text" id="n-otra-escuela" class="form-control mt-2" style="font-size: 0.95rem; border-radius: 0.5rem; display: none;" placeholder="Escribe el nombre de tu escuela">
               </div>
@@ -272,8 +278,8 @@ if (!isset($_SESSION["id_user"]) || $_SESSION["id_rol"] != 2) {
                   style="font-size: 0.78rem; font-weight: 500;">Horario</label>
                 <select id="n-horario" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;">
                   <option value="">Por asignar...</option>
-                  <option value="09:00:00-11:00:00">09:00:00 a 11:00:00</option>
-                  <option value="12:00:00-14:00:00">12:00:00 a 14:00:00</option>
+                  <option value="1">08:30:00 a 10:00:00</option>
+                  <option value="2">10:15:00 a 11:45:00</option>
                 </select>
               </div>
               <div class="col-md-6 col-12">
@@ -454,8 +460,8 @@ if (!isset($_SESSION["id_user"]) || $_SESSION["id_rol"] != 2) {
                   style="font-size: 0.78rem; font-weight: 500;">Horario</label>
                 <select id="e-horario" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
                   <option value="">Seleccione...</option>
-                  <option value="09:00:00-11:00:00">09:00:00 a 11:00:00</option>
-                  <option value="12:00:00-14:00:00">12:00:00 a 14:00:00</option>
+                  <option value="08:30:00-10:00:00">08:30:00 a 10:00:00</option>
+                  <option value="10:15:00-11:45:00">10:15:00 a 11:45:00</option>
                 </select>
               </div>
                <div class="col-md-6 col-12">
