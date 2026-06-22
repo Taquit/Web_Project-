@@ -1,3 +1,11 @@
+<?php
+// inicio.php — Protegido: requiere $_SESSION['Registro'] activo (post-registro)
+session_start();
+if (!isset($_SESSION['Registro'])) {
+    header("Location: ../../Front/Registro_page/registro.html");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,16 +17,16 @@
     <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
     <title>Inicio</title>
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../CSS/Inicio_css/inicio.css   ">
+    <link rel="stylesheet" href="../CSS/Inicio_css/inicio.css">
     <script defer src="../JS/validarFormRegistro.js"></script>
 </head>
-<body class="p-0 m-0 border-0 bd-example m-0 border-0">
+<body class="p-0 m-0 border-0 bd-example">
     <header class="position-sticky">
       <div class="izq">
         <div class="header-imgs">
             <img class="ipn" src="../../Assets/imgIndex/ipn.webp" alt="IPN" title="Instituto Politécnico Nacional">
             <img class="escom" src="../../Assets/imgIndex/escom.webp" alt="ESCOM" title="ESCOM">
-            <img class="fp" src="../../Assets/imgIndex/familiapev2.webp" alt="Logo del equipo 2" title="Logo del equipo 2 ESTRENO DOMINGO 22 / 12:00pm">
+            <img class="fp" src="../../Assets/imgIndex/familiapev2.webp" alt="Logo del equipo 2" title="Logo del equipo 2">
         </div>
         <div class="titulo">
             <h4>IPN - ESCOM</h4>  
@@ -28,12 +36,22 @@
         <button id="menu" type="button">☰</button>
         <div id="pantalla" class=""></div>
         <ul class="">
-          <li class="asd"><button id="cerrar" type="button">✖</button></li>
-          <li class="inicio"><a href="../Home_page/index.html">Inicio</a></li>
-          <li class="registro"><a href="#">Registro</a></li>
-          <li><a href="../Admin_page/Admin.html">Admin</a></li>
-          <li><a href="#">Cuenta</a></li>
-        </ul>
+    <li class="asd"><button id="cerrar" type="button">✖</button></li>
+    <a href="../Home_page/index.php"><li>Inicio</li></a>
+    <?php if (isset($_SESSION['id_user'])): ?>
+        <?php if ($_SESSION['id_rol'] == 2): ?>
+        <a href="../Admin_page/AdminPanel.php"><li>Panel Admin</li></a>
+        <a href="../../Back/Controllers/Logout.php"><li>Cerrar Sesión</li></a>
+        <?php elseif ($_SESSION['id_rol'] == 1): ?>
+        <a href="../Cuenta/Cuenta.php"><li>Cuenta</li></a>
+        <a href="../../Back/Controllers/Logout.php"><li>Cerrar Sesión</li></a>
+        <?php endif; ?>
+    <?php else: ?>
+        <a href="../Registro_page/registro.html"><li>Registro</li></a>
+        <a href="../Admin_page/Admin.php"><li>Admin</li></a>
+        <a href="../Account_page/Account.php"><li>Cuenta</li></a>
+    <?php endif; ?>
+</ul>
     </header>
     <main>
         <section>
@@ -44,7 +62,7 @@
                 </svg>
                 <div class="texto_correcto">
                     <p class="sub_correcto">¡Tus datos fueron guardados correctamente!</p>
-                    <p class="text_correcto">Tu registro ha sido completado. Guarda el siguiente acuse para presentarlo el dia del examen </p>
+                    <p class="text_correcto">Tu registro ha sido completado. Guarda el siguiente acuse para presentarlo el día del examen.</p>
                 </div>  
             </div>
         </section>
@@ -85,7 +103,7 @@
                                 <p class="acuse_datos_bd" id="curp"></p>
                             </div>
                             <div class="acuse_datos">
-                                <p class="acuse_datos_texto">Genero</p>
+                                <p class="acuse_datos_texto">Género</p>
                                 <p class="acuse_datos_bd" id="genero"></p>
                             </div>
                             <div class="acuse_datos">
@@ -101,14 +119,8 @@
                     <div class="acuse_asignacion">
                         <p class="acuse_asignacion_titulo">ASIGNACIÓN DE EXAMEN DIAGNÓSTICO</p>
                         <div class="acuse_asignacion_contenido">
-                            <!--
                             <div class="acuse_asignacion_dato">
-                                <p class="acuse_asignacion_subtitulo">Grupo</p>
-                                <p class="acuse_asignacion_dato">Grupo 2A</p>
-                            </div>
-                            -->
-                            <div class="acuse_asignacion_dato">
-                            <p class="acuse_asignacion_subtitulo">Laboratorio</p> 
+                                <p class="acuse_asignacion_subtitulo">Laboratorio</p> 
                                 <p class="acuse_asignacion_dato" id="laboratorio"></p>
                             </div>
                             <div class="acuse_asignacion_dato">
@@ -122,21 +134,21 @@
             </div>
         </section>
         <section>
-            <form action="../../Back/Controllers/Generator_PDF.php" method="POST" target="_blank">
-            <button type="submit" class="button_acuse">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1.5vw" height="auto" fill="currentColor" class="bi bi-printer" id="impresora" viewBox="0 0 16 16">
-                <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
-                <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
-                </svg>
-                Imprimir acuse (PDF)
-            </button>
+            <form id="formPDF" action="../../Back/Controllers/Generator_PDF.php" method="POST" target="_blank">
+                <div id="hiddenInputsContainer"></div>
+                <button type="submit" class="button_acuse">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5vw" height="auto" fill="currentColor" class="bi bi-printer" id="impresora" viewBox="0 0 16 16">
+                        <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+                        <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
+                    </svg>
+                    Imprimir acuse (PDF)
+                </button>
             </form>
         </section>
     </main>
-     <footer class="text-center text-lg-start mt-auto py-4 border-top">
+    <footer class="text-center text-lg-start mt-auto py-4 border-top">
         <div class="container text-center">
             <span class="text-whited">© 2026 Instituto Politécnico Nacional - ESCOM - Equipo 2</span>
-            <!-- <span class="text-white py-1">Equipo 2</span> -->
             <div class="mt-2">
                 <a href="../Registro_page/registro.html">Registro de Datos Generales para Estudiantes de Nuevo Ingreso</a>
                 <a href="#">Tecnologías para el Desarrollo de Aplicaciones Web</a>
@@ -144,24 +156,22 @@
         </div>
     </footer>
     <script>
-    // En cuanto el PHP lo redirige aquí, el HTML carga y ejecuta este fetch automáticamente
     fetch('../../Back/Controllers/Controlador_registro.php')
-        .then(respuesta => respuesta.json())
+        .then(respuesta => {
+            if (!respuesta.ok) {
+                window.location.href = "../Home_page/index.html";
+                throw new Error("Sesión inválida");
+            }
+            return respuesta.json();
+        })
         .then(objetoData => {
-            /*
-            
-            */
-            console.log(objetoData.name); 
-            console.log(objetoData.no_boleta); 
-            
-            // Pintamos los datos en las etiquetas del HTML
-            document.getElementById('nombre_est').textContent = 'Hola '+objetoData.name+' '+objetoData.last_name_P+' '+objetoData.last_name_M;
+            // Pintar los campos en la vista HTML
+            document.getElementById('nombre_est').textContent = 'Hola ' + objetoData.name + ' ' + objetoData.last_name_P + ' ' + objetoData.last_name_M;
             document.getElementById('no_boleta').textContent = objetoData.no_boleta;
             document.getElementById('fchnac').textContent = objetoData.birth_date;
             document.getElementById('estado').textContent = objetoData.state;
             document.getElementById('promedio').textContent = objetoData.promedio;
             document.getElementById('curp').textContent = objetoData.curp;
-
             document.getElementById('genero').textContent = objetoData.genero;
             document.getElementById('escuela').textContent = objetoData.school;
             document.getElementById('correo_user').textContent = objetoData.correo;
@@ -169,11 +179,18 @@
             document.getElementById('fecha').textContent = objetoData.fecha;
             document.getElementById('inicio').textContent = objetoData.hora_ini;
             document.getElementById('fin').textContent = objetoData.hora_fin;
-            
-            
 
+            // CORRECCIÓN: Serializar e insertar dinámicamente los datos en el formulario para FPDF
+            const container = document.getElementById('hiddenInputsContainer');
+            Object.keys(objetoData).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = objetoData[key];
+                container.appendChild(input);
+            });
         })
-        .catch(error => console.error("Error al leer el JSON:", error));
-</script>
+        .catch(error => console.error("Error al leer el JSON o redirigiendo:", error));
+    </script>
 </body>
 </html>

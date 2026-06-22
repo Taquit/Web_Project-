@@ -55,7 +55,7 @@ $(document).ready(() => {
     const laboratorio = alumno.laboratorio || null;
 
     return `
-      <tr>
+      <tr data-promedio="${alumno.avarage || ''}">
         <td class="boleta">${alumno.no_boleta}</td>
         <td class="nombre">${nombreCompleto}</td>
         <td class="curp-cell">${alumno.curp || "—"}</td>
@@ -95,7 +95,7 @@ $(document).ready(() => {
           </div>
         </td>
       </tr>`;
-  }
+}
 
   // ══════════════════════════════════════
   // Actualización de estadísticas
@@ -193,9 +193,12 @@ $(document).ready(() => {
       estado: $("#n-entidad").val().trim(),
       escuela: $("#n-escuela").val() === "Otra" ? $("#n-otra-escuela").val().trim() : $("#n-escuela").val().trim(),
       lab: $("#n-lab").val().trim(),
-      horario: $("#n-horario").val().trim()
+      horario: $("#n-horario").val().trim(),
+      promedio:$("#n-promedio").val().trim(),
+      telefono:$("#n-telefono").val().trim()  
     };
 
+     console.log("Promedio capturado:", $("#n-promedio").val());
     $.ajax({
       url: "../../Back/Controllers/CreateStudent.php",
       method: "POST",
@@ -277,6 +280,7 @@ $(document).ready(() => {
     $("#e-escuela").val(escuela === "—" ? "" : escuela);
     $("#e-lab").val($fila.find(".lab").text().trim());
     $("#e-horario").val(horarioSelectValue);
+    $("#e-promedio").val($fila.data("promedio") || "");
   });
 
   // ══════════════════════════════════════
@@ -284,6 +288,10 @@ $(document).ready(() => {
   // ══════════════════════════════════════
   $("#formEditarAlumno").on("submit", function (e) {
     e.preventDefault();
+
+
+    console.log("Promedio:", $("#e-promedio").val());
+    console.log("data-promedio:", $(this).closest("tr") );
 
     const payload = {
       old_boleta: oldBoletaEditar,
@@ -298,7 +306,8 @@ $(document).ready(() => {
       estado: $("#e-entidad").val().trim(),
       escuela: $("#e-escuela").val().trim(),
       lab: $("#e-lab").val().trim(),
-      horario: $("#e-horario").val().trim()
+      horario: $("#e-horario").val().trim(),
+       promedio:$("#e-promedio").val().trim() 
     };
 
     $.ajax({
@@ -314,8 +323,8 @@ $(document).ready(() => {
         bootstrap.Modal.getInstance(document.getElementById("modalEditar")).hide();
         cargarAlumnos();
       },
-      error() {
-        alert("No se pudo conectar con el servidor. Intenta de nuevo.");
+     error(xhr) {
+        alert("Respuesta del servidor: " + xhr.responseText);
       }
     });
   });

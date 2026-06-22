@@ -1,0 +1,16 @@
+Array
+(
+    [no_boleta] => 2025630302
+    [name] => Miguel Isaac
+    [last_name_P] => Garcia
+    [last_name_M] => Garcia
+    [email] => pedro2118@alumno.ipn.mx
+    [curp] => GAGM061117HMCRRGA0
+    [gender] => Masculino
+    [birth_date] => 2006-11-17
+    [estado] => Estado de México
+    [escuela] => CECyT # 15 “Diódoro Antúnez Echegaray”
+    [lab] => Lab1002
+    [horario] => 09:00:00-11:00:00
+    [promedio] => 8
+)

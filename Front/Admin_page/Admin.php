@@ -1,3 +1,16 @@
+<?php
+session_start();
+if (isset($_SESSION['id_user'])) {
+    if ($_SESSION['id_rol'] == 2) {
+        header("Location: AdminPanel.php");
+    } else if ($_SESSION['id_rol'] == 1) {
+        header("Location: ../Account_page/Cuenta.php");
+    }
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -75,10 +88,10 @@
         <div id="pantalla" class=""></div>
         <ul class="">
           <li class="asd"><button id="cerrar" type="button">✖</button></li>
-          <a href="../Home_page/index.html"><li>Inicio</li></a>
+          <a href="../Home_page/index.php"><li>Inicio</li></a>
           <a href="../Registro_page/registro.html"><li>Registro</li></a>
-          <a href="../Admin_page/Admin.html" class="admin"><li>Admin</li></a>
-          <a href="../Account_page/Account.html"><li>Cuenta</li></a>
+          <a href="../Admin_page/Admin.php" class="admin"><li>Admin</li></a>
+          <a href="../Account_page/Account.php"><li>Cuenta</li></a>
         </ul>
     </header>
 

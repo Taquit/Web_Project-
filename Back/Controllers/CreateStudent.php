@@ -13,6 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
+
+
 $boleta     = trim($_POST['no_boleta']   ?? '');
 $nombre     = trim($_POST['name']        ?? '');
 $apPaterno  = trim($_POST['last_name_P'] ?? '');
@@ -25,6 +27,8 @@ $estado     = trim($_POST['estado']      ?? '');
 $escuela    = trim($_POST['escuela']     ?? '');
 $lab        = trim($_POST['lab']         ?? '');
 $horario    = trim($_POST['horario']     ?? '');
+$promedio   = trim($_POST['promedio']    ?? '');
+$telefono   = trim($_POST['telefono']    ?? '');
 
 if (empty($boleta) || empty($email) || empty($curp)) {
     http_response_code(400);
@@ -60,8 +64,11 @@ try {
     }
 
     // Resolver ID de Estado
-    $stmtSt = $db->prepare("SELECT id_state FROM state WHERE state_name = :estado LIMIT 1");
-    $stmtSt->bindParam(':estado', $estado);
+    $stmtSt = $db->prepare("SELECT id_state FROM State WHERE id_state = :estado LIMIT 1");
+$stmtSt->bindParam(':estado', $estado);
+$stmtSt->execute();
+$rowSt = $stmtSt->fetch(PDO::FETCH_ASSOC);
+$id_state = $rowSt ? $rowSt['id_state'] : 7;
     $stmtSt->execute();
     $rowSt = $stmtSt->fetch(PDO::FETCH_ASSOC);
     $id_state = $rowSt ? $rowSt['id_state'] : 9; // 9 es CDMX por defecto si no se encuentra
@@ -98,6 +105,9 @@ try {
     $student->id_school = $id_school;
     $student->other_school_name = $other_school;
     $student->curp = $curp;
+    $student->avarage = $promedio;  // ESTA LÍNEA FALTABA
+    $student->num_phone = ''; 
+    $student->num_phone = $telefono;
 
     if (!$student->creat_Student()) {
         throw new Exception("Error al guardar la información del estudiante.");

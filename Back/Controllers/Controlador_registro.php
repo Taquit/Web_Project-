@@ -1,19 +1,22 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-if($_SESSION){
-    $respuesta = [
-    "status" => "vacio"
-    ];
 
-    if (isset($_SESSION['Registro'])) {
-    $respuesta = $_SESSION['Registro'];
-    //unset($_SESSION['Registro']); 
-    } 
-
-    echo json_encode($respuesta);
+// CORRECCIÓN: Validar directamente si existe el arreglo 'Registro' en la sesión
+if (isset($_SESSION['Registro']) && !empty($_SESSION['Registro'])) {
+    
+    // Devolver los datos estructurados en formato JSON directamente
+    echo json_encode($_SESSION['Registro'], JSON_UNESCAPED_UNICODE);
     exit();
+
 } else {
-    header("Location: ../../Front/Home_page/index.html");
+    // CORRECCIÓN: En lugar de usar header() en un Fetch, enviamos un estado de error 
+    // para que JavaScript maneje la redirección en el navegador de manera limpia.
+    http_response_code(401);
+    echo json_encode([
+        "status" => "error",
+        "message" => "Sesión no válida o expirada."
+    ]);
     exit();
 }
+?>

@@ -11,12 +11,18 @@ function validarContraseña(){
 
     return rpassword.test(password); 
 }
+function validarConstraGen(){
+    var pss = /^[a-zA-Z0-9]+$/;
+
+    return pss.test(ppsa);
+}
 
 function validar(){
     var bandCorreo = validarCorreoInstitucional();
     var bandPassw = validarContraseña();
+    var prueba = validarConstraGen();
 
-    if(!bandCorreo && bandPassw){
+    if(!bandCorreo && (bandPassw || prueba)){
         alert("Correo institucional inváido.");
         return false;
     } else if(!bandPassw && bandCorreo){

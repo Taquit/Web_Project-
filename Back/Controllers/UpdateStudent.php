@@ -18,21 +18,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 }
 
 $old_boleta = trim($data['old_boleta'] ?? '');
-$boleta     = trim($data['no_boleta']    ?? '');
-$nombre     = trim($data['name']         ?? '');
-$apPaterno  = trim($data['last_name_P']  ?? '');
-$apMaterno  = trim($data['last_name_M']  ?? '');
-$email      = trim($data['email']        ?? '');
-$curp       = trim($data['curp']         ?? '');
-$genero     = trim($data['gender']       ?? '');
-$nacimiento = trim($data['birth_date']   ?? '');
-$estado     = trim($data['estado']       ?? '');
-$escuela    = trim($data['escuela']      ?? '');
-$lab        = trim($data['lab']          ?? '');
-$horario    = trim($data['horario']      ?? '');
+$boleta     = trim($data['no_boleta']  ?? '');
+$nombre     = trim($data['name']       ?? '');
+$apPaterno  = trim($data['last_name_P']?? '');
+$apMaterno  = trim($data['last_name_M']?? '');
+$email      = trim($data['email']      ?? '');
+$curp       = trim($data['curp']       ?? '');
+$genero     = trim($data['gender']     ?? '');
+$nacimiento = trim($data['birth_date'] ?? '');
+$estado     = trim($data['estado']     ?? '');
+$escuela    = trim($data['escuela']    ?? '');
+$lab        = trim($data['lab']        ?? '');
+$horario    = trim($data['horario']    ?? '');
+$promedio   = trim($data['promedio']   ?? '');
 
 if (empty($old_boleta)) {
-    $old_boleta = $boleta; // Fallback por si acaso
+    $old_boleta = $boleta;
 }
 
 if (empty($boleta)) {
@@ -45,19 +46,18 @@ try {
     $db   = new Database();
     $conn = $db->getConnection();
 
-    // Actualizar tabla Student
-    // Utilizamos subconsultas para mapear los textos a sus respectivos IDs
-    $sqlStudent = "UPDATE student SET
-                    no_boleta     = :no_boleta,
-                    name          = :name,
-                    last_name_P   = :last_name_P,
-                    last_name_M   = :last_name_M,
-                    birth_date    = :birth_date,
-                    gender        = :gender,
-                    curp_user     = :curp,
-                    id_state_origin = COALESCE((SELECT id_state FROM state WHERE state_name = :estado LIMIT 1), id_state_origin),
-                    id_school       = COALESCE((SELECT id_school FROM school WHERE school_name = :escuela LIMIT 1), 22),
-                    other_school_name = IF((SELECT id_school FROM school WHERE school_name = :escuela LIMIT 1) IS NULL, :escuela, NULL)
+    $sqlStudent = "UPDATE Student SET
+                    no_boleta         = :no_boleta,
+                    name              = :name,
+                    last_name_P       = :last_name_P,
+                    last_name_M       = :last_name_M,
+                    birth_date        = :birth_date,
+                    gender            = :gender,
+                    curp_user         = :curp,
+                    avarage           = :promedio,
+                    id_state_origin   = COALESCE((SELECT id_state FROM State WHERE state_name = :estado LIMIT 1), id_state_origin),
+                    id_school         = COALESCE((SELECT id_school FROM School WHERE school_name = :escuela LIMIT 1), 22),
+                    other_school_name = IF((SELECT id_school FROM School WHERE school_name = :escuela LIMIT 1) IS NULL, :escuela, NULL)
                    WHERE no_boleta = :old_boleta";
 
     $stmtS = $conn->prepare($sqlStudent);
@@ -68,15 +68,15 @@ try {
     $stmtS->bindParam(':birth_date',  $nacimiento);
     $stmtS->bindParam(':gender',      $genero);
     $stmtS->bindParam(':curp',        $curp);
+    $stmtS->bindParam(':promedio',    $promedio);
     $stmtS->bindParam(':estado',      $estado);
     $stmtS->bindParam(':escuela',     $escuela);
     $stmtS->bindParam(':old_boleta',  $old_boleta);
     $stmtS->execute();
 
-    // Actualizar email en tabla User (JOIN a través de Student)
     if (!empty($email)) {
-        $sqlUser = "UPDATE user u
-                    INNER JOIN student s ON s.id_user = u.id_user
+        $sqlUser = "UPDATE User u
+                    INNER JOIN Student s ON s.id_user = u.id_user
                     SET u.email_user = :email
                     WHERE s.no_boleta = :no_boleta";
 
@@ -86,27 +86,21 @@ try {
         $stmtU->execute();
     }
 
-    // Actualizar asignación (Allocation) si existe
     if (!empty($lab) && !empty($horario)) {
-        // Encontrar el ID del horario basándonos en el string "HH:MM–HH:MM" 
-        // El formato en la BD es "exam_date start_time a end_time", o puede ser solo horas. 
-        // Vamos a usar LIKE para que coincida
-        $horarioLike = '%' . str_replace('–', '%', $horario) . '%';
+        $horarioLike  = '%' . str_replace('–', '%', $horario) . '%';
         $horarioLike2 = '%' . str_replace('-', '%', $horario) . '%';
-        
-        $sqlAlloc = "UPDATE allocation SET
-                     id_lab = COALESCE((SELECT id_lab FROM lab WHERE name = :lab LIMIT 1), id_lab),
-                     id_schedule = COALESCE((SELECT id_schedule FROM schedule WHERE CONCAT(start_time, '-', end_time) LIKE :h1 OR CONCAT(start_time, '-', end_time) LIKE :h2 LIMIT 1), id_schedule)
+
+        $sqlAlloc = "UPDATE Allocation SET
+                     id_lab      = COALESCE((SELECT id_lab FROM Lab WHERE name = :lab LIMIT 1), id_lab),
+                     id_schedule = COALESCE((SELECT id_schedule FROM Schedule WHERE CONCAT(start_time, '-', end_time) LIKE :h1 OR CONCAT(start_time, '-', end_time) LIKE :h2 LIMIT 1), id_schedule)
                      WHERE no_boleta = :no_boleta";
+
         $stmtA = $conn->prepare($sqlAlloc);
-        $stmtA->bindParam(':lab', $lab);
-        $stmtA->bindParam(':h1', $horarioLike);
-        $stmtA->bindParam(':h2', $horarioLike2);
+        $stmtA->bindParam(':lab',       $lab);
+        $stmtA->bindParam(':h1',        $horarioLike);
+        $stmtA->bindParam(':h2',        $horarioLike2);
         $stmtA->bindParam(':no_boleta', $boleta);
         $stmtA->execute();
-        
-        // Si la fila no existía (no había asignación), podríamos intentar un INSERT, pero 
-        // la función de editar asume que ya existe, o no modifica si no existe.
     }
 
     echo json_encode(["error" => false, "mensaje" => "Registro actualizado correctamente."]);

@@ -1,3 +1,13 @@
+<?php
+// AdminPanel.php — Protegido: requiere sesión de administrador (id_rol = 2)
+session_start();
+if (!isset($_SESSION["id_user"]) || $_SESSION["id_rol"] != 2) {
+    header("Location: ../Admin_page/Admin.php");
+    exit();
+}
+
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -35,18 +45,9 @@
     <div id="pantalla" class=""></div>
     <ul class="">
       <li class="asd"><button id="cerrar" type="button">✖</button></li>
-      <a href="../Home_page/index.html" class="inicio">
-        <li>Inicio</li>
-      </a>
-      <a href="../Registro_page/registro.html">
-        <li>Registro</li>
-      </a>
-      <a href="../Admin_page/Admin.html">
-        <li>Admin</li>
-      </a>
-      <a href="../Account_page/Account.html">
-        <li>Cuenta</li>
-      </a>
+      <a href="../Home_page/index.php"><li>Inicio</li></a>
+      <a href="../Admin_page/AdminPanel.php"><li>Panel Admin</li></a>
+      <a href="../../Back/Controllers/Logout.php"><li>Cerrar Sesión</li></a>
     </ul>
   </header>
 
@@ -189,39 +190,39 @@
                 <label class="text-muted small d-block mb-1"
                   style="font-size: 0.78rem; font-weight: 500;">Entidad</label>
                 <select id="n-entidad" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem;" required>
-                    <option value="">Seleccione un estado</option>
-                    <option value="Aguascalientes">Aguascalientes</option>
-                    <option value="Baja California">Baja California</option>
-                    <option value="Baja California Sur">Baja California Sur</option>
-                    <option value="Campeche">Campeche</option>
-                    <option value="Chiapas">Chiapas</option>
-                    <option value="Chihuahua">Chihuahua</option>
-                    <option value="Ciudad de México">Ciudad de México</option>
-                    <option value="Coahuila">Coahuila</option>
-                    <option value="Colima">Colima</option>
-                    <option value="Durango">Durango</option>
-                    <option value="Estado de México">Estado de México</option>
-                    <option value="Guanajuato">Guanajuato</option>
-                    <option value="Guerrero">Guerrero</option>
-                    <option value="Hidalgo">Hidalgo</option>
-                    <option value="Jalisco">Jalisco</option>
-                    <option value="Michoacán">Michoacán</option>
-                    <option value="Morelos">Morelos</option>
-                    <option value="Nayarit">Nayarit</option>
-                    <option value="Nuevo León">Nuevo León</option>
-                    <option value="Oaxaca">Oaxaca</option>
-                    <option value="Puebla">Puebla</option>
-                    <option value="Querétaro">Querétaro</option>
-                    <option value="Quintana Roo">Quintana Roo</option>
-                    <option value="San Luis Potosí">San Luis Potosí</option>
-                    <option value="Sinaloa">Sinaloa</option>
-                    <option value="Sonora">Sonora</option>
-                    <option value="Tabasco">Tabasco</option>
-                    <option value="Tamaulipas">Tamaulipas</option>
-                    <option value="Tlaxcala">Tlaxcala</option>
-                    <option value="Veracruz">Veracruz</option>
-                    <option value="Yucatán">Yucatán</option>
-                    <option value="Zacatecas">Zacatecas</option>
+                     <option value="">Seleccione un estado</option>
+                    <option value="1">Aguascalientes</option>
+                    <option value="2">Baja California</option>
+                    <option value="3">Baja California Sur</option>
+                    <option value="4">Campeche</option>
+                    <option value="5">Chiapas</option>
+                    <option value="6">Chihuahua</option>
+                    <option value="7">Ciudad de México</option>
+                    <option value="8">Coahuila</option>
+                    <option value="9">Colima</option>
+                    <option value="10">Durango</option>
+                    <option value="11">Estado de México</option>
+                    <option value="12">Guanajuato</option>
+                    <option value="13">Guerrero</option>
+                    <option value="14">Hidalgo</option>
+                    <option value="15">Jalisco</option>
+                    <option value="16">Michoacán</option>
+                    <option value="17">Morelos</option>
+                    <option value="18">Nayarit</option>
+                    <option value="19">Nuevo León</option>
+                    <option value="20">Oaxaca</option>
+                    <option value="21">Puebla</option>
+                    <option value="22">Querétaro</option>
+                    <option value="23">Quintana Roo</option>
+                    <option value="24">San Luis Potosí</option>
+                    <option value="25">Sinaloa</option>
+                    <option value="26">Sonora</option>
+                    <option value="27">Tabasco</option>
+                    <option value="28">Tamaulipas</option>
+                    <option value="29">Tlaxcala</option>
+                    <option value="30">Veracruz</option>
+                    <option value="31">Yucatán</option>
+                    <option value="32">Zacatecas</option>
                 </select>
               </div>
               <div class="col-md-6 col-12">
@@ -274,6 +275,20 @@
                   <option value="09:00:00-11:00:00">09:00:00 a 11:00:00</option>
                   <option value="12:00:00-14:00:00">12:00:00 a 14:00:00</option>
                 </select>
+              </div>
+              <div class="col-md-6 col-12">
+              <label class="text-muted small d-block mb-1"
+                style="font-size: 0.78rem; font-weight: 500;">Promedio</label>
+              <input type="number" id="n-promedio" class="form-control" 
+                style="font-size: 0.95rem; border-radius: 0.5rem;"
+                step="0.01" min="6" max="10" placeholder="Ej: 8.5" required>
+            </div>
+            <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Teléfono</label>
+                <input type="tel" id="n-telefono" class="form-control"
+                  style="font-size: 0.95rem; border-radius: 0.5rem;"
+                  placeholder="5512345678" maxlength="10" required>
               </div>
             </div>
           </div>
@@ -404,7 +419,7 @@
               <div class="col-md-6 col-12">
                 <label class="text-muted small d-block mb-1"
                   style="font-size: 0.78rem; font-weight: 500;">Género</label>
-                <select id="e-genero" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem; background-color: #f8f9fa;" disabled>
+                <select id="e-genero" class="form-select" style="font-size: 0.95rem; border-radius: 0.5rem; background-color: #f8f9fa;">
                   <option value="Masculino">Masculino</option>
                   <option value="Femenino">Femenino</option>
                   <option value="Otro">Otro</option>
@@ -442,6 +457,13 @@
                   <option value="09:00:00-11:00:00">09:00:00 a 11:00:00</option>
                   <option value="12:00:00-14:00:00">12:00:00 a 14:00:00</option>
                 </select>
+              </div>
+               <div class="col-md-6 col-12">
+                <label class="text-muted small d-block mb-1"
+                  style="font-size: 0.78rem; font-weight: 500;">Promedio</label>
+                <input type="number" id="e-promedio" class="form-control"
+                  style="font-size: 0.95rem; border-radius: 0.5rem;"
+                  step="0.01" min="6" max="10" required>
               </div>
             </div>
           </div>
