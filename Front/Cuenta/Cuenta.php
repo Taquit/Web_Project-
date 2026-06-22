@@ -62,6 +62,25 @@ try {
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../CSS/Cuenta_css/Cuenta.css">
     <script defer src="../JS/validarFormRegistro.js"></script>
+    <script>
+      $(document).ready(() => {
+    
+        $("#menu").click(() => {
+          $("#pantalla").toggleClass("pantalla-moderna");
+          $("ul").addClass("activo");
+        });
+        
+        $("#cerrar").click(() => {
+          $("#pantalla").removeClass("pantalla-moderna");
+          $("ul").removeClass("activo");
+        });
+
+        $("#pantalla").click(() => {
+          $("#pantalla").removeClass("pantalla-moderna");
+          $("ul").removeClass("activo");
+        });
+      });
+    </script>
 </head>
 <body class="p-0 m-0 border-0 bd-example">
     <header class="position-sticky">
@@ -81,7 +100,7 @@ try {
         <ul class="">
             <li class="asd"><button id="cerrar" type="button">✖</button></li>
             <a href="../Home_page/index.php"><li>Inicio</li></a>
-            <a href="../Account_page/Cuenta.php"><li>Cuenta</li></a>
+            <a href="../Cuenta/Cuenta.php"><li>Cuenta</li></a>
             <a href="../../Back/Controllers/Logout.php"><li>Cerrar Sesión</li></a>
         </ul>
     </header>

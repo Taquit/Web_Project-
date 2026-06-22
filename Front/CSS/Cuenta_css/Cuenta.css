@@ -47,48 +47,19 @@ header{
     padding: 0;
 }
 
+/* Cambiado de 8vh a un valor fijo en px */
 .ipn1{
-    width:auto;
-    height:8vh;
+    width: auto;
+    height: 65px;
 }
 .escom1{
-    width:auto;
-    height:8vh;
+    width: auto;
+    height: 65px;
 }
 
+/* Removido estilos obsoletos de ul y li que chocaban con Bootstrap */
 ul{
-    display: block;
     margin-bottom: 0;
-}
-
-ul li{
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-ul li a{
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 17px;
-}
-
-ul>li:not(.registro):hover{
-    background-color: #8d1a46;
-}
-
-.registro{
-    background-color: #DADCE0;
-}
-
-.registro:hover{
-    background-color: #CBBCC5;
-}
-
-.registro a{
-    color: black;
 }
 
 .izq{
@@ -129,12 +100,6 @@ h1, h2{
     text-align: center;
 }
 
-main{
-    /*background-color: rgb(188, 0, 0);*/
-    
-}
-
-
 main p{
     color: var(--texto);
 }
@@ -153,14 +118,14 @@ main section:first-child > p{
     font-size: 1.25rem;
 }
 
+/* Cambiado de 18vh a un valor fijo de altura */
 section{
-    margin:auto;
+    margin: auto;
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: center;
-    /*background-color: #8d1a46;*/
-   height: 18vh;
+    height: 140px;
 }
 
 .correcto{
@@ -171,16 +136,15 @@ section{
     border: 1px solid rgb(44, 181, 92);
     border-radius: 20px;  
     align-items: center;
-    padding-left:1vw;
+    padding-left: 15px;
 }
 
 .texto_correcto{
-
     text-align: start;
     display: flex;
     flex-direction: column;
-    padding-right:1vw;
-    padding-left: 1vw;
+    padding-right: 15px;
+    padding-left: 15px;
     justify-content: center;
 }
 
@@ -190,38 +154,40 @@ section{
 }
 
 #info{
-    /*background-color: aqua;*/
     width: 100%;
-    height: 80%;
+    height: auto; /* Dejado automático para evitar desbordes de texto */
 }
+
+/* Cambiado de 2vw a px internos y de 40% a un ancho fijo/máximo más estable */
 .acuse_registro{
-    padding: 2vw;
+    padding: 30px;
     background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 100%;
+    max-width: 550px;
     border-radius: 20px;
     box-shadow: var(--shadow);
 }
 
+/* Ajustado de 1.5vw a un gap constante en px */
 .acuse_cabecera{
     display: flex;
     flex-direction: row;
-    /*background-color: #CBBCC5;*/
     align-items: center;
-    gap:1.5vw;
+    gap: 20px;
 }
 
+/* Cambiado de 1.5vh y 1vw a pixeles fijos */
 .titulo-acuse{
     display: flex;
     flex-direction: column;
-    /*background-color: #6D1A36;*/
     width: 100%;
-    padding-left: 1vw;
-    padding-top: 1.5vh;
+    padding-left: 15px;
+    padding-top: 12px;
     text-align: start;
-    
 }
+
 .acuse_titulo{
     font-size: 1.4em;
     font-weight: 700;
@@ -238,50 +204,41 @@ section{
     font-weight: 700;
 }
 
-
-
-
+/* Ajustado de 3vh a pixeles */
 .acuse_cuerpo{
     display: flex;
     flex-direction: column;
-   /* background-color: #835969;*/
     align-items: center;
-    gap: 3vh;
+    gap: 25px;
 }
 
+/* Ajustado de 5vw a pixeles */
 .acuse_contenido{
     display: flex;
     flex-direction: row;
-   /* background-color: aquamarine;*/
     width: 100%;
     justify-content: center;
-    gap:5vw;
+    gap: 40px;
 }
-.acuse_contenido_izquierda{
-    /*background-color: burlywood;*/
-    width: 40%;
-    text-align: start;
 
+.acuse_contenido_izquierda{
+    width: 45%;
+    text-align: start;
 }
 
 .acuse_contenido_derecha{
-   /*background-color: blueviolet;*/
-    width:40%;
-     text-align: start;
-}
-
-.acuse_datos{
-    /*background-color: rgb(31, 0, 103);*/
+    width: 45%;
+    text-align: start;
 }
 
 .acuse_asignacion_titulo{
-      font-size: 1.2em;
+    font-size: 1.2em;
     font-weight: 700;
     color: rgb(255, 166, 0);
 }
 
 .acuse_asignacion_dato{
-      font-size: 1.1em;
+    font-size: 1.1em;
     font-weight: 500;
     color: rgb(255, 166, 0);
 }
@@ -289,41 +246,41 @@ section{
 .acuse_asignacion_subtitulo{
     font-size: 1em;
 }
+
+/* Ajustado de 1vw a pixeles fijos */
 .acuse_asignacion{
     background-color: rgba(255, 145, 0, 0.133);
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    padding: 1vw;
+    padding: 15px;
     border: 2px solid rgb(255, 166, 0);
-    width: 90%;
+    width: 95%;
     align-items: start;
     border-radius: 20px;
 }
 
+/* Ajustado de 3vw a un espacio constante */
 .acuse_asignacion_contenido{
-    /*background-color: #8d1a46;*/
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 3vw;
+    gap: 25px;
 }
 
-.acuse_asignacion_dato{
-    /*background-color: #1a6a6d;*/
-}
-
+/* Cambiado de 6vh a separación explícita en px */
 main{
-    gap:6vh;
+    gap: 45px;
     display: flex;
     flex-direction: column;
 }
 
+/* Rediseño del botón con anchos y alturas fijas en px en lugar de vw y vh */
 .button_acuse {
-    padding: 0.5vw;
-    width: 15vw;
+    padding: 10px 20px;
+    width: auto;
+    min-width: 240px;
     border: none;
     background-color: #6D1A36;
     color: #ffff;
@@ -332,20 +289,18 @@ main{
     border-radius: 18px;
     display: flex;
     flex-direction: row;
-    gap: 1vw;
-    height: 7vh;
+    gap: 12px;
+    height: 50px;
     justify-content: center;
-    align-items: center; /* 1. Centra verticalmente los elementos hijos */
+    align-items: center; 
 }
 
 .text_button {
     color: #ffff;
-    background-color: aquamarine; /* Puedes quitar esto después de probar */
-    margin: 0; /* 2. Quita el margen por defecto del <p> que rompe el centrado */
+    margin: 0; 
 }
 
 main section:nth-child(3){
-    /*background-color: #ffffff;*/
     text-align: center;
     width: 95%;
     margin: auto;
@@ -417,56 +372,13 @@ select{
 #contenedor-otra-escuela input{
     width: 100%;
 }
-@media only screen and (max-width: 1300px) {
 
 
-    .acuse_registro{
-    
-       width: 70%;
-    }
-    .acuse_contenido{
-    display: flex;
-    flex-direction: row;
-   /* background-color: aquamarine;*/
-    width: 100%;
-    justify-content: center;
-    gap:5vw;
-    align-items: center;
-    text-align: center;
-}       
 
- #info{
- 
-    /*background-color: #8d1a46;*/
- }
 
- .acuse_asignacion{
-    justify-content: center;
-    align-items: center;
-    text-align: center;
- }
-
- .button_acuse{
-    padding: 0.5vw;
-    width: 20vw;
-    border: none;
-    background-color: #6D1A36;
-    color: #ffff;
-    font-weight:600;
-    font-size: 1em;
-    border-radius: 18px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1vw;
-    height: 7vh;
-}
-
-.texto_correcto{
-    text-align: center;
-}
-}
+/* ==========================================================================
+   MEDIA QUERIES (El bloque conflictivo de 1400px ha sido eliminado)
+   ========================================================================== */
 
 @media only screen and (max-width: 850px) {
     .titulo-acuse{
@@ -478,31 +390,27 @@ select{
     }
 
     .acuse_contenido_izquierda{
-    /*background-color: burlywood;*/
-    width: 100%;
-    text-align: center;
-        
+        width: 100%;
+        text-align: center;
+    }
 
-}
+    .acuse_contenido_derecha{
+         width: 100%;
+        text-align: center;
+    }
 
-.acuse_contenido_derecha{
-   /*background-color: blueviolet;*/
-     width: 100%;
-    text-align: center;
-}
+     Tarjetas fijas para layouts colapsados móviles 
+    .acuse_contenido {
+        flex-direction: column;
+        gap: 20px;
+    }
 
-#paloma{
-    display: none;
+    #paloma, #impresora{
+        display: none;
+    }
 }
-
-#impresora{
-    display: none;
-}
-}
-
 
 @media only screen and (max-width: 808px) {
-    
     header{
         justify-content: space-between;
         z-index: 99999 !important;
@@ -514,7 +422,7 @@ select{
         border: none;
         color: white;
         font-size: 1.8rem;
-        margin-left: auto;  /* waos */
+        margin-left: auto;
         padding: 4px 12px;
         border-radius: 6px;
     }
@@ -570,7 +478,7 @@ select{
         display: flex;
         flex-direction: column;
         width: 50%;
-        height: 100dvh;
+        height: 100vh; /* Cambiado a vh estándar compatible */
         transition: right 0.3s ease;
     }
 
@@ -578,60 +486,28 @@ select{
         right: 0 !important; 
     }
     
-
     .acuse_registro{
-    
-       width: 70%;
+       width: 85%;
     }
-    .acuse_contenido{
-    display: flex;
-    flex-direction: column;
-   /* background-color: aquamarine;*/
-    width: 100%;
-    justify-content: center;
-    gap:5vw;
-    align-items: center;
-    text-align: center;
-}       
 
- 
-
-.button_acuse {
-    padding: 0.5vw;
-    width: 30vw;
-    border: none;
-    background-color: #6D1A36;
-    color: #ffff;
-    font-weight: 600;
-    font-size: 1em;
-    border-radius: 18px;
-    display: flex;
-    flex-direction: row;
-    gap: 1vw;
-    height: 7vh;
-    justify-content: center;
-    align-items: center; /* 1. Centra verticalmente los elementos hijos */
+    .button_acuse {
+        padding: 10px;
+        width: 80%;
+        height: 50px;
+    }
 }
 
-
-
- 
-
-}
 
 @media only screen and (max-width: 370px) {
     .acuse_asignacion_contenido{
         flex-direction: column;
     }
-    
 }
 
 @media only screen and (max-width: 769px) {
     section > div{
         grid-template-columns: 1fr;
     }
-
-    
 }
 
 @media only screen and (min-width: 808px){
