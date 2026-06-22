@@ -533,11 +533,14 @@ select{
 
 ul, li, .asd{
     color: white;
+    padding: 0.75rem 1rem;
 }
 
-/* ==========================================================================
-   MEDIA QUERIES (El bloque conflictivo de 1400px ha sido eliminado)
-   ========================================================================== */
+@media only screen and (max-width: 1024px) {
+    .titulo{
+        display: none;
+    }
+}
 
 @media only screen and (max-width: 850px) {
 
