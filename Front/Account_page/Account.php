@@ -79,7 +79,7 @@ if (isset($_SESSION['id_user'])) {
           <a href="../Home_page/index.php"><li>Inicio</li></a>
           <a href="../Registro_page/registro.html"><li>Registro</li></a>
           <a href="../Admin_page/AdminPanel.php"><li>Admin</li></a>
-          <a href="../Account_page/Account.html" class="inicio"><li>Cuenta</li></a>
+          <a href="../Account_page/Account.php" class="inicio"><li>Cuenta</li></a>
         </ul>
     </header>
 

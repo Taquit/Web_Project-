@@ -425,15 +425,9 @@ $(document).ready(() => {
       name: $("#e-nombre").val().trim(),
       last_name_P: $("#e-apellidos").val().trim().split(" ")[0] || "",
       last_name_M: $("#e-apellidos").val().trim().split(" ").slice(1).join(" ") || "",
-      email: $("#e-email").val().trim(),
-      curp: $("#e-curp").val().trim(),
-      gender: $("#e-genero").val().trim(),
-      birth_date: $("#e-nacimiento").val().trim(),
-      estado: $("#e-entidad").val().trim(),
       escuela: $("#e-escuela").val(), // Envia el index (value del select) a la DB
       lab: $("#e-lab").val().trim(),
-      horario: $("#e-horario").val().trim(),
-      promedio: $("#e-promedio").val().trim()
+      horario: $("#e-horario").val().trim()
     };
 
     $.ajax({

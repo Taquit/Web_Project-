@@ -33,6 +33,25 @@ function obtenerConsonante(palabra) {
   return "X";
 }
 
+  document.addEventListener("DOMContentLoaded", function() {
+  const selectEscuela = document.getElementById("escuela-procedencia");
+  const contenedor    = document.getElementById("contenedor-otra-escuela");
+  const inputEscuela  = document.getElementById("nombre-escuela");
+
+  // Ocultar al inicio
+  contenedor.style.display = "none";
+  inputEscuela.required = false;
+
+  selectEscuela.addEventListener("change", function() {
+    if (this.value === "22") {
+      contenedor.style.display = "block";
+      inputEscuela.required = true;
+    } else {
+      contenedor.style.display = "none";
+      inputEscuela.required = false;
+    }
+  });
+});
 function mostrarResumen() {
   const nombre    = document.forms.formu.nombre.value;
   const apPat     = document.forms.formu.apellidopaterno.value;
@@ -47,7 +66,9 @@ function mostrarResumen() {
   const estadoSel = document.getElementById("estado-origen");
   const estado    = estadoSel.options[estadoSel.selectedIndex].text;
   const escuelaSel = document.getElementById("escuela-procedencia");
-  const escuela   = escuelaSel.options[escuelaSel.selectedIndex].text;
+const escuela = escuelaSel.value === "22"
+  ? document.getElementById("nombre-escuela").value
+  : escuelaSel.options[escuelaSel.selectedIndex].text;
 
   document.getElementById("modal-saludo").textContent = `Hola, ${nombre} ${apPat}`;
 
