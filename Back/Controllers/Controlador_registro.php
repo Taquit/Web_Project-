@@ -8,7 +8,7 @@ if($_SESSION){
 
     if (isset($_SESSION['Registro'])) {
     $respuesta = $_SESSION['Registro'];
-    unset($_SESSION['Registro']); 
+    //unset($_SESSION['Registro']); 
     } 
 
     echo json_encode($respuesta);

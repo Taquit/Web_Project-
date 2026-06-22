@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $student->other_school_name = $_POST['nombre-escuela'];
     $student->curp = $_POST['CURP'];
     $student->avarage = $_POST['promedio'];
+    $student->num_phone = $_POST['telefono'];
     
     /*
     echo "Datos recibidos: <br>"
@@ -153,14 +154,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         "last_name_P" => $estudiante['last_name_P'],
                         "last_name_M" => $estudiante['last_name_M'],
                         "birth_date" => $estudiante['birth_date'],
-                        "gender" => $estudiante['gender'],
+                        "genero" => $estudiante['gender'],
                         "state" => $stat->get_By_Id($estudiante['id_state_origin'])->fetch(PDO::FETCH_ASSOC)['state_name'],
                         "school" => ($estudiante['id_school'] == 22)?$estudiante['other_school_name']: $schol->get_By_id($estudiante['id_school'])->fetch(PDO::FETCH_ASSOC)['school_name'],
                         "promedio" => $estudiante['avarage'],
                         "hora_ini" => $horario_exam['start_time'],
                         "hora_fin" => $horario_exam['end_time'],
                         "fecha" => $horario_exam['exam_date'],
-                        "laboratorio" => $horario_exam['lab_name']
+                        "laboratorio" => $horario_exam['lab_name'],
+                        "telefono" => $horario_exam['num_phone']
                     ];
 
                     header("Location: ../../Front/Inicio_page/inicio.html");
